@@ -1,0 +1,39 @@
+import type { Metadata } from "next";
+import { Outfit, DM_Sans } from "next/font/google";
+import "./globals.css";
+import { Providers } from "@/components/providers/Providers";
+import { Navigation } from "@/components/layout/Navigation";
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
+  display: "swap",
+});
+
+export const metadata: Metadata = {
+  title: "kcain | SAT Prep — Math + Reading",
+  description: "Master the SAT with bite-sized lessons, practice questions, and a structured learning path. Track your progress and build daily streaks.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
+      <body className="min-h-screen flex flex-col">
+        <Providers>
+          <Navigation />
+          <main className="flex-1">{children}</main>
+        </Providers>
+      </body>
+    </html>
+  );
+}

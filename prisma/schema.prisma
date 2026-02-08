@@ -1,0 +1,232 @@
+// SAT Learning Platform - Database Schema
+// Compatible with PostgreSQL, MySQL, and SQLite
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============ AUTHENTICATION & USERS ============
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  password      String?   // For credentials provider
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+  progress      UserProgress[]
+  xpRecords     XPRecord[]
+  streaks       Streak[]
+  dailyGoals    DailyGoal[]
+  subscription  Subscription?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  id         String   @id @default(cuid())
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ============ LEARNING CONTENT ============
+
+model Section {
+  id          String   @id @default(cuid())
+  name        String   // "Math" | "Reading & Writing"
+  description String?  @db.Text
+  icon        String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  units Unit[]
+}
+
+model Unit {
+  id          String   @id @default(cuid())
+  sectionId   String
+  title       String
+  description String?  @db.Text
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  section Section  @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  lessons Lesson[]
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  unitId      String
+  title       String
+  description String?  @db.Text
+  topic       String   // e.g., "Linear Equations", "Evidence-Based Reading"
+  difficulty  String   // "beginner" | "intermediate" | "advanced"
+  durationMin Int      @default(5) // Estimated minutes
+  order       Int      @default(0)
+  xpReward    Int      @default(10)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  unit           Unit              @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  contentBlocks  LessonContent[]
+  questions      Question[]
+  userProgress   UserProgress[]
+}
+
+model LessonContent {
+  id        String   @id @default(cuid())
+  lessonId  String
+  type      String   // "text" | "heading" | "example" | "formula"
+  content   String   @db.Text
+  order     Int      @default(0)
+
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+model Question {
+  id            String   @id @default(cuid())
+  lessonId      String?
+  topic         String
+  difficulty    String
+  questionText  String   @db.Text
+  questionType  String   @default("multiple_choice") // "multiple_choice" | "grid_in"
+  correctAnswer String   @db.Text
+  explanation   String?  @db.Text
+  order         Int      @default(0)
+  createdAt     DateTime @default(now())
+
+  lesson     Lesson?        @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  answers    QuestionAnswer[]
+  userAnswers UserQuestionAnswer[]
+}
+
+model QuestionAnswer {
+  id         String  @id @default(cuid())
+  questionId String
+  text       String  @db.Text
+  optionKey  String  // "A" | "B" | "C" | "D"
+  order      Int     @default(0)
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+// ============ USER PROGRESS ============
+
+model UserProgress {
+  id         String   @id @default(cuid())
+  userId     String
+  lessonId   String
+  completed  Boolean  @default(false)
+  score      Int?     // Percentage
+  xpEarned   Int      @default(0)
+  completedAt DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model UserQuestionAnswer {
+  id         String   @id @default(cuid())
+  userId     String
+  questionId String
+  selectedAnswer String @db.Text
+  isCorrect  Boolean
+  timeSpent  Int?     // seconds
+  answeredAt DateTime @default(now())
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model XPRecord {
+  id        String   @id @default(cuid())
+  userId    String
+  amount    Int
+  source    String   // "lesson" | "streak" | "bonus" | "practice"
+  reference String?  // lessonId or other reference
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Streak {
+  id           String   @id @default(cuid())
+  userId       String
+  currentStreak Int     @default(0)
+  longestStreak Int     @default(0)
+  lastActiveAt DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId])
+}
+
+model DailyGoal {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime
+  targetXP Int       @default(20)
+  earnedXP Int       @default(0)
+  completed Boolean  @default(false)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+}
+
+// ============ MONETIZATION ============
+
+model Subscription {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  plan           String   // "free" | "premium" | "premium_annual"
+  status         String   // "active" | "cancelled" | "expired"
+  stripeCustomerId String?
+  stripeSubscriptionId String?
+  currentPeriodEnd DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
