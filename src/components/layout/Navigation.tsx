@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
 import { User, LogOut, Menu, X } from "lucide-react";
 import { KcainLogo } from "./KcainLogo";
@@ -52,7 +53,7 @@ export function Navigation() {
                 className="flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary transition-colors"
               >
                 {session.user?.image ? (
-                  <img src={session.user.image} alt="" className="w-9 h-9 rounded-xl" />
+                  <Image src={session.user.image} alt="" width={36} height={36} className="w-9 h-9 rounded-xl object-cover" unoptimized />
                 ) : (
                   <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sat-primary/20 to-sat-crimson/20 flex items-center justify-center">
                     <User className="w-4 h-4 text-sat-primary" />
@@ -120,7 +121,7 @@ export function Navigation() {
                 <>
                   <Link href="/dashboard" className="flex items-center gap-2 py-2" onClick={() => setMobileOpen(false)}>
                     {session.user?.image ? (
-                      <img src={session.user.image} alt="" className="w-8 h-8 rounded-full" />
+                      <Image src={session.user.image} alt="" width={32} height={32} className="w-8 h-8 rounded-full object-cover" unoptimized />
                     ) : (
                       <User className="w-8 h-8 text-sat-gray-400" />
                     )}

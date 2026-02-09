@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/learn";
@@ -103,5 +103,21 @@ export default function LoginPage() {
         </p>
       </div>
     </motion.div>
+  );
+}
+
+function LoginFallback() {
+  return (
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
+      <div className="w-12 h-12 border-4 border-sat-primary border-t-transparent rounded-full animate-spin" />
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<LoginFallback />}>
+      <LoginForm />
+    </Suspense>
   );
 }
