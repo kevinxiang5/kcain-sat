@@ -5,20 +5,34 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X } from "lucide-react";
-import { getRandomQuestions } from "@/lib/questions";
+import { getQuestionsByDifficultyOrdered } from "@/lib/questions";
 
 const TOPIC_LABELS: Record<string, string> = {
   "math-algebra": "Math – Algebra",
   "math-problem-solving": "Math – Problem Solving",
+  "math-quadratics": "Math – Quadratics",
+  "math-functions": "Math – Functions",
+  "math-data": "Math – Data & Statistics",
+  "math-geometry": "Math – Geometry",
   "reading-evidence": "Reading – Evidence",
+  "reading-words": "Reading – Words in Context",
+  "reading-comprehension": "Reading – Comprehension",
   "writing-conventions": "Writing – Conventions",
+  "writing-transitions": "Writing – Transitions",
 };
 
 const TOPIC_MAP: Record<string, string> = {
   "math-algebra": "algebra",
-  "math-problem-solving": "algebra",
+  "math-problem-solving": "math",
+  "math-quadratics": "quadratics",
+  "math-functions": "functions",
+  "math-data": "data",
+  "math-geometry": "geometry",
   "reading-evidence": "evidence",
+  "reading-words": "words",
+  "reading-comprehension": "reading",
   "writing-conventions": "grammar",
+  "writing-transitions": "transitions",
 };
 
 export default function PracticeTopicPage() {
@@ -28,14 +42,14 @@ export default function PracticeTopicPage() {
   const topic = TOPIC_MAP[topicSlug] || "algebra";
   const label = TOPIC_LABELS[topicSlug] || topicSlug;
 
-  const [questions, setQuestions] = useState<ReturnType<typeof getRandomQuestions>>([]);
+  const [questions, setQuestions] = useState<ReturnType<typeof getQuestionsByDifficultyOrdered>>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    setQuestions(getRandomQuestions(10, topic));
+    setQuestions(getQuestionsByDifficultyOrdered(15, topic));
   }, [topic]);
 
   const q = questions[current];

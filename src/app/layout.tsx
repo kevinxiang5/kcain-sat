@@ -3,6 +3,7 @@ import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import { Navigation } from "@/components/layout/Navigation";
+import { Calculator } from "@/components/Calculator";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
         <Providers>
           <Navigation />
           <main className="flex-1">{children}</main>
+          <Calculator />
         </Providers>
       </body>
     </html>

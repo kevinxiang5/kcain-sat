@@ -77,7 +77,8 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                   block.type === "heading" && "text-2xl font-display font-bold bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent",
                   block.type === "text" && "text-sat-gray-700 leading-relaxed",
                   block.type === "example" && "p-5 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 rounded-2xl border border-sat-primary/20 italic",
-                  block.type === "formula" && "p-5 bg-sat-gray-100 rounded-2xl font-mono text-lg border border-sat-gray-200"
+                  block.type === "formula" && "p-5 bg-sat-gray-100 rounded-2xl font-mono text-lg border border-sat-gray-200",
+                  block.type === "tip" && "p-5 bg-amber-50 rounded-2xl border-l-4 border-amber-500 font-medium text-sat-gray-800"
                 )}
               >
                 {block.content}

@@ -13,15 +13,28 @@ export default function LandingPage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-sat-primary via-sat-flame to-sat-crimson text-white min-h-[85vh] flex items-center">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wOCI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMiIvPjwvZz48L2c+PC9zdmc+')] opacity-60" />
-        {/* Decorative: sine wave + book motif */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 opacity-20 hidden lg:block">
-          <svg viewBox="0 0 200 200" className="w-full h-full">
-            <path d="M20 100 Q50 50 80 100 T140 100 T200 100" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" />
-            <rect x="60" y="40" width="80" height="120" rx="4" fill="none" stroke="white" strokeWidth="3" />
-            <path d="M100 40 L100 160" stroke="white" strokeWidth="2" strokeDasharray="4 4" />
+        {/* Graph paper + sine wave background */}
+        <div className="absolute inset-0 opacity-30">
+          <svg className="w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="0.5" />
+              </pattern>
+              <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(255,255,255,0.4)" />
+                <stop offset="100%" stopColor="rgba(255,255,255,0.2)" />
+              </linearGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+            {/* Multiple sine waves - mathematical graph aesthetic */}
+            <path d="M0,50 Q25,20 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50 T450,50 T500,50 T550,50 T600,50 T650,50 T700,50 T750,50 T800,50 T850,50 T900,50 T950,50 T1000,50 T1050,50 T1100,50 T1150,50 T1200,50" fill="none" stroke="url(#waveGrad)" strokeWidth="3" strokeLinecap="round" className="translate-y-[10vh]" />
+            <path d="M0,150 Q25,120 50,150 T100,150 T150,150 T200,150 T250,150 T300,150 T350,150 T400,150 T450,150 T500,150 T550,150 T600,150 T650,150 T700,150 T750,150 T800,150 T850,150 T900,150 T950,150 T1000,150 T1050,150 T1100,150 T1150,150 T1200,150" fill="none" stroke="url(#waveGrad)" strokeWidth="2" strokeLinecap="round" className="translate-y-[30vh]" opacity="0.7" />
+            <path d="M0,250 Q25,220 50,250 T100,250 T150,250 T200,250 T250,250 T300,250 T350,250 T400,250 T450,250 T500,250 T550,250 T600,250 T650,250 T700,250 T750,250 T800,250 T850,250 T900,250 T950,250 T1000,250 T1050,250 T1100,250 T1150,250 T1200,250" fill="none" stroke="url(#waveGrad)" strokeWidth="2.5" strokeLinecap="round" className="translate-y-[50vh]" opacity="0.5" />
+            <path d="M0,350 Q25,320 50,350 T100,350 T150,350 T200,350 T250,350 T300,350 T350,350 T400,350 T450,350 T500,350 T550,350 T600,350 T650,350 T700,350 T750,350 T800,350 T850,350 T900,350 T950,350 T1000,350 T1050,350 T1100,350 T1150,350 T1200,350" fill="none" stroke="url(#waveGrad)" strokeWidth="2" strokeLinecap="round" className="translate-y-[70vh]" opacity="0.4" />
+            <path d="M0,100 Q50,60 100,100 T200,100 T300,100 T400,100 T500,100 T600,100 T700,100 T800,100 T900,100 T1000,100 T1100,100 T1200,100" fill="none" stroke="url(#waveGrad)" strokeWidth="1.5" strokeLinecap="round" className="translate-y-[20vh]" opacity="0.6" />
           </svg>
         </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/10" />
         <div className="container mx-auto px-4 py-20 relative">
           <motion.div
             className="max-w-3xl"

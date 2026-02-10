@@ -4,10 +4,17 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const topics = [
-  { topic: "Math - Algebra", count: 45, difficulty: "Mixed", href: "/practice/math-algebra" },
-  { topic: "Math - Problem Solving", count: 32, difficulty: "Mixed", href: "/practice/math-problem-solving" },
-  { topic: "Reading - Evidence", count: 28, difficulty: "Mixed", href: "/practice/reading-evidence" },
-  { topic: "Writing - Conventions", count: 38, difficulty: "Mixed", href: "/practice/writing-conventions" },
+  { topic: "Math - Algebra", count: 45, difficulty: "Easy → Hard", href: "/practice/math-algebra" },
+  { topic: "Math - Quadratics", count: 25, difficulty: "Easy → Hard", href: "/practice/math-quadratics" },
+  { topic: "Math - Functions", count: 20, difficulty: "Easy → Hard", href: "/practice/math-functions" },
+  { topic: "Math - Data & Stats", count: 25, difficulty: "Easy → Hard", href: "/practice/math-data" },
+  { topic: "Math - Geometry", count: 30, difficulty: "Easy → Hard", href: "/practice/math-geometry" },
+  { topic: "Math - Mixed", count: "100+", difficulty: "Easy → Hard", href: "/practice/math-problem-solving" },
+  { topic: "Reading - Evidence", count: 15, difficulty: "Easy → Hard", href: "/practice/reading-evidence" },
+  { topic: "Reading - Words", count: 15, difficulty: "Easy → Hard", href: "/practice/reading-words" },
+  { topic: "Reading - Comprehension", count: 12, difficulty: "Easy → Hard", href: "/practice/reading-comprehension" },
+  { topic: "Writing - Conventions", count: 25, difficulty: "Easy → Hard", href: "/practice/writing-conventions" },
+  { topic: "Writing - Transitions", count: 12, difficulty: "Easy → Hard", href: "/practice/writing-transitions" },
 ];
 
 export default function PracticePage() {
@@ -28,7 +35,7 @@ export default function PracticePage() {
           Practice Questions
         </h1>
         <p className="text-sat-gray-600 text-lg">
-          SAT-style questions by topic and difficulty. Randomized for effective practice.
+          SAT-style questions by topic. Questions ramp from easy to hard for effective practice.
         </p>
       </motion.div>
 
@@ -55,7 +62,7 @@ export default function PracticePage() {
               <h3 className="font-display font-bold text-lg mb-2 group-hover:text-sat-primary transition-colors">
                 {topic}
               </h3>
-              <p className="text-sat-gray-600 text-sm">{count} questions • {difficulty}</p>
+              <p className="text-sat-gray-600 text-sm">{String(count)} questions • {difficulty}</p>
             </motion.div>
           </Link>
         ))}

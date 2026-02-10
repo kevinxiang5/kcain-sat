@@ -1,5 +1,5 @@
 export interface ContentBlock {
-  type: "heading" | "text" | "example" | "formula";
+  type: "heading" | "text" | "example" | "formula" | "tip";
   content: string;
 }
 
@@ -26,9 +26,10 @@ export const LESSONS: Record<string, LessonData> = {
     xpReward: 10,
     content: [
       { type: "heading", content: "Linear Equations Basics" },
-      { type: "text", content: "A linear equation has the form y = mx + b. The variable has no exponent (or exponent of 1). To solve, isolate the variable using inverse operations." },
+      { type: "text", content: "A linear equation has the form y = mx + b. The variable has no exponent (or exponent of 1). To solve, isolate the variable using inverse operations: undo addition with subtraction, multiplication with division." },
       { type: "example", content: "Example: Solve 2x + 5 = 13" },
       { type: "formula", content: "2x + 5 = 13 → 2x = 8 → x = 4" },
+      { type: "tip", content: "SAT TIP: When stuck, plug answer choices back in. Start with B or C—they're correct more often than A or D." },
     ],
     question: {
       id: "q1",
@@ -47,6 +48,7 @@ export const LESSONS: Record<string, LessonData> = {
       { type: "text", content: "A system has two or more equations with the same variables. Solutions satisfy all equations. Use substitution or elimination." },
       { type: "example", content: "Substitution: If y = 2x and x + y = 9, substitute: x + 2x = 9 → 3x = 9 → x = 3" },
       { type: "formula", content: "Elimination: Add or subtract equations to cancel a variable" },
+      { type: "tip", content: "SAT TIP: When you solve for one variable, plug it back into the original equation to get the other. Always verify (x,y) satisfies BOTH equations." },
     ],
     question: {
       id: "q2",
@@ -64,6 +66,7 @@ export const LESSONS: Record<string, LessonData> = {
       { type: "heading", content: "Quadratics: y = ax² + bx + c" },
       { type: "text", content: "Quadratic functions graph as parabolas. The vertex is at x = -b/(2a). Solve ax² + bx + c = 0 using factoring or the quadratic formula." },
       { type: "formula", content: "x = (-b ± √(b² - 4ac)) / 2a" },
+      { type: "tip", content: "SAT TIP: Try factoring first—it's faster. Look for (x ± a)(x ± b). If it doesn't factor, use the quadratic formula." },
     ],
     question: {
       id: "q3",
@@ -81,6 +84,7 @@ export const LESSONS: Record<string, LessonData> = {
       { type: "heading", content: "Exponential Growth & Decay" },
       { type: "text", content: "Exponential form: y = a·b^x. When b > 1, growth; when 0 < b < 1, decay. Doubling time and half-life use exponentials." },
       { type: "example", content: "y = 100(2)^x doubles every time x increases by 1" },
+      { type: "tip", content: "SAT TIP: For doubling/halving, use the rule: after n periods, amount = initial × 2^n or × (1/2)^n. Watch for units—is time in years or months?" },
     ],
     question: {
       id: "q4",
@@ -98,6 +102,7 @@ export const LESSONS: Record<string, LessonData> = {
       { type: "heading", content: "Solving Inequalities" },
       { type: "text", content: "Solve like equations, but flipping the inequality when multiplying or dividing by a negative number." },
       { type: "example", content: "-2x > 6 → x < -3 (flip because we divided by -2)" },
+      { type: "tip", content: "SAT TIP: Flip the sign only when multiplying or dividing by a negative. Don't flip when adding or subtracting. Graph solutions on a number line to check." },
     ],
     question: {
       id: "q5",
@@ -114,6 +119,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Function Notation" },
       { type: "text", content: "f(x) means output when input is x. Domain = allowed inputs; range = possible outputs. A vertical line test checks if a graph is a function." },
+      { type: "tip", content: "SAT TIP: f(g(x)) means plug g(x) into f. Work inside out: find g(x) first, then f of that result. For domain, exclude values that make denominators zero or square roots negative." },
     ],
     question: {
       id: "q6",
@@ -130,6 +136,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Mean, Median, Mode" },
       { type: "text", content: "Mean = sum/count. Median = middle value when sorted. Mode = most frequent. Outliers affect mean more than median." },
+      { type: "tip", content: "SAT TIP: If adding a value changes the mean, use: new mean = (old sum + new value) / (n + 1). For median with even count, average the two middle values." },
     ],
     question: {
       id: "q7",
@@ -146,6 +153,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Shapes & Formulas" },
       { type: "text", content: "Rectangle: A = lw, P = 2l + 2w. Triangle: A = ½bh. Circle: A = πr², C = 2πr. Trapezoid: A = ½(b₁+b₂)h" },
+      { type: "tip", content: "SAT TIP: Circle formulas use r, not d. If given diameter, halve it first. Similar shapes have proportional sides—set up ratios to find unknowns." },
     ],
     question: {
       id: "q8",
@@ -163,6 +171,7 @@ export const LESSONS: Record<string, LessonData> = {
       { type: "heading", content: "Right Triangles" },
       { type: "text", content: "For right triangles: a² + b² = c², where c is the hypotenuse. Use to find missing sides." },
       { type: "formula", content: "a² + b² = c²" },
+      { type: "tip", content: "SAT TIP: Memorize 3-4-5 and 5-12-13 right triangles—they appear often. For 30-60-90: sides are x, x√3, 2x. For 45-45-90: sides are x, x, x√2." },
     ],
     question: {
       id: "q9",
@@ -179,6 +188,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Adding & Multiplying Polynomials" },
       { type: "text", content: "Combine like terms. (a+b)(a-b) = a² - b². (a+b)² = a² + 2ab + b². (a-b)² = a² - 2ab + b²." },
+      { type: "tip", content: "SAT TIP: Difference of squares: (x+a)(x-a) = x² - a². Perfect squares: (x±a)² = x² ± 2ax + a². FOIL carefully—(a+b)² ≠ a² + b²!" },
     ],
     question: {
       id: "q10",
@@ -195,6 +205,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Finding Evidence" },
       { type: "text", content: "SAT questions often ask which line best supports an answer. The evidence must be directly stated or clearly implied in the passage." },
+      { type: "tip", content: "SAT TIP: Answer the evidence question second—pick your answer to the main question first, then find the line that proves it. Wrong evidence choices often sound relevant but don't actually support your answer." },
     ],
     question: {
       id: "q11",
@@ -216,6 +227,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Vocabulary in Context" },
       { type: "text", content: "Don't pick the most common meaning. Use context—what makes sense in the sentence? Replace the word with each choice and see which fits." },
+      { type: "tip", content: "SAT TIP: Cover the word and predict what would go in the blank. Then match to the choices. The SAT tests how words work in context, not dictionary definitions." },
     ],
     question: {
       id: "q12",
@@ -232,6 +244,7 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Grammar Rules" },
       { type: "text", content: "Subject-verb agreement, pronoun clarity, parallel structure, and punctuation. The shortest correct answer is often right." },
+      { type: "tip", content: "SAT TIP: 'NO CHANGE' is correct about 25% of the time—don't second-guess yourself. If multiple choices are grammatically correct, pick the shortest one. Watch for subject-verb agreement: phrases like 'each of the students' take a singular verb." },
     ],
     question: {
       id: "q13",
