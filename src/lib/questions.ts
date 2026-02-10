@@ -128,6 +128,7 @@ export const PRACTICE_QUESTIONS: PracticeBankQuestion[] = [
   { id: "pq98", topic: "data", difficulty: "medium", question: "Median of 1, 2, 3, 4, 5, 6?", options: [{ key: "A", text: "3" }, { key: "B", text: "3.5" }, { key: "C", text: "4" }, { key: "D", text: "4.5" }], correctKey: "B", explanation: "Average of 3 and 4 = 3.5." },
   { id: "pq99", topic: "evidence", difficulty: "hard", question: "Best strategy for paired evidence questions:", options: [{ key: "A", text: "Pick evidence first" }, { key: "B", text: "Answer main question first, then find evidence" }, { key: "C", text: "Skip the main question" }, { key: "D", text: "Guess both" }], correctKey: "B", explanation: "Answer first, then find the line that proves it." },
   { id: "pq100", topic: "words", difficulty: "hard", question: "In 'an ambivalent response,' ambivalent means:", options: [{ key: "A", text: "clear" }, { key: "B", text: "mixed feelings" }, { key: "C", text: "negative" }, { key: "D", text: "enthusiastic" }], correctKey: "B", explanation: "Ambivalent = having mixed or conflicting feelings." },
+];
 
 const MATH_TOPICS = ["algebra", "quadratics", "functions", "data", "geometry"];
 const READING_TOPICS = ["evidence", "words", "reading", "grammar", "transitions"];
