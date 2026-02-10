@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle, LayoutDashboard } from "lucide-react";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
 
@@ -9,6 +10,8 @@ const fadeUp = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } }
 const stagger = { animate: { transition: { staggerChildren: 0.1 } } };
 
 export default function LandingPage() {
+  const { data: session } = useSession();
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -62,25 +65,52 @@ export default function LandingPage() {
               variants={fadeUp}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Link href="/auth/signup">
-                <motion.span
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  Get Started Free
-                  <ArrowRight className="w-5 h-5" />
-                </motion.span>
-              </Link>
-              <Link href="/learn">
-                <motion.span
-                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-Try free
-                </motion.span>
-              </Link>
+              {session ? (
+                <>
+                  <Link href="/dashboard">
+                    <motion.span
+                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <LayoutDashboard className="w-5 h-5" />
+                      Go to Dashboard
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
+                  </Link>
+                  <Link href="/learn">
+                    <motion.span
+                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Continue Learning
+                    </motion.span>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/signup">
+                    <motion.span
+                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Get Started Free
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
+                  </Link>
+                  <Link href="/learn">
+                    <motion.span
+                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
+                      whileHover={{ scale: 1.03, y: -2 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      Try free
+                    </motion.span>
+                  </Link>
+                </>
+              )}
             </motion.div>
           </motion.div>
         </div>
@@ -206,25 +236,40 @@ Try free
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <Link href="/auth/signup">
-              <motion.span
-                className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Sign Up Free
-                <CheckCircle className="w-5 h-5" />
-              </motion.span>
-            </Link>
-            <Link href="/auth/login">
-              <motion.span
-                className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold border-2 border-white hover:bg-white/15"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Log In
-              </motion.span>
-            </Link>
+            {session ? (
+              <Link href="/dashboard">
+                <motion.span
+                  className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <LayoutDashboard className="w-5 h-5" />
+                  Go to Dashboard
+                </motion.span>
+              </Link>
+            ) : (
+              <>
+                <Link href="/auth/signup">
+                  <motion.span
+                    className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Sign Up Free
+                    <CheckCircle className="w-5 h-5" />
+                  </motion.span>
+                </Link>
+                <Link href="/auth/login">
+                  <motion.span
+                    className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold border-2 border-white hover:bg-white/15"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    Log In
+                  </motion.span>
+                </Link>
+              </>
+            )}
           </motion.div>
           <p className="mt-8 text-sm text-white/85">Free tier: 5 lessons/day • Premium: Unlimited • <Link href="/plans" className="underline hover:no-underline">View plans</Link></p>
         </div>

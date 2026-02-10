@@ -1,10 +1,15 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { ProgressTracker } from "@/components/dashboard/ProgressTracker";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { BookOpen, Target, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
+  const { data: session } = useSession();
+  const name = session?.user?.name || session?.user?.email?.split("@")[0] || "there";
+
   return (
     <motion.div
       className="container mx-auto px-4 py-10"
@@ -12,10 +17,12 @@ export default function DashboardPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
-      <motion.h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-        Your Dashboard
-      </motion.h1>
-      <p className="text-sat-gray-600 mb-10 text-lg">Track your progress, streaks, and performance over time.</p>
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+          Welcome back, {name}!
+        </h1>
+        <p className="text-sat-gray-600 text-lg">Your home base for SAT prep. Track progress, build streaks, and keep improving.</p>
+      </motion.div>
 
       <motion.div className="mb-14" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <ProgressTracker
@@ -60,12 +67,15 @@ export default function DashboardPage() {
 
       <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
         <Link href="/learn">
-          <motion.span className="btn-primary inline-flex items-center justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+          <motion.span className="btn-primary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+            <BookOpen className="w-5 h-5" />
             Continue Learning
+            <ArrowRight className="w-4 h-4" />
           </motion.span>
         </Link>
         <Link href="/practice">
-          <motion.span className="btn-secondary inline-flex items-center justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+          <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+            <Target className="w-5 h-5" />
             Practice Questions
           </motion.span>
         </Link>

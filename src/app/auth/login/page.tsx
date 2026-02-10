@@ -10,7 +10,7 @@ import { KcainLogo } from "@/components/layout/KcainLogo";
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/learn";
+  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +27,7 @@ function LoginForm() {
     });
     setLoading(false);
     if (res?.error) {
-      setError("Invalid email or password");
+      setError("Invalid email or password. New user? Verify your email first.");
       return;
     }
     router.push(callbackUrl);
@@ -46,6 +46,7 @@ function LoginForm() {
         </div>
         <h1 className="text-2xl font-display font-bold text-center mb-2">Welcome back</h1>
         <p className="text-sat-gray-600 text-center mb-8">Log in to continue your SAT journey</p>
+        <p className="text-xs text-sat-gray-500 text-center mb-4">New? Check your email for a verification link before logging in.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
