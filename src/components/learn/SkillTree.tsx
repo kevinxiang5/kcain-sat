@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { Calculator, BookOpen, Lock, Check } from "lucide-react";
 import clsx from "clsx";
 import { motion } from "framer-motion";
@@ -19,32 +21,28 @@ export interface SkillNode {
   order: number;
 }
 
-// Build skill nodes from lessons - 10 Math, 8 Reading
-const lessonEntries = Object.entries(LESSONS).sort(([a], [b]) => parseInt(a) - parseInt(b));
-const ALL_LESSONS: SkillNode[] = [
-  ...lessonEntries
-    .filter(([id]) => parseInt(id) <= 10)
-    .map(([id], i) => ({
+// Math lessons: 1-10, 19-21. Reading: 11-18, 22-24
+const MATH_IDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "19", "20", "21"];
+const READING_IDS = ["11", "12", "13", "14", "15", "16", "17", "18", "22", "23", "24"];
+
+function buildNodes(ids: string[], section: "math" | "reading", completedIds: Set<string>): SkillNode[] {
+  return ids.map((id, i) => {
+    const prevCompleted = i === 0 || completedIds.has(ids[i - 1]!);
+    const completed = completedIds.has(id);
+    let status: SkillNodeStatus = "locked";
+    if (completed) status = "completed";
+    else if (prevCompleted) status = "available";
+    return {
       id,
-      title: LESSONS[id].title,
-      topic: "Math",
-      xpReward: LESSONS[id].xpReward,
-      status: (i === 0 ? "available" : "locked") as SkillNodeStatus,
-      section: "math" as const,
+      title: LESSONS[id]!.title,
+      topic: section === "math" ? "Math" : "Reading",
+      xpReward: LESSONS[id]!.xpReward,
+      status,
+      section,
       order: i + 1,
-    })),
-  ...lessonEntries
-    .filter(([id]) => parseInt(id) >= 11)
-    .map(([id], i) => ({
-      id,
-      title: LESSONS[id].title,
-      topic: "Reading",
-      xpReward: LESSONS[id].xpReward,
-      status: (i === 0 ? "available" : "locked") as SkillNodeStatus,
-      section: "reading" as const,
-      order: i + 1,
-    })),
-];
+    };
+  });
+}
 
 const sectionIcons = {
   math: Calculator,
@@ -65,8 +63,22 @@ const item = {
 };
 
 export function SkillTree() {
-  const mathNodes = ALL_LESSONS.filter((n) => n.section === "math");
-  const readingNodes = ALL_LESSONS.filter((n) => n.section === "reading");
+  const { data: session } = useSession();
+  const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+
+  useEffect(() => {
+    if (!session) {
+      setCompletedIds(new Set());
+      return;
+    }
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then((d) => setCompletedIds(new Set(d.completedLessonIds || [])))
+      .catch(() => setCompletedIds(new Set()));
+  }, [session]);
+
+  const mathNodes = buildNodes(MATH_IDS, "math", completedIds);
+  const readingNodes = buildNodes(READING_IDS, "reading", completedIds);
 
   return (
     <motion.div

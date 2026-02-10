@@ -22,7 +22,12 @@ export function Navigation() {
 
   return (
     <motion.header
-      className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-sat-gray-100 shadow-sm"
+      className={clsx(
+        "sticky top-0 z-50 backdrop-blur-md border-b shadow-sm",
+        session
+          ? "bg-gradient-to-r from-sat-primary/5 via-white to-sat-crimson/5 border-sat-primary/20"
+          : "bg-white/90 border-sat-gray-100"
+      )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}

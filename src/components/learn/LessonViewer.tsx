@@ -34,6 +34,14 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
   const handleCheck = () => {
     setShowResult(true);
     setStep("result");
+    const correct = selectedAnswer === question.correctKey;
+    if (correct) {
+      fetch("/api/progress/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lessonId }),
+      }).catch(() => {});
+    }
   };
 
   const isCorrect = selectedAnswer === question.correctKey;

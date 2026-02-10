@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { ProgressTracker } from "@/components/dashboard/ProgressTracker";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -8,7 +9,15 @@ import { BookOpen, Target, ArrowRight } from "lucide-react";
 
 export default function DashboardPage() {
   const { data: session } = useSession();
+  const [progress, setProgress] = useState({ totalXP: 0, streak: 0, completedLessonIds: [] as string[] });
   const name = session?.user?.name || session?.user?.email?.split("@")[0] || "there";
+
+  useEffect(() => {
+    fetch("/api/progress")
+      .then((r) => r.json())
+      .then(setProgress)
+      .catch(() => {});
+  }, []);
 
   return (
     <motion.div
@@ -26,11 +35,11 @@ export default function DashboardPage() {
 
       <motion.div className="mb-14" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <ProgressTracker
-          xp={120}
-          streak={3}
+          xp={progress.totalXP}
+          streak={progress.streak}
           dailyGoal={20}
-          dailyEarned={15}
-          lessonsCompleted={8}
+          dailyEarned={0}
+          lessonsCompleted={progress.completedLessonIds.length}
         />
       </motion.div>
 

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import { Navigation } from "@/components/layout/Navigation";
 import { Calculator } from "@/components/Calculator";
+import { AppShell } from "@/components/layout/AppShell";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -32,7 +33,7 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col">
         <Providers>
           <Navigation />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1"><AppShell>{children}</AppShell></main>
           <Calculator />
         </Providers>
       </body>

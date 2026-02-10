@@ -359,6 +359,118 @@ export const LESSONS: Record<string, LessonData> = {
       explanation: "'However' indicates contrast or opposition.",
     },
   },
+  "19": {
+    id: "19",
+    title: "Rational Expressions",
+    xpReward: 15,
+    content: [
+      { type: "heading", content: "Simplifying & Operating on Rationals" },
+      { type: "text", content: "Rational expressions are fractions with polynomials. Factor numerator and denominator, cancel common factors. To add/subtract, find LCD." },
+      { type: "tip", content: "SAT TIP: Factor first—often the answer is in factored form. Watch for restrictions: denominator ≠ 0." },
+    ],
+    question: {
+      id: "q19",
+      question: "Simplify: (x² - 4) / (x - 2)",
+      options: [{ key: "A", text: "x - 2" }, { key: "B", text: "x + 2" }, { key: "C", text: "x² - 2" }, { key: "D", text: "(x-2)(x+2)" }],
+      correctKey: "B",
+      explanation: "x² - 4 = (x-2)(x+2). Cancel (x-2): x + 2.",
+    },
+  },
+  "20": {
+    id: "20",
+    title: "Radicals & Exponents",
+    xpReward: 15,
+    content: [
+      { type: "heading", content: "Rules of Exponents & Radicals" },
+      { type: "text", content: "√x = x^(1/2). x^a · x^b = x^(a+b). (x^a)^b = x^(ab). √(ab) = √a · √b." },
+      { type: "tip", content: "SAT TIP: Convert radicals to fractional exponents when combining. √(x²) = |x|, not always x." },
+    ],
+    question: {
+      id: "q20",
+      question: "√(x²) when x < 0 equals:",
+      options: [{ key: "A", text: "x" }, { key: "B", text: "-x" }, { key: "C", text: "x²" }, { key: "D", text: "-x²" }],
+      correctKey: "B",
+      explanation: "√(x²) = |x|. When x < 0, |x| = -x.",
+    },
+  },
+  "21": {
+    id: "21",
+    title: "Sequence & Series",
+    xpReward: 12,
+    content: [
+      { type: "heading", content: "Arithmetic & Geometric Sequences" },
+      { type: "text", content: "Arithmetic: a_n = a_1 + (n-1)d. Geometric: a_n = a_1 · r^(n-1). Sum of first n terms: arithmetic S_n = n(a_1+a_n)/2." },
+      { type: "tip", content: "SAT TIP: Find the pattern first. Is the difference constant (arithmetic) or ratio constant (geometric)?" },
+    ],
+    question: {
+      id: "q21",
+      question: "In 3, 7, 11, 15..., what is the common difference?",
+      options: [{ key: "A", text: "2" }, { key: "B", text: "3" }, { key: "C", text: "4" }, { key: "D", text: "5" }],
+      correctKey: "C",
+      explanation: "7-3 = 11-7 = 15-11 = 4.",
+    },
+  },
+  "22": {
+    id: "22",
+    title: "Sentence Boundaries",
+    xpReward: 12,
+    content: [
+      { type: "heading", content: "Run-ons, Fragments & Comma Splices" },
+      { type: "text", content: "A complete sentence needs subject + verb. Run-on: two sentences joined without punctuation. Fragment: incomplete thought. Comma splice: two sentences joined by comma only." },
+      { type: "tip", content: "SAT TIP: Fix with period, semicolon, or conjunction. Read the sentence aloud to hear the break." },
+    ],
+    question: {
+      id: "q22",
+      question: "Which fixes a comma splice?",
+      options: [{ key: "A", text: "Add a comma" }, { key: "B", text: "Use a semicolon" }, { key: "C", text: "Remove the comma" }, { key: "D", text: "Add an adjective" }],
+      correctKey: "B",
+      explanation: "Semicolon correctly joins two independent clauses.",
+    },
+  },
+  "23": {
+    id: "23",
+    title: "Logical Comparisons",
+    xpReward: 12,
+    content: [
+      { type: "heading", content: "Comparing Like Things" },
+      { type: "text", content: "Compare apples to apples. 'Faster than any runner' is wrong—compare to 'any other runner.' Avoid illogical or ambiguous comparisons." },
+      { type: "tip", content: "SAT TIP: The thing after 'than' or 'as' must match the first thing. 'Her score was higher than his' not 'than him' when comparing scores." },
+    ],
+    question: {
+      id: "q23",
+      question: "Which is correct?",
+      options: [
+        { key: "A", text: "This book is better than any book." },
+        { key: "B", text: "This book is better than any other book." },
+        { key: "C", text: "This book is better than any books." },
+        { key: "D", text: "This book is more better than any book." },
+      ],
+      correctKey: "B",
+      explanation: "Use 'any other' to exclude the thing being compared.",
+    },
+  },
+  "24": {
+    id: "24",
+    title: "SAT Reading Strategy",
+    xpReward: 15,
+    content: [
+      { type: "heading", content: "Time Management & Approach" },
+      { type: "text", content: "Read the passage first for main idea. Answer evidence questions with the main answer in mind. Use elimination—cross out wrong answers. Don't overthink." },
+      { type: "tip", content: "SAT TIP: For paired questions, answer the main question first, then pick the line that proves it. Wrong answers often sound good but don't support your choice." },
+    ],
+    question: {
+      id: "q24",
+      question: "Best approach for long reading passages:",
+      options: [
+        { key: "A", text: "Read questions first, skim passage" },
+        { key: "B", text: "Read passage for main idea, then answer" },
+        { key: "C", text: "Guess and move on" },
+        { key: "D", text: "Read only the first and last paragraph" },
+      ],
+      correctKey: "B",
+      explanation: "Understanding the whole passage leads to better accuracy.",
+    },
+  },
 };
 
 export function getLesson(id: string): LessonData | undefined {
