@@ -70,7 +70,7 @@ export default function SignUpPage() {
           <p className="text-sat-gray-600 mb-6">
             We sent a verification link to <strong>{email}</strong>. Click it to activate your account.
           </p>
-          {devVerifyUrl && (
+          {devVerifyUrl && process.env.NODE_ENV === "development" && (
             <div className="mb-6 p-4 bg-sat-primary/5 rounded-xl text-left">
               <p className="text-sm font-medium text-sat-primary mb-2">Dev mode: verification link</p>
               <a href={devVerifyUrl} className="text-sm text-sat-gray-600 break-all hover:underline">
