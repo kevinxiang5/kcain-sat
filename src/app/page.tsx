@@ -78,7 +78,7 @@ export default function LandingPage() {
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
                   </Link>
-                  <Link href="/learn">
+                  <Link href="/dashboard">
                     <motion.span
                       className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
                       whileHover={{ scale: 1.03, y: -2 }}
@@ -100,7 +100,7 @@ export default function LandingPage() {
                       <ArrowRight className="w-5 h-5" />
                     </motion.span>
                   </Link>
-                  <Link href="/learn">
+                  <Link href="/dashboard">
                     <motion.span
                       className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
                       whileHover={{ scale: 1.03, y: -2 }}

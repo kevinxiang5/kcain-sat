@@ -19,7 +19,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         animate={{ opacity: 1 }}
         className="text-center py-12"
       >
-        <p className="text-sat-gray-600">Lesson not found. <a href="/learn" className="text-sat-primary font-medium hover:underline">Back to Learn</a></p>
+        <p className="text-sat-gray-600">Lesson not found. <a href="/dashboard" className="text-sat-primary font-medium hover:underline">Back to Dashboard</a></p>
       </motion.div>
     );
   }
@@ -209,7 +209,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
               <p className="text-sat-gray-700">{question.explanation}</p>
             </motion.div>
             <motion.button
-              onClick={() => (window.location.href = "/learn")}
+              onClick={() => (window.location.href = "/dashboard")}
               className="btn-primary w-full py-4 inline-flex items-center justify-center gap-2"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}

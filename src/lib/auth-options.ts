@@ -52,6 +52,11 @@ export const authOptions: NextAuthOptions = {
       if (session.user) (session.user as { id?: string }).id = token.id as string;
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
+    },
   },
   pages: {
     signIn: "/auth/login",

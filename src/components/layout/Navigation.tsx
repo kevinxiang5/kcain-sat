@@ -10,7 +10,6 @@ import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { href: "/learn", label: "Learn" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/practice", label: "Practice" },
   { href: "/plans", label: "Plans" },

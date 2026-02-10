@@ -6,11 +6,11 @@ export default function LessonPage({ params }: { params: { id: string } }) {
   return (
     <div className="container mx-auto px-4 py-8">
       <Link
-        href="/learn"
+        href="/dashboard"
         className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary mb-8 font-medium transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to Learn
+        Back to Dashboard
       </Link>
       <LessonViewer lessonId={params.id} />
     </div>
