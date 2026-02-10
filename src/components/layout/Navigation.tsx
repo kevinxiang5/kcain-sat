@@ -24,9 +24,7 @@ export function Navigation() {
     <motion.header
       className={clsx(
         "sticky top-0 z-50 backdrop-blur-md border-b shadow-sm",
-        session
-          ? "bg-gradient-to-r from-sat-primary/5 via-white to-sat-crimson/5 border-sat-primary/20"
-          : "bg-white/90 border-sat-gray-100"
+        "bg-white/90 border-sat-gray-100 dark:bg-sat-gray-900/95 dark:border-sat-gray-700"
       )}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
@@ -42,7 +40,7 @@ export function Navigation() {
             <Link
               key={href}
               href={href}
-              className="text-sat-gray-600 hover:text-sat-primary font-medium transition-colors relative group"
+              className="text-sat-gray-600 hover:text-sat-primary font-medium transition-colors relative group dark:text-sky-100 dark:hover:text-sky-300"
             >
               {label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sat-primary to-sat-crimson group-hover:w-full transition-all duration-300" />
@@ -55,7 +53,7 @@ export function Navigation() {
             <div className="flex items-center gap-3">
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary transition-colors"
+                className="flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary transition-colors dark:text-sky-100 dark:hover:text-sky-300"
               >
                 {session.user?.image ? (
                   <Image src={session.user.image} alt="" width={36} height={36} className="w-9 h-9 rounded-xl object-cover" unoptimized />
@@ -78,7 +76,7 @@ export function Navigation() {
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link href="/auth/login" className="text-sat-gray-600 hover:text-sat-primary font-medium">
+              <Link href="/auth/login" className="text-sat-gray-600 hover:text-sat-primary font-medium dark:text-sky-100 dark:hover:text-sky-300">
                 Log in
               </Link>
               <Link href="/auth/signup">
@@ -107,7 +105,7 @@ export function Navigation() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="md:hidden border-t border-sat-gray-100 bg-white"
+            className="md:hidden border-t border-sat-gray-100 bg-white dark:bg-sat-gray-900 dark:border-sat-gray-700"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
@@ -118,7 +116,7 @@ export function Navigation() {
                 <Link
                   key={href}
                   href={href}
-                  className="text-sat-gray-600 hover:text-sat-primary font-medium py-2"
+                  className="text-sat-gray-600 hover:text-sat-primary font-medium py-2 dark:text-sky-100 dark:hover:text-sky-300"
                   onClick={() => setMobileOpen(false)}
                 >
                   {label}
