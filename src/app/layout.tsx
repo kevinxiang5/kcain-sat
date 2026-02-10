@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
-      <body className="min-h-screen flex flex-col bg-white text-sat-gray-800 dark:bg-sat-gray-900 dark:text-sat-gray-50">
+      <body className="min-h-screen flex flex-col">
         <Providers>
           <Navigation />
           <main className="flex-1"><AppShell>{children}</AppShell></main>
