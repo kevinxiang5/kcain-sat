@@ -8,6 +8,7 @@ import { KcainLogo } from "./KcainLogo";
 import { useState } from "react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
@@ -73,6 +74,7 @@ export function Navigation() {
                 <LogOut className="w-4 h-4" />
                 Sign out
               </motion.button>
+              <ThemeToggle />
             </div>
           ) : (
             <div className="flex items-center gap-3">
@@ -88,6 +90,7 @@ export function Navigation() {
                   Sign up
                 </motion.span>
               </Link>
+              <ThemeToggle />
             </div>
           )}
         </div>

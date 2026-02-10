@@ -141,9 +141,16 @@ export function getQuestionsByTopic(topic: string): PracticeBankQuestion[] {
 
 const DIFF_ORDER = { easy: 0, medium: 1, hard: 2 };
 
-/** Returns questions ordered by difficulty (easy → medium → hard), optionally filtered by topic */
-export function getQuestionsByDifficultyOrdered(count: number, topic?: string): PracticeBankQuestion[] {
+/** Returns questions ordered by difficulty (easy → medium → hard), filtered by topic and optional difficulty */
+export function getQuestionsByDifficultyOrdered(
+  count: number,
+  topic?: string,
+  difficulty?: "easy" | "medium" | "hard"
+): PracticeBankQuestion[] {
   let pool = topic ? getQuestionsByTopic(topic) : [...PRACTICE_QUESTIONS];
+  if (difficulty) {
+    pool = pool.filter((q) => q.difficulty === difficulty);
+  }
   const sorted = pool.sort((a, b) => DIFF_ORDER[a.difficulty] - DIFF_ORDER[b.difficulty]);
   return sorted.slice(0, Math.min(count, sorted.length));
 }

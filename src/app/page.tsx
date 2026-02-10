@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle, LayoutDashboard } from "lucide-react";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
@@ -11,6 +13,17 @@ const stagger = { animate: { transition: { staggerChildren: 0.1 } } };
 
 export default function LandingPage() {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.replace("/dashboard");
+    }
+  }, [session, router]);
+
+  if (session) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen">

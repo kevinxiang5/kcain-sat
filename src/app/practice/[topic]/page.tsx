@@ -42,6 +42,7 @@ export default function PracticeTopicPage() {
   const topic = TOPIC_MAP[topicSlug] || "algebra";
   const label = TOPIC_LABELS[topicSlug] || topicSlug;
 
+  const [difficulty, setDifficulty] = useState<"all" | "easy" | "medium" | "hard">("all");
   const [questions, setQuestions] = useState<ReturnType<typeof getQuestionsByDifficultyOrdered>>([]);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -49,8 +50,13 @@ export default function PracticeTopicPage() {
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    setQuestions(getQuestionsByDifficultyOrdered(15, topic));
-  }, [topic]);
+    const diff = difficulty === "all" ? undefined : difficulty;
+    setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
+    setCurrent(0);
+    setSelected(null);
+    setShowResult(false);
+    setScore(0);
+  }, [topic, difficulty]);
 
   const q = questions[current];
   const isCorrect = selected === q?.correctKey;
@@ -96,11 +102,28 @@ export default function PracticeTopicPage() {
         Back
       </Link>
 
-      <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-xl font-display font-bold">{label}</h1>
-        <span className="text-sm text-sat-gray-500">
-          {current + 1} / {questions.length} • Score: {score}
-        </span>
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-xl font-display font-bold">{label}</h1>
+          <span className="text-sm text-sat-gray-500">
+            {current + 1} / {questions.length} • Score: {score}
+          </span>
+        </div>
+        <div className="flex gap-2 text-sm">
+          {(["all", "easy", "medium", "hard"] as const).map((d) => (
+            <button
+              key={d}
+              onClick={() => setDifficulty(d)}
+              className={`px-3 py-1 rounded-full border text-xs font-medium ${
+                difficulty === d
+                  ? "border-sat-primary bg-sat-primary/10 text-sat-primary"
+                  : "border-sat-gray-200 text-sat-gray-600 hover:border-sat-gray-300"
+              }`}
+            >
+              {d === "all" ? "All" : d[0].toUpperCase() + d.slice(1)}
+            </button>
+          ))}
+        </div>
       </div>
 
       <div className="h-2 bg-sat-gray-200 rounded-full mb-8 overflow-hidden">
