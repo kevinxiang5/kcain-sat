@@ -11,7 +11,7 @@ export function Calculator() {
     <>
       <motion.button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
+        className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 text-white shadow-lg flex items-center justify-center hover:scale-110 transition-transform"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         title="Open Calculator"
@@ -30,29 +30,29 @@ export function Calculator() {
               onClick={() => setOpen(false)}
             />
             <motion.div
-              className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:max-w-4xl md:h-[80vh] z-50 bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col"
+              className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[90vw] md:max-w-4xl md:h-[80vh] md:min-h-[500px] z-50 bg-white dark:bg-sat-gray-800 rounded-2xl shadow-2xl overflow-hidden flex flex-col"
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: "spring", damping: 25 }}
             >
-              <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-sat-primary/10 to-sat-crimson/10">
-                <h3 className="font-display font-bold text-lg">Desmos Graphing Calculator</h3>
+              <div className="flex items-center justify-between p-4 border-b border-sat-gray-200 dark:border-sat-gray-700 bg-gradient-to-r from-sat-primary/10 to-sat-crimson/10 dark:from-sky-500/10 dark:to-sky-600/10">
+                <h3 className="font-display font-bold text-lg dark:text-white">Desmos Graphing Calculator</h3>
                 <button
                   onClick={() => setOpen(false)}
-                  className="p-2 rounded-xl hover:bg-sat-gray-200 transition-colors"
+                  className="p-2 rounded-xl hover:bg-sat-gray-200 dark:hover:bg-sat-gray-700 transition-colors dark:text-white"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
-              <div className="flex-1 min-h-0">
+              <div className="flex-1 min-h-[400px] flex flex-col">
                 <iframe
                   src="https://www.desmos.com/calculator?embed"
-                  className="w-full h-full border-0"
+                  className="w-full flex-1 min-h-[400px] border-0"
                   title="Desmos Calculator"
                 />
               </div>
-              <p className="text-xs text-sat-gray-500 p-2 text-center bg-sat-gray-50">
+              <p className="text-xs text-sat-gray-500 dark:text-sky-300 p-2 text-center bg-sat-gray-50 dark:bg-sat-gray-700/50 shrink-0">
                 Use this calculator during practice. The SAT allows a calculator on the Math section.
               </p>
             </motion.div>

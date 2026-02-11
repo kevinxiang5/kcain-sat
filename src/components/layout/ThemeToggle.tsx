@@ -11,8 +11,7 @@ export function ThemeToggle() {
     setMounted(true);
     if (typeof window === "undefined") return;
     const stored = window.localStorage.getItem("theme");
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
-    const shouldDark = stored === "dark" || (!stored && prefersDark);
+    const shouldDark = stored === "dark";
     setDark(shouldDark);
     document.documentElement.classList.toggle("dark", shouldDark);
   }, []);

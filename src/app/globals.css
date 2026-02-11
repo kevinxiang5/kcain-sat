@@ -13,7 +13,7 @@
   }
 
   body {
-    @apply font-body antialiased bg-sat-cream text-sat-gray-800 dark:bg-sat-gray-900 dark:text-sky-200;
+    @apply font-body antialiased bg-sat-cream text-sat-gray-800 dark:bg-sat-gray-900 dark:text-white;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -35,8 +35,8 @@
   }
 
   .card {
-    @apply bg-white rounded-2xl shadow-lg shadow-sat-gray-200/50 border border-sat-gray-100 overflow-hidden
-           dark:bg-sat-gray-800 dark:border-sat-gray-700 dark:shadow-none;
+    @apply bg-white rounded-2xl shadow-lg shadow-sat-gray-200/50 border border-sat-gray-100 overflow-hidden text-sat-gray-800
+           dark:bg-sat-gray-800 dark:border-sat-gray-700 dark:shadow-none dark:text-white;
   }
 
   .skill-node {
@@ -45,18 +45,22 @@
   }
 
   .skill-node--locked {
-    @apply bg-sat-gray-200 border-sat-gray-300 text-sat-gray-400 cursor-not-allowed;
+    @apply bg-sat-gray-200 border-sat-gray-300 text-sat-gray-400 cursor-not-allowed
+           dark:bg-sat-gray-700 dark:border-sat-gray-600 dark:text-sat-gray-500;
   }
 
   .skill-node--available {
-    @apply bg-white border-sat-primary text-sat-primary hover:scale-110 hover:shadow-lg hover:shadow-sat-primary/20;
+    @apply bg-white border-sat-primary text-sat-primary hover:scale-110 hover:shadow-lg hover:shadow-sat-primary/20
+           dark:bg-sat-gray-800 dark:border-sky-500 dark:text-sky-400 dark:hover:shadow-sky-500/20;
   }
 
   .skill-node--completed {
-    @apply bg-sat-crimson border-sat-crimson-dark text-white;
+    @apply bg-sat-crimson border-sat-crimson-dark text-white
+           dark:bg-sky-600 dark:border-sky-700;
   }
 
   .skill-node--current {
-    @apply bg-sat-primary border-sat-accent text-white ring-4 ring-sat-primary/30;
+    @apply bg-sat-primary border-sat-accent text-white ring-4 ring-sat-primary/30
+           dark:bg-sky-500 dark:border-sky-600 dark:ring-sky-500/30;
   }
 }

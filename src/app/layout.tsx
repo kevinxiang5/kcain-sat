@@ -3,7 +3,7 @@ import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
 import { Navigation } from "@/components/layout/Navigation";
-import { Calculator } from "@/components/Calculator";
+import { CalculatorWrapper } from "@/components/CalculatorWrapper";
 import { AppShell } from "@/components/layout/AppShell";
 
 const outfit = Outfit({
@@ -34,7 +34,7 @@ export default function RootLayout({
         <Providers>
           <Navigation />
           <main className="flex-1"><AppShell>{children}</AppShell></main>
-          <Calculator />
+          <CalculatorWrapper />
         </Providers>
       </body>
     </html>

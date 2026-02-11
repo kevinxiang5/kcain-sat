@@ -74,10 +74,10 @@ export default function DashboardPage() {
       transition={{ duration: 0.4 }}
     >
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
-        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent">
           Welcome back, {name}!
         </h1>
-        <p className="text-sat-gray-600 text-lg">Your home base for SAT prep. Track progress, build streaks, and keep improving.</p>
+        <p className="text-sat-gray-600 dark:text-sky-200 text-lg">Your home base for SAT prep. Track progress, build streaks, and keep improving.</p>
       </motion.div>
 
       <motion.div className="mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -93,98 +93,98 @@ export default function DashboardPage() {
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-primary to-sat-flame flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-primary to-sat-flame dark:from-sky-500 dark:to-sky-600 flex items-center justify-center">
               <Star className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-display font-bold">Level {level}</h3>
+            <h3 className="font-display font-bold dark:text-white">Level {level}</h3>
           </div>
-          <p className="text-sm text-sat-gray-600">{xpToNext} XP to Level {level + 1}</p>
+          <p className="text-sm text-sat-gray-600 dark:text-sky-200">{xpToNext} XP to Level {level + 1}</p>
         </motion.div>
         <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-flame to-sat-crimson flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-flame to-sat-crimson dark:from-sky-400 dark:to-sky-600 flex items-center justify-center">
               <BookOpen className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-display font-bold">Math Progress</h3>
+            <h3 className="font-display font-bold dark:text-white">Math Progress</h3>
           </div>
-          <div className="h-2 bg-sat-gray-200 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson" initial={{ width: 0 }} animate={{ width: `${mathPercent}%` }} transition={{ duration: 0.8 }} />
+          <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full overflow-hidden">
+            <motion.div className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600" initial={{ width: 0 }} animate={{ width: `${mathPercent}%` }} transition={{ duration: 0.8 }} />
           </div>
-          <p className="text-sm text-sat-gray-600 mt-1">{progress.mathCompleted}/{MATH_IDS.length} lessons · {mathPercent}%</p>
+          <p className="text-sm text-sat-gray-600 dark:text-sky-200 mt-1">{progress.mathCompleted}/{MATH_IDS.length} lessons · {mathPercent}%</p>
         </motion.div>
         <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.21 }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-crimson to-sat-ember flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-sat-crimson to-sat-ember dark:from-sky-500 dark:to-sky-700 flex items-center justify-center">
               <Zap className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-display font-bold">Reading Progress</h3>
+            <h3 className="font-display font-bold dark:text-white">Reading Progress</h3>
           </div>
-          <div className="h-2 bg-sat-gray-200 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-gradient-to-r from-sat-crimson to-sat-ember" initial={{ width: 0 }} animate={{ width: `${readingPercent}%` }} transition={{ duration: 0.8 }} />
+          <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full overflow-hidden">
+            <motion.div className="h-full bg-gradient-to-r from-sat-crimson to-sat-ember dark:from-sky-500 dark:to-sky-700" initial={{ width: 0 }} animate={{ width: `${readingPercent}%` }} transition={{ duration: 0.8 }} />
           </div>
-          <p className="text-sm text-sat-gray-600 mt-1">{progress.readingCompleted}/{READING_IDS.length} lessons · {readingPercent}%</p>
+          <p className="text-sm text-sat-gray-600 dark:text-sky-200 mt-1">{progress.readingCompleted}/{READING_IDS.length} lessons · {readingPercent}%</p>
         </motion.div>
         <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24 }}>
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 dark:from-sky-500 dark:to-sky-700 flex items-center justify-center">
               <Trophy className="w-5 h-5 text-white" />
             </div>
-            <h3 className="font-display font-bold">Overall</h3>
+            <h3 className="font-display font-bold dark:text-white">Overall</h3>
           </div>
-          <div className="h-2 bg-sat-gray-200 rounded-full overflow-hidden">
-            <motion.div className="h-full bg-gradient-to-r from-amber-500 to-orange-600" initial={{ width: 0 }} animate={{ width: `${totalPercent}%` }} transition={{ duration: 0.8 }} />
+          <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full overflow-hidden">
+            <motion.div className="h-full bg-gradient-to-r from-amber-500 to-orange-600 dark:from-sky-500 dark:to-sky-700" initial={{ width: 0 }} animate={{ width: `${totalPercent}%` }} transition={{ duration: 0.8 }} />
           </div>
-          <p className="text-sm text-sat-gray-600 mt-1">{lessonsCompleted}/24 lessons · {totalPercent}%</p>
+          <p className="text-sm text-sat-gray-600 dark:text-sky-200 mt-1">{lessonsCompleted}/24 lessons · {totalPercent}%</p>
         </motion.div>
       </div>
 
       <div className="grid lg:grid-cols-3 gap-8 mb-14">
         <motion.div className="lg:col-span-2 card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.27 }}>
-          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-sat-primary" />
+          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 dark:text-white">
+            <Clock className="w-5 h-5 text-sat-primary dark:text-sky-400" />
             Recent Activity
           </h2>
           {progress.lastCompleted.length > 0 ? (
             <ul className="space-y-3">
               {progress.lastCompleted.map((item, i) => (
-                <li key={i} className="flex items-center gap-3 py-2 border-b border-sat-gray-100 last:border-0">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                    <BookOpen className="w-4 h-4 text-emerald-600" />
+                <li key={i} className="flex items-center gap-3 py-2 border-b border-sat-gray-100 dark:border-sat-gray-700 last:border-0">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center shrink-0">
+                    <BookOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   </div>
-                  <span className="font-medium text-sat-gray-800">{item.title}</span>
-                  <span className="text-xs text-sat-gray-500 ml-auto">Completed</span>
+                  <span className="font-medium text-sat-gray-800 dark:text-white">{item.title}</span>
+                  <span className="text-xs text-sat-gray-500 dark:text-sky-300 ml-auto">Completed</span>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="text-sat-gray-500 py-6">No lessons completed yet. Start your first lesson below!</p>
+            <p className="text-sat-gray-500 dark:text-sky-300 py-6">No lessons completed yet. Start your first lesson below!</p>
           )}
         </motion.div>
         <motion.div className="card p-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2">
-            <Lightbulb className="w-5 h-5 text-amber-500" />
+          <h2 className="font-display font-bold text-lg mb-4 flex items-center gap-2 dark:text-white">
+            <Lightbulb className="w-5 h-5 text-amber-500 dark:text-sky-400" />
             SAT Tip
           </h2>
-          <p className="text-sat-gray-700 leading-relaxed">{nextTip}</p>
+          <p className="text-sat-gray-700 dark:text-sky-200 leading-relaxed">{nextTip}</p>
         </motion.div>
       </div>
 
       {nextLesson && (
         <motion.div className="mb-14" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.33 }}>
           <Link href={`/learn/${nextLessonId}`} className="block">
-            <div className="card p-6 bg-gradient-to-r from-sat-primary/5 via-sat-crimson/5 to-sat-flame/5 border-2 border-sat-primary/20 hover:border-sat-primary/40 transition-colors group">
+            <div className="card p-6 bg-gradient-to-r from-sat-primary/5 via-sat-crimson/5 to-sat-flame/5 dark:from-sky-500/10 dark:via-sky-600/10 dark:to-sky-700/10 border-2 border-sat-primary/20 dark:border-sky-500/30 hover:border-sat-primary/40 dark:hover:border-sky-400/50 transition-colors group">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson flex items-center justify-center group-hover:scale-110 transition-transform">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <ArrowRight className="w-7 h-7 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-sat-primary">Suggested Next</p>
-                    <h3 className="font-display font-bold text-xl">{nextLesson.title}</h3>
-                    <p className="text-sat-gray-600 text-sm">+{nextLesson.xpReward} XP</p>
+                    <p className="text-sm font-medium text-sat-primary dark:text-sky-400">Suggested Next</p>
+                    <h3 className="font-display font-bold text-xl dark:text-white">{nextLesson.title}</h3>
+                    <p className="text-sat-gray-600 dark:text-sky-200 text-sm">+{nextLesson.xpReward} XP</p>
                   </div>
                 </div>
-                <ChevronRight className="w-8 h-8 text-sat-primary opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
+                <ChevronRight className="w-8 h-8 text-sat-primary dark:text-sky-400 opacity-60 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
               </div>
             </div>
           </Link>
@@ -192,10 +192,10 @@ export default function DashboardPage() {
       )}
 
       <motion.div className="mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36 }}>
-        <h2 className="text-2xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+        <h2 className="text-2xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent">
           Your Learning Path
         </h2>
-        <p className="text-sat-gray-600">24 lessons across Math and Reading. Complete each to unlock the next.</p>
+        <p className="text-sat-gray-600 dark:text-sky-200">24 lessons across Math and Reading. Complete each to unlock the next.</p>
       </motion.div>
 
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>

@@ -96,13 +96,13 @@ export function SkillTree() {
           <motion.div key={section} variants={item}>
             <div className="flex items-center gap-4 mb-8">
               <motion.div
-                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson flex items-center justify-center shadow-lg shadow-sat-primary/25"
+                className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 flex items-center justify-center shadow-lg shadow-sat-primary/25 dark:shadow-sky-500/25"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 400 }}
               >
                 <Icon className="w-6 h-6 text-white" />
               </motion.div>
-              <h2 className="text-2xl font-display font-bold bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+              <h2 className="text-2xl font-display font-bold bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent">
                 {label}
               </h2>
             </div>
@@ -150,8 +150,8 @@ function SkillNode({ node, index }: { node: SkillNode; index: number }) {
 
   const label = (
     <div className="mt-2 text-center">
-      <p className="font-medium text-sm text-sat-gray-800 line-clamp-2">{node.title}</p>
-      <p className="text-xs text-sat-gray-500 mt-0.5">{node.xpReward} XP</p>
+      <p className="font-medium text-sm text-sat-gray-800 dark:text-white line-clamp-2">{node.title}</p>
+      <p className="text-xs text-sat-gray-500 dark:text-sky-300 mt-0.5">{node.xpReward} XP</p>
     </div>
   );
 

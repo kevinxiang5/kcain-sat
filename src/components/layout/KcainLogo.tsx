@@ -39,7 +39,7 @@ export function KcainLogo({ size = "md", showText = true, className = "" }: Kcai
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <motion.div
-        className="relative shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-sat-primary to-sat-crimson p-1 shadow-lg flex items-center justify-center"
+        className="relative shrink-0 rounded-xl overflow-hidden bg-gradient-to-br from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 p-1 shadow-lg flex items-center justify-center"
         whileHover={{ scale: 1.05, rotate: 2 }}
         transition={{ type: "spring", stiffness: 400 }}
       >
@@ -58,7 +58,7 @@ export function KcainLogo({ size = "md", showText = true, className = "" }: Kcai
         )}
       </motion.div>
       {showText && (
-        <span className="font-display font-bold text-sat-gray-800 tracking-tight lowercase">
+        <span className="font-display font-bold text-sat-gray-800 dark:text-white tracking-tight lowercase">
           kcain
         </span>
       )}
