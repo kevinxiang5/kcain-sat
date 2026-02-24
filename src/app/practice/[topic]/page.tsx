@@ -78,7 +78,7 @@ export default function PracticeTopicPage() {
   if (questions.length === 0) {
     return (
       <div className="container mx-auto px-4 py-10">
-        <div className="animate-pulse h-64 bg-sat-gray-100 rounded-2xl" />
+        <div className="animate-pulse h-64 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl" />
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function PracticeTopicPage() {
   if (!q) {
     return (
       <div className="container mx-auto px-4 py-10 text-center">
-        <p className="text-sat-gray-600">No questions loaded. <Link href="/practice" className="text-sat-primary">Back to Practice</Link></p>
+        <p className="text-sat-gray-600 dark:text-sky-200">No questions loaded. <Link href="/practice" className="text-sat-primary dark:text-sky-400 hover:underline">Back to Practice</Link></p>
       </div>
     );
   }
@@ -97,15 +97,15 @@ export default function PracticeTopicPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <Link href="/practice" className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary mb-8 font-medium">
+      <Link href="/practice" className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary dark:text-sky-200 dark:hover:text-sky-400 mb-8 font-medium">
         <ArrowLeft className="w-4 h-4" />
         Back
       </Link>
 
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-xl font-display font-bold">{label}</h1>
-          <span className="text-sm text-sat-gray-500">
+          <h1 className="text-xl font-display font-bold dark:text-white">{label}</h1>
+          <span className="text-sm text-sat-gray-500 dark:text-sky-300">
             {current + 1} / {questions.length} • Score: {score}
           </span>
         </div>
@@ -126,9 +126,9 @@ export default function PracticeTopicPage() {
         </div>
       </div>
 
-      <div className="h-2 bg-sat-gray-200 rounded-full mb-8 overflow-hidden">
+      <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full mb-8 overflow-hidden">
         <motion.div
-          className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson"
+          className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600"
           initial={{ width: 0 }}
           animate={{ width: `${((current + 1) / questions.length) * 100}%` }}
           transition={{ duration: 0.3 }}
@@ -143,23 +143,23 @@ export default function PracticeTopicPage() {
           exit={{ opacity: 0, x: -20 }}
           className="space-y-6"
         >
-          <p className="text-lg text-sat-gray-800">{q.question}</p>
+          <p className="text-lg text-sat-gray-800 dark:text-white">{q.question}</p>
           <div className="space-y-3">
             {q.options.map((opt) => (
               <button
                 key={opt.key}
                 onClick={() => !showResult && setSelected(opt.key)}
                 disabled={showResult}
-                className={`w-full p-4 rounded-xl border-2 text-left flex items-center gap-4 transition-all ${
+                className={`w-full p-4 rounded-xl border-2 text-left flex items-center gap-4 transition-all dark:text-white ${
                   !showResult
                     ? selected === opt.key
-                      ? "border-sat-primary bg-sat-primary/5"
-                      : "border-sat-gray-200 hover:border-sat-gray-300"
+                      ? "border-sat-primary dark:border-sky-500 bg-sat-primary/5 dark:bg-sky-500/10"
+                      : "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-gray-300 dark:hover:border-sky-500/50"
                     : opt.key === q.correctKey
-                    ? "border-emerald-500 bg-emerald-50"
+                    ? "border-emerald-500 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-900/30"
                     : selected === opt.key
-                    ? "border-red-400 bg-red-50"
-                    : "border-sat-gray-200 opacity-70"
+                    ? "border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/30"
+                    : "border-sat-gray-200 dark:border-sat-gray-600 opacity-70"
                 }`}
               >
                 <span className="w-10 h-10 rounded-xl bg-sat-gray-100 flex items-center justify-center font-bold shrink-0">
@@ -176,10 +176,10 @@ export default function PracticeTopicPage() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-sat-gray-50 rounded-xl"
+              className="p-4 bg-sat-gray-50 dark:bg-sat-gray-700/50 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600"
             >
-              <p className="font-medium mb-1">Explanation</p>
-              <p className="text-sat-gray-700 text-sm">{q.explanation}</p>
+              <p className="font-medium mb-1 dark:text-white">Explanation</p>
+              <p className="text-sat-gray-700 dark:text-sky-200 text-sm">{q.explanation}</p>
             </motion.div>
           )}
 

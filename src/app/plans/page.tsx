@@ -77,7 +77,7 @@ export default function PlansPage() {
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
             Choose your plan
           </h1>
-          <p className="text-sat-gray-600 text-lg max-w-2xl mx-auto">
+          <p className="text-sat-gray-600 dark:text-sky-200 text-lg max-w-2xl mx-auto">
             Start free, upgrade when you&apos;re ready. No credit card required to begin.
           </p>
         </motion.div>
@@ -109,13 +109,13 @@ export default function PlansPage() {
                 >
                   <Icon className="w-7 h-7" />
                 </div>
-                <h2 className="text-2xl font-display font-bold mb-2">{plan.name}</h2>
-                <p className={`text-sm mb-6 ${plan.highlighted ? "text-white/90" : "text-sat-gray-600"}`}>
+                <h2 className="text-2xl font-display font-bold mb-2 dark:text-white">{plan.name}</h2>
+                <p className={`text-sm mb-6 ${plan.highlighted ? "text-white/90" : "text-sat-gray-600 dark:text-sky-200"}`}>
                   {plan.description}
                 </p>
                 <div className="mb-6">
                   <span className="text-4xl font-bold">{plan.price}</span>
-                  <span className={plan.highlighted ? "text-white/80" : "text-sat-gray-500"}>
+                  <span className={plan.highlighted ? "text-white/80" : "text-sat-gray-500 dark:text-sky-300"}>
                     {plan.period}
                   </span>
                 </div>
@@ -123,7 +123,7 @@ export default function PlansPage() {
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-center gap-2">
                       <Check className="w-5 h-5 shrink-0 text-emerald-500" />
-                      <span className="text-sm">{f}</span>
+                      <span className="text-sm dark:text-sky-100">{f}</span>
                     </li>
                   ))}
                 </ul>
@@ -146,7 +146,7 @@ export default function PlansPage() {
         </div>
 
         <motion.p
-          className="text-center text-sat-gray-500 text-sm mt-12"
+          className="text-center text-sat-gray-500 dark:text-sky-300 text-sm mt-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}

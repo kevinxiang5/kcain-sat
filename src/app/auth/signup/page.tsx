@@ -49,11 +49,11 @@ export default function SignUpPage() {
   if (success) {
     return (
       <motion.div
-        className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12"
+        className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-sat-cream to-white dark:from-sat-gray-900 dark:to-sat-gray-800"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
-        <div className="card w-full max-w-md p-8 text-center">
+        <div className="card w-full max-w-md p-8 text-center dark:bg-sat-gray-800 dark:border-sat-gray-700">
           <div className="flex justify-center mb-6">
             <KcainLogo size="lg" />
           </div>
@@ -66,8 +66,8 @@ export default function SignUpPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </motion.div>
-          <h1 className="text-2xl font-display font-bold mb-2">Check your email</h1>
-          <p className="text-sat-gray-600 mb-6">
+          <h1 className="text-2xl font-display font-bold mb-2 dark:text-white">Check your email</h1>
+          <p className="text-sat-gray-600 dark:text-sky-200 mb-6">
             We sent a verification link to <strong>{email}</strong>. Click it to activate your account.
           </p>
           {devVerifyUrl && process.env.NODE_ENV === "development" && (
@@ -88,16 +88,16 @@ export default function SignUpPage() {
 
   return (
     <motion.div
-      className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-sat-cream to-white"
+      className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-sat-cream to-white dark:from-sat-gray-900 dark:to-sat-gray-800"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="card w-full max-w-md p-8 shadow-xl">
+      <div className="card w-full max-w-md p-8 shadow-xl dark:bg-sat-gray-800 dark:border-sat-gray-700">
         <div className="flex justify-center mb-8">
           <KcainLogo size="lg" />
         </div>
-        <h1 className="text-2xl font-display font-bold text-center mb-2">Create your account</h1>
-        <p className="text-sat-gray-600 text-center mb-8">Start your SAT prep journey with kcain</p>
+        <h1 className="text-2xl font-display font-bold text-center mb-2 dark:text-white">Create your account</h1>
+        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Start your SAT prep journey with kcain</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -110,7 +110,7 @@ export default function SignUpPage() {
             </motion.div>
           )}
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-sat-gray-700 mb-1">
+            <label htmlFor="name" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
               Name
             </label>
             <input
@@ -118,12 +118,12 @@ export default function SignUpPage() {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 focus:ring-2 focus:ring-sat-primary focus:border-sat-primary outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-700 dark:text-white focus:ring-2 focus:ring-sat-primary dark:focus:ring-sky-500 outline-none transition"
               placeholder="Your name"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-sat-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
               Email
             </label>
             <input
@@ -132,12 +132,12 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 focus:ring-2 focus:ring-sat-primary focus:border-sat-primary outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-700 dark:text-white focus:ring-2 focus:ring-sat-primary dark:focus:ring-sky-500 outline-none transition"
               placeholder="you@example.com"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
               Password
             </label>
             <input
@@ -147,7 +147,7 @@ export default function SignUpPage() {
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
-              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 focus:ring-2 focus:ring-sat-primary focus:border-sat-primary outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-700 dark:text-white focus:ring-2 focus:ring-sat-primary dark:focus:ring-sky-500 outline-none transition"
               placeholder="At least 6 characters"
             />
           </div>
@@ -162,9 +162,9 @@ export default function SignUpPage() {
           </motion.button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-sat-gray-600">
+        <p className="mt-6 text-center text-sm text-sat-gray-600 dark:text-sky-200">
           Already have an account?{" "}
-          <Link href="/auth/login" className="text-sat-primary font-medium hover:underline">
+          <Link href="/auth/login" className="text-sat-primary dark:text-sky-400 font-medium hover:underline">
             Log in
           </Link>
         </p>

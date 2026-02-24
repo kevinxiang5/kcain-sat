@@ -31,10 +31,10 @@ export default function PracticePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent">
           Practice Questions
         </h1>
-        <p className="text-sat-gray-600 text-lg">
+        <p className="text-sat-gray-600 dark:text-sky-200 text-lg">
           SAT-style questions by topic. Questions ramp from easy to hard for effective practice.
         </p>
       </motion.div>
@@ -69,13 +69,13 @@ export default function PracticePage() {
       </motion.div>
 
       <motion.div
-        className="card p-6 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 border-2 border-sat-primary/20"
+        className="card p-6 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 dark:from-sky-500/10 dark:to-sky-600/10 border-2 border-sat-primary/20 dark:border-sky-500/30"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <h3 className="font-display font-bold text-lg mb-2">Full Practice Test</h3>
-        <p className="text-sat-gray-600 mb-4">
+        <h3 className="font-display font-bold text-lg mb-2 dark:text-white">Full Practice Test</h3>
+        <p className="text-sat-gray-600 dark:text-sky-200 mb-4">
           Simulate a real SAT with a timed full-length practice test. Premium feature.
         </p>
         <motion.button

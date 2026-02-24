@@ -36,17 +36,17 @@ function LoginForm() {
 
   return (
     <motion.div
-      className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-sat-cream to-white"
+      className="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-sat-cream to-white dark:from-sat-gray-900 dark:to-sat-gray-800"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="card w-full max-w-md p-8 shadow-xl">
+      <div className="card w-full max-w-md p-8 shadow-xl dark:bg-sat-gray-800 dark:border-sat-gray-700">
         <div className="flex justify-center mb-8">
           <KcainLogo size="lg" />
         </div>
-        <h1 className="text-2xl font-display font-bold text-center mb-2">Welcome back</h1>
-        <p className="text-sat-gray-600 text-center mb-8">Log in to continue your SAT journey</p>
-        <p className="text-xs text-sat-gray-500 text-center mb-4">New? Check your email for a verification link before logging in.</p>
+        <h1 className="text-2xl font-display font-bold text-center mb-2 dark:text-white">Welcome back</h1>
+        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Log in to continue your SAT journey</p>
+        <p className="text-xs text-sat-gray-500 dark:text-sky-300 text-center mb-4">New? Check your email for a verification link before logging in.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
@@ -59,7 +59,7 @@ function LoginForm() {
             </motion.div>
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-sat-gray-700 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
               Email
             </label>
             <input
@@ -68,12 +68,12 @@ function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 focus:ring-2 focus:ring-sat-primary focus:border-sat-primary outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-700 dark:text-white focus:ring-2 focus:ring-sat-primary dark:focus:ring-sky-500 focus:border-sat-primary outline-none transition"
               placeholder="you@example.com"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 mb-1">
+            <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
               Password
             </label>
             <input
@@ -82,7 +82,7 @@ function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 focus:ring-2 focus:ring-sat-primary focus:border-sat-primary outline-none transition"
+              className="w-full px-4 py-3 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-700 dark:text-white focus:ring-2 focus:ring-sat-primary dark:focus:ring-sky-500 outline-none transition"
             />
           </div>
           <motion.button

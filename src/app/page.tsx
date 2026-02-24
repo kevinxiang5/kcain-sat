@@ -131,10 +131,10 @@ export default function LandingPage() {
       </section>
 
       {/* Features Section */}
-      <section className="py-24 md:py-32 bg-sat-cream">
+      <section className="py-24 md:py-32 bg-sat-cream dark:bg-sat-gray-900">
         <div className="container mx-auto px-4">
           <motion.h2
-            className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800"
+            className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -143,7 +143,7 @@ export default function LandingPage() {
             Why kcain?
           </motion.h2>
           <motion.p
-            className="text-sat-gray-600 text-center max-w-2xl mx-auto mb-20 text-lg"
+            className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20 text-lg"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -159,25 +159,25 @@ export default function LandingPage() {
             variants={stagger}
           >
             {[
-              { icon: BookOpen, title: "Structured Path", description: "Visual skill tree with Math and Reading tracks. Unlock 18+ lessons as you progress." },
+              { icon: BookOpen, title: "Structured Path", description: "Visual skill tree with Math and Reading tracks. Unlock all 24 lessons as you progress." },
               { icon: Zap, title: "5–10 Min Lessons", description: "Short, focused sessions. Learn concepts then practice immediately." },
               { icon: Trophy, title: "XP & Streaks", description: "Earn points, build daily streaks. Gamified progress tracking." },
               { icon: Target, title: "SAT-Style Questions", description: "Realistic multiple choice with detailed explanations." },
             ].map(({ icon: Icon, title, description }) => (
               <motion.div
                 key={title}
-                className="card p-8 hover:shadow-2xl hover:shadow-sat-primary/10 transition-all duration-300 border-sat-gray-100"
+                className="card p-8 hover:shadow-2xl hover:shadow-sat-primary/10 dark:hover:shadow-sky-500/10 transition-all duration-300 border-sat-gray-100 dark:border-sat-gray-700"
                 variants={fadeUp}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
               >
                 <motion.div
-                  className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary/10 to-sat-crimson/10 flex items-center justify-center mb-6"
+                  className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary/10 to-sat-crimson/10 dark:from-sky-500/20 dark:to-sky-600/20 flex items-center justify-center mb-6"
                   whileHover={{ scale: 1.1, rotate: 5 }}
                 >
-                  <Icon className="w-7 h-7 text-sat-primary" />
+                  <Icon className="w-7 h-7 text-sat-primary dark:text-sky-400" />
                 </motion.div>
-                <h3 className="font-display font-bold text-xl mb-3">{title}</h3>
-                <p className="text-sat-gray-600 leading-relaxed">{description}</p>
+                <h3 className="font-display font-bold text-xl mb-3 dark:text-white">{title}</h3>
+                <p className="text-sat-gray-600 dark:text-sky-200 leading-relaxed">{description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -185,22 +185,22 @@ export default function LandingPage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-24 md:py-32 bg-white">
+      <section className="py-24 md:py-32 bg-white dark:bg-sat-gray-800">
         <div className="container mx-auto px-4">
           <motion.h2
-            className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800"
+            className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800 dark:text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
             How It Works
           </motion.h2>
-          <p className="text-sat-gray-600 text-center max-w-2xl mx-auto mb-20">Start today. Build momentum. Ace the SAT.</p>
+          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20">Start today. Build momentum. Ace the SAT.</p>
 
           <div className="max-w-3xl mx-auto space-y-10">
             {[
               { step: 1, title: "Sign up in seconds", desc: "Create a free account. No credit card required." },
-              { step: 2, title: "Choose your path", desc: "Pick Math or Reading & Writing. 18+ lessons to unlock." },
+              { step: 2, title: "Choose your path", desc: "Pick Math or Reading & Writing. 24 lessons to unlock." },
               { step: 3, title: "Complete lessons", desc: "5–10 minute lessons with concepts and practice. Immediate feedback." },
               { step: 4, title: "Track & improve", desc: "Dashboard, streaks, topic strengths. Unlock premium for unlimited access." },
             ].map(({ step, title, desc }) => (
@@ -213,14 +213,14 @@ export default function LandingPage() {
                 transition={{ delay: step * 0.1 }}
               >
                 <motion.div
-                  className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson text-white flex items-center justify-center font-display font-bold text-lg shadow-lg shadow-sat-primary/30"
+                  className="flex-shrink-0 w-14 h-14 rounded-2xl bg-gradient-to-br from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 text-white flex items-center justify-center font-display font-bold text-lg shadow-lg shadow-sat-primary/30 dark:shadow-sky-500/30"
                   whileHover={{ scale: 1.1 }}
                 >
                   {step}
                 </motion.div>
                 <div>
-                  <h3 className="font-display font-bold text-xl mb-1">{title}</h3>
-                  <p className="text-sat-gray-600">{desc}</p>
+                  <h3 className="font-display font-bold text-xl mb-1 dark:text-white">{title}</h3>
+                  <p className="text-sat-gray-600 dark:text-sky-200">{desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -288,7 +288,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      <footer className="py-10 bg-sat-gray-900 text-sat-gray-400 text-center text-sm">
+      <footer className="py-10 bg-sat-gray-900 text-sat-gray-400 dark:text-sky-300/80 text-center text-sm">
         <p>© {new Date().getFullYear()} kcain</p>
       </footer>
     </div>

@@ -266,6 +266,8 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Clarity & Conciseness" },
       { type: "text", content: "SAT rewards clear, concise writing. Avoid redundancy. Put the main idea first. Transitions should connect ideas logically." },
+      { type: "example", content: "Wordy: 'In order to be able to succeed' → Concise: 'To succeed'" },
+      { type: "tip", content: "SAT TIP: When all choices are grammatically correct, choose the shortest one that keeps the meaning. Cut filler phrases like 'due to the fact that' and 'in order to.'" },
     ],
     question: {
       id: "q14",
@@ -287,6 +289,8 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Central Idea" },
       { type: "text", content: "The main idea is what the passage is mostly about. Author's purpose: inform, persuade, or entertain. Look at the overall structure." },
+      { type: "example", content: "If a passage describes how a scientist discovered a process step-by-step, the purpose is likely to inform or explain." },
+      { type: "tip", content: "SAT TIP: Main idea answers are rarely in one sentence—they synthesize the whole passage. Wrong answers often focus on one detail or are too broad." },
     ],
     question: {
       id: "q15",
@@ -308,6 +312,8 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Author's Choices" },
       { type: "text", content: "Why did the author use this word, structure, or example? Consider tone, audience, and effect on the reader." },
+      { type: "example", content: "Asking 'Why does the author quote this expert?' tests whether you see how evidence supports the argument." },
+      { type: "tip", content: "SAT TIP: Rhetoric = how the author says it, not what they say. Focus on effect: does it emphasize, contrast, qualify, or persuade?" },
     ],
     question: {
       id: "q16",
@@ -329,6 +335,8 @@ export const LESSONS: Record<string, LessonData> = {
     content: [
       { type: "heading", content: "Supporting Claims" },
       { type: "text", content: "Claims need evidence. Evidence must be relevant and sufficient. Avoid options that are too broad or too narrow for the claim." },
+      { type: "example", content: "Claim: 'The program was effective.' Strong evidence: specific results (e.g., 'scores rose 20%'). Weak: vague praise." },
+      { type: "tip", content: "SAT TIP: For 'which choice best supports' questions, eliminate evidence that is off-topic or only loosely related. The best answer directly proves the claim." },
     ],
     question: {
       id: "q17",
@@ -473,6 +481,15 @@ export const LESSONS: Record<string, LessonData> = {
   },
 };
 
+/** Ordered lesson IDs (Math 1–10, Reading 11–18, Math 19–21, Reading 22–24) for next/prev navigation */
+export const LESSON_ORDER: string[] = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24"];
+
 export function getLesson(id: string): LessonData | undefined {
   return LESSONS[id];
+}
+
+export function getNextLessonId(currentId: string): string | null {
+  const i = LESSON_ORDER.indexOf(currentId);
+  if (i === -1 || i === LESSON_ORDER.length - 1) return null;
+  return LESSON_ORDER[i + 1] ?? null;
 }
