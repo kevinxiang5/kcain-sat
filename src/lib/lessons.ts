@@ -11,12 +11,36 @@ export interface PracticeQuestion {
   explanation: string;
 }
 
+/** Desmos hack (math) or reading hack slide shown between practice questions */
+export interface HackSlide {
+  type: "desmos" | "reading";
+  title: string;
+  content: string;
+  /** Optional link, e.g. Desmos graphing calculator URL */
+  url?: string;
+}
+
 export interface LessonData {
   id: string;
   title: string;
   content: ContentBlock[];
   question: PracticeQuestion;
   xpReward: number;
+  /** When set, lesson uses multiple questions instead of single `question` */
+  questions?: PracticeQuestion[];
+  /** Optional hack slides shown after each question (index i = after question i) */
+  hackSlides?: HackSlide[];
+}
+
+/** Returns the list of practice questions for a lesson (multiple or single). */
+export function getLessonQuestions(lesson: LessonData): PracticeQuestion[] {
+  if (lesson.questions && lesson.questions.length > 0) return lesson.questions;
+  return [lesson.question];
+}
+
+/** Returns hack slides for a lesson (empty if none). */
+export function getLessonHackSlides(lesson: LessonData): HackSlide[] {
+  return lesson.hackSlides ?? [];
 }
 
 export const LESSONS: Record<string, LessonData> = {
@@ -40,6 +64,37 @@ export const LESSONS: Record<string, LessonData> = {
       correctKey: "C",
       explanation: "Subtract 7 from both sides: 3x = 15. Divide by 3: x = 5.",
     },
+    questions: [
+      {
+        id: "q1a",
+        question: "If 3x + 7 = 22, what is the value of x?",
+        options: [{ key: "A", text: "3" }, { key: "B", text: "4" }, { key: "C", text: "5" }, { key: "D", text: "6" }],
+        correctKey: "C",
+        explanation: "Subtract 7 from both sides: 3x = 15. Divide by 3: x = 5.",
+      },
+      {
+        id: "q1b",
+        question: "Solve: 2x - 5 = 11",
+        options: [{ key: "A", text: "3" }, { key: "B", text: "6" }, { key: "C", text: "8" }, { key: "D", text: "9" }],
+        correctKey: "C",
+        explanation: "Add 5: 2x = 16. Divide by 2: x = 8.",
+      },
+      {
+        id: "q1c",
+        question: "If -4x + 3 = 19, then x = ?",
+        options: [{ key: "A", text: "-4" }, { key: "B", text: "-5.5" }, { key: "C", text: "4" }, { key: "D", text: "5.5" }],
+        correctKey: "A",
+        explanation: "Subtract 3: -4x = 16. Divide by -4: x = -4.",
+      },
+    ],
+    hackSlides: [
+      {
+        type: "desmos",
+        title: "Desmos hack: See the line",
+        content: "Graph y = mx + b in Desmos to see how slope (m) and y-intercept (b) change the line. Try y = 2x + 1, then y = -x + 3. On the SAT you can use the Desmos graphing calculator in the math section—type your equation to check your answer or visualize systems.",
+        url: "https://www.desmos.com/calculator",
+      },
+    ],
   },
   "2": {
     id: "2",
@@ -242,6 +297,51 @@ export const LESSONS: Record<string, LessonData> = {
       correctKey: "B",
       explanation: "Evidence must directly and clearly support your answer.",
     },
+    questions: [
+      {
+        id: "q11a",
+        question: "When asked for evidence, you should choose the option that:",
+        options: [
+          { key: "A", text: "Sounds most impressive" },
+          { key: "B", text: "Directly supports your previous answer" },
+          { key: "C", text: "Is the longest quote" },
+          { key: "D", text: "Appears first in the passage" },
+        ],
+        correctKey: "B",
+        explanation: "Evidence must directly and clearly support your answer.",
+      },
+      {
+        id: "q11b",
+        question: "For paired evidence questions, the best order is:",
+        options: [
+          { key: "A", text: "Pick the evidence first, then the main answer" },
+          { key: "B", text: "Answer the main question first, then find supporting lines" },
+          { key: "C", text: "Skip the main question" },
+          { key: "D", text: "Choose the longest evidence option" },
+        ],
+        correctKey: "B",
+        explanation: "Answer the main question first, then select the lines that prove that answer.",
+      },
+      {
+        id: "q11c",
+        question: "Wrong evidence choices often:",
+        options: [
+          { key: "A", text: "Directly prove your answer" },
+          { key: "B", text: "Sound relevant but don't actually support your claim" },
+          { key: "C", text: "Come from the wrong passage" },
+          { key: "D", text: "Are too short" },
+        ],
+        correctKey: "B",
+        explanation: "Wrong answers often seem related but don't logically support your specific claim.",
+      },
+    ],
+    hackSlides: [
+      {
+        type: "reading",
+        title: "Reading hack: Answer first, then prove it",
+        content: "On paired questions, lock in your main answer before looking at evidence. Then ask: 'Which quote actually shows or states this?' If you pick evidence first, you might be led to a wrong main answer. In the test, you can underline the sentence you think supports your answer and double-check that it proves your choice, not just the topic.",
+      },
+    ],
   },
   "12": {
     id: "12",

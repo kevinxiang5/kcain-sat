@@ -1,17 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ChevronRight, Check, X, Sparkles, LayoutDashboard } from "lucide-react";
+import { ChevronRight, Check, X, Sparkles, LayoutDashboard, ExternalLink, BookOpen } from "lucide-react";
 import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
-import { getLesson, getNextLessonId } from "@/lib/lessons";
+import {
+  getLesson,
+  getNextLessonId,
+  getLessonQuestions,
+  getLessonHackSlides,
+  type PracticeQuestion,
+  type HackSlide,
+} from "@/lib/lessons";
+
+type FlowStep = "content" | `q:${number}` | `r:${number}` | `h:${number}` | "done";
+
+function buildFlow(questionCount: number, hackSlides: HackSlide[]): FlowStep[] {
+  const steps: FlowStep[] = ["content"];
+  for (let i = 0; i < questionCount; i++) {
+    steps.push(`q:${i}` as FlowStep);
+    steps.push(`r:${i}` as FlowStep);
+    if (hackSlides[i]) steps.push(`h:${i}` as FlowStep);
+  }
+  steps.push("done");
+  return steps;
+}
 
 export function LessonViewer({ lessonId }: { lessonId: string }) {
   const lesson = getLesson(lessonId);
-  const [step, setStep] = useState<"content" | "question" | "result">("content");
+  const questions = lesson ? getLessonQuestions(lesson) : [];
+  const hackSlides = lesson ? getLessonHackSlides(lesson) : [];
+  const flow = useMemo(() => buildFlow(questions.length, hackSlides), [questions.length, hackSlides.length]);
+
+  const [flowIndex, setFlowIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
-  const [showResult, setShowResult] = useState(false);
+  const completedRef = useRef(false);
 
   if (!lesson) {
     return (
@@ -20,38 +44,55 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         animate={{ opacity: 1 }}
         className="text-center py-12"
       >
-        <p className="text-sat-gray-600 dark:text-sky-200">Lesson not found.{" "}
-          <Link href="/dashboard" className="text-sat-primary dark:text-sky-400 font-medium hover:underline">Back to Dashboard</Link>
+        <p className="text-sat-gray-600 dark:text-sky-200">
+          Lesson not found.{" "}
+          <Link href="/dashboard" className="text-sat-primary dark:text-sky-400 font-medium hover:underline">
+            Back to Dashboard
+          </Link>
         </p>
       </motion.div>
     );
   }
 
-  const { content, question } = lesson;
+  const { content } = lesson;
+  const step = flow[flowIndex] ?? "content";
+  const nextLessonId = getNextLessonId(lesson.id);
+  const nextLesson = nextLessonId ? getLesson(nextLessonId) : null;
 
-  const handleAnswer = (key: string) => {
-    if (showResult) return;
-    setSelectedAnswer(key);
+  const progressWidth = flow.length <= 1 ? "100%" : `${(flowIndex / (flow.length - 1)) * 100}%`;
+
+  const handleCheck = (q: PracticeQuestion) => {
+    setFlowIndex((i) => i + 1);
   };
 
-  const handleCheck = () => {
-    setShowResult(true);
-    setStep("result");
-    const correct = selectedAnswer === question.correctKey;
-    if (correct) {
+  useEffect(() => {
+    if (step === "done" && !completedRef.current) {
+      completedRef.current = true;
       fetch("/api/progress/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lessonId }),
       }).catch(() => {});
     }
+  }, [step, lessonId]);
+
+  const handleNextFromResult = () => {
+    setSelectedAnswer(null);
+    setFlowIndex((i) => i + 1);
   };
 
-  const isCorrect = selectedAnswer === question.correctKey;
-  const nextLessonId = getNextLessonId(lesson.id);
-  const nextLesson = nextLessonId ? getLesson(nextLessonId) : null;
+  const handleNextFromHack = () => {
+    setFlowIndex((i) => i + 1);
+  };
 
-  const progressWidth = step === "content" ? "33%" : step === "question" ? "66%" : "100%";
+  // Current question index when step is q:i or r:i
+  const questionIndex = step.startsWith("q:") || step.startsWith("r:") ? parseInt(step.split(":")[1] ?? "0", 10) : 0;
+  const currentQuestion = questions[questionIndex] ?? questions[0]!;
+  const isCorrect = currentQuestion && selectedAnswer === currentQuestion.correctKey;
+  const isResultStep = step.startsWith("r:");
+  const isHackStep = step.startsWith("h:");
+  const hackIndex = isHackStep ? parseInt(step.split(":")[1] ?? "0", 10) : 0;
+  const currentHack = hackSlides[hackIndex];
 
   return (
     <motion.div
@@ -60,13 +101,12 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
     >
-      {/* Progress bar */}
       <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full mb-10 overflow-hidden">
         <motion.div
           className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600 rounded-full"
-          initial={{ width: 0 }}
+          initial={false}
           animate={{ width: progressWidth }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
         />
       </div>
 
@@ -87,18 +127,22 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
                 className={clsx(
-                  block.type === "heading" && "text-2xl font-display font-bold bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent",
+                  block.type === "heading" &&
+                    "text-2xl font-display font-bold bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent",
                   block.type === "text" && "text-sat-gray-700 dark:text-sky-200 leading-relaxed",
-                  block.type === "example" && "p-5 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 dark:from-sky-500/10 dark:to-sky-600/10 rounded-2xl border border-sat-primary/20 dark:border-sky-500/30 italic dark:text-sky-100",
-                  block.type === "formula" && "p-5 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl font-mono text-lg border border-sat-gray-200 dark:border-sat-gray-600 dark:text-sky-100",
-                  block.type === "tip" && "p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border-l-4 border-amber-500 dark:border-sky-500 font-medium text-sat-gray-800 dark:text-sky-100"
+                  block.type === "example" &&
+                    "p-5 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 dark:from-sky-500/10 dark:to-sky-600/10 rounded-2xl border border-sat-primary/20 dark:border-sky-500/30 italic dark:text-sky-100",
+                  block.type === "formula" &&
+                    "p-5 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl font-mono text-lg border border-sat-gray-200 dark:border-sat-gray-600 dark:text-sky-100",
+                  block.type === "tip" &&
+                    "p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border-l-4 border-amber-500 dark:border-sky-500 font-medium text-sat-gray-800 dark:text-sky-100"
                 )}
               >
                 {block.content}
               </motion.div>
             ))}
             <motion.button
-              onClick={() => setStep("question")}
+              onClick={() => setFlowIndex(1)}
               className="btn-primary inline-flex items-center gap-2 mt-8"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -109,22 +153,24 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
           </motion.div>
         )}
 
-        {step === "question" && (
+        {step.startsWith("q:") && currentQuestion && (
           <motion.div
-            key="question"
+            key={step}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
             className="space-y-6"
           >
-            <h2 className="text-xl font-display font-bold dark:text-white">Practice</h2>
-            <p className="text-sat-gray-700 dark:text-sky-200 text-lg">{question.question}</p>
+            <h2 className="text-xl font-display font-bold dark:text-white">
+              Practice {questions.length > 1 ? `(${questionIndex + 1} of ${questions.length})` : ""}
+            </h2>
+            <p className="text-sat-gray-700 dark:text-sky-200 text-lg">{currentQuestion.question}</p>
             <div className="space-y-3">
-              {question.options.map((opt, i) => (
+              {currentQuestion.options.map((opt, i) => (
                 <motion.button
                   key={opt.key}
-                  onClick={() => handleAnswer(opt.key)}
+                  onClick={() => setSelectedAnswer(opt.key)}
                   initial={{ opacity: 0, x: -10 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
@@ -144,7 +190,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
               ))}
             </div>
             <motion.button
-              onClick={handleCheck}
+              onClick={() => handleCheck(currentQuestion)}
               disabled={!selectedAnswer}
               className="btn-primary w-full py-4 disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{ scale: selectedAnswer ? 1.01 : 1 }}
@@ -155,18 +201,21 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
           </motion.div>
         )}
 
-        {step === "result" && (
+        {isResultStep && currentQuestion && (
           <motion.div
-            key="result"
+            key={step}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, x: -20 }}
             transition={{ type: "spring", stiffness: 300 }}
             className="space-y-6"
           >
             <motion.div
               className={clsx(
                 "p-8 rounded-2xl flex items-center gap-6",
-                isCorrect ? "bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 border-2 border-emerald-200 dark:border-emerald-700" : "bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 border-2 border-red-200 dark:border-red-700"
+                isCorrect
+                  ? "bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 border-2 border-emerald-200 dark:border-emerald-700"
+                  : "bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-900/30 dark:to-rose-900/30 border-2 border-red-200 dark:border-red-700"
               )}
               initial={{ scale: 0.9 }}
               animate={{ scale: 1 }}
@@ -184,7 +233,9 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                   </motion.div>
                   <div>
                     <h3 className="font-display font-bold text-2xl text-emerald-800 dark:text-emerald-200">Correct!</h3>
-                    <p className="text-emerald-700 dark:text-emerald-300">+{lesson.xpReward} XP earned</p>
+                    <p className="text-emerald-700 dark:text-emerald-300">
+                      {questions.length > 1 ? `Question ${questionIndex + 1} of ${questions.length}` : `+${lesson.xpReward} XP earned`}
+                    </p>
                   </div>
                 </>
               ) : (
@@ -211,7 +262,96 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
               transition={{ delay: 0.3 }}
             >
               <p className="font-bold mb-2 text-sat-gray-800 dark:text-white">Explanation</p>
-              <p className="text-sat-gray-700 dark:text-sky-200">{question.explanation}</p>
+              <p className="text-sat-gray-700 dark:text-sky-200">{currentQuestion.explanation}</p>
+            </motion.div>
+            <motion.button
+              onClick={handleNextFromResult}
+              className="btn-primary w-full py-4 inline-flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+            >
+              Next
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        )}
+
+        {isHackStep && currentHack && (
+          <motion.div
+            key={step}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-6"
+          >
+            <div
+              className={clsx(
+                "p-8 rounded-2xl border-2",
+                currentHack.type === "desmos"
+                  ? "bg-sky-50 dark:bg-sky-900/20 border-sky-200 dark:border-sky-700"
+                  : "bg-violet-50 dark:bg-violet-900/20 border-violet-200 dark:border-violet-700"
+              )}
+            >
+              <div className="flex items-center gap-3 mb-4">
+                {currentHack.type === "desmos" ? (
+                  <ExternalLink className="w-8 h-8 text-sky-600 dark:text-sky-400 shrink-0" />
+                ) : (
+                  <BookOpen className="w-8 h-8 text-violet-600 dark:text-violet-400 shrink-0" />
+                )}
+                <h2 className="text-xl font-display font-bold dark:text-white">{currentHack.title}</h2>
+              </div>
+              <p className="text-sat-gray-700 dark:text-sky-200 leading-relaxed mb-6">{currentHack.content}</p>
+              {currentHack.url && (
+                <a
+                  href={currentHack.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sky-600 dark:text-sky-400 font-medium hover:underline"
+                >
+                  Open Desmos calculator
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              )}
+            </div>
+            <motion.button
+              onClick={handleNextFromHack}
+              className="btn-primary w-full py-4 inline-flex items-center justify-center gap-2"
+              whileHover={{ scale: 1.01 }}
+              whileTap={{ scale: 0.99 }}
+            >
+              Continue
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
+          </motion.div>
+        )}
+
+        {step === "done" && (
+          <motion.div
+            key="done"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="space-y-6"
+          >
+            <motion.div
+              className="p-8 rounded-2xl flex items-center gap-6 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 border-2 border-emerald-200 dark:border-emerald-700"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ type: "spring", delay: 0.1 }}
+            >
+              <motion.div
+                className="w-16 h-16 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center shadow-lg"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ type: "spring", delay: 0.2, stiffness: 200 }}
+              >
+                <Check className="w-8 h-8 text-white" />
+              </motion.div>
+              <div>
+                <h3 className="font-display font-bold text-2xl text-emerald-800 dark:text-emerald-200">Lesson complete!</h3>
+                <p className="text-emerald-700 dark:text-emerald-300">+{lesson.xpReward} XP earned</p>
+              </div>
             </motion.div>
             <div className="flex flex-col sm:flex-row gap-3">
               {nextLesson ? (
@@ -236,7 +376,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                   whileTap={{ scale: 0.98 }}
                 >
                   <LayoutDashboard className="w-5 h-5" />
-                  {nextLesson ? "Back to Dashboard" : "Back to Dashboard"}
+                  Back to Dashboard
                 </motion.span>
               </Link>
             </div>
