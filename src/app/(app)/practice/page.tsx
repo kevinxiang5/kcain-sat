@@ -4,17 +4,26 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 const topics = [
-  { topic: "Math - Algebra", count: 45, difficulty: "Easy → Hard", href: "/practice/math-algebra" },
-  { topic: "Math - Quadratics", count: 25, difficulty: "Easy → Hard", href: "/practice/math-quadratics" },
-  { topic: "Math - Functions", count: 20, difficulty: "Easy → Hard", href: "/practice/math-functions" },
-  { topic: "Math - Data & Stats", count: 25, difficulty: "Easy → Hard", href: "/practice/math-data" },
-  { topic: "Math - Geometry", count: 30, difficulty: "Easy → Hard", href: "/practice/math-geometry" },
-  { topic: "Math - Mixed", count: "100+", difficulty: "Easy → Hard", href: "/practice/math-problem-solving" },
-  { topic: "Reading - Evidence", count: 15, difficulty: "Easy → Hard", href: "/practice/reading-evidence" },
-  { topic: "Reading - Words", count: 15, difficulty: "Easy → Hard", href: "/practice/reading-words" },
-  { topic: "Reading - Comprehension", count: 12, difficulty: "Easy → Hard", href: "/practice/reading-comprehension" },
-  { topic: "Writing - Conventions", count: 25, difficulty: "Easy → Hard", href: "/practice/writing-conventions" },
-  { topic: "Writing - Transitions", count: 12, difficulty: "Easy → Hard", href: "/practice/writing-transitions" },
+  { topic: "Math - Algebra", count: "50+", difficulty: "Easy → Very Hard", href: "/practice/math-algebra" },
+  { topic: "Math - Quadratics", count: "25+", difficulty: "Easy → Very Hard", href: "/practice/math-quadratics" },
+  { topic: "Math - Functions", count: "20+", difficulty: "Easy → Very Hard", href: "/practice/math-functions" },
+  { topic: "Math - Data & Stats", count: "25+", difficulty: "Easy → Very Hard", href: "/practice/math-data" },
+  { topic: "Math - Geometry", count: "30+", difficulty: "Easy → Very Hard", href: "/practice/math-geometry" },
+  { topic: "Math - Inequalities", count: "4", difficulty: "Easy → Very Hard", href: "/practice/math-inequalities" },
+  { topic: "Math - Exponentials", count: "4", difficulty: "Easy → Very Hard", href: "/practice/math-exponentials" },
+  { topic: "Math - Trigonometry", count: "4", difficulty: "Easy → Very Hard", href: "/practice/math-trigonometry" },
+  { topic: "Math - Word Problems", count: "4", difficulty: "Easy → Very Hard", href: "/practice/math-word-problems" },
+  { topic: "Math - Advanced", count: "4", difficulty: "Medium → Very Hard", href: "/practice/math-advanced" },
+  { topic: "Math - Mixed", count: "150+", difficulty: "Easy → Very Hard", href: "/practice/math-problem-solving" },
+  { topic: "Reading - Evidence", count: "20+", difficulty: "Easy → Very Hard", href: "/practice/reading-evidence" },
+  { topic: "Reading - Words", count: "15+", difficulty: "Easy → Very Hard", href: "/practice/reading-words" },
+  { topic: "Reading - Main Idea", count: "4", difficulty: "Easy → Very Hard", href: "/practice/reading-main-idea" },
+  { topic: "Reading - Tone", count: "4", difficulty: "Easy → Very Hard", href: "/practice/reading-tone" },
+  { topic: "Reading - Rhetoric", count: "4", difficulty: "Easy → Very Hard", href: "/practice/reading-rhetoric" },
+  { topic: "Reading - Comprehension", count: "15+", difficulty: "Easy → Very Hard", href: "/practice/reading-comprehension" },
+  { topic: "Writing - Conventions", count: "30+", difficulty: "Easy → Very Hard", href: "/practice/writing-conventions" },
+  { topic: "Writing - Conventions Advanced", count: "3", difficulty: "Medium → Very Hard", href: "/practice/writing-conventions-advanced" },
+  { topic: "Writing - Transitions", count: "15+", difficulty: "Easy → Very Hard", href: "/practice/writing-transitions" },
 ];
 
 export default function PracticePage() {

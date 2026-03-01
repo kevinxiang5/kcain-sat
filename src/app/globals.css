@@ -48,6 +48,12 @@
   .dark .path-line {
     --path-color: #374151;
   }
+  .path-snake {
+    stroke: #e5e7eb;
+  }
+  .dark .path-snake {
+    stroke: #374151;
+  }
 
   .path-node--circle {
     @apply w-14 h-14 rounded-full flex flex-col items-center justify-center

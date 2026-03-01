@@ -17,10 +17,19 @@ const TOPIC_LABELS: Record<string, string> = {
   "math-functions": "Math – Functions",
   "math-data": "Math – Data & Statistics",
   "math-geometry": "Math – Geometry",
+  "math-inequalities": "Math – Inequalities",
+  "math-exponentials": "Math – Exponentials",
+  "math-trigonometry": "Math – Trigonometry",
+  "math-word-problems": "Math – Word Problems",
+  "math-advanced": "Math – Advanced",
   "reading-evidence": "Reading – Evidence",
   "reading-words": "Reading – Words in Context",
+  "reading-main-idea": "Reading – Main Idea",
+  "reading-tone": "Reading – Tone",
+  "reading-rhetoric": "Reading – Rhetoric",
   "reading-comprehension": "Reading – Comprehension",
   "writing-conventions": "Writing – Conventions",
+  "writing-conventions-advanced": "Writing – Conventions Advanced",
   "writing-transitions": "Writing – Transitions",
 };
 
@@ -31,10 +40,19 @@ const TOPIC_MAP: Record<string, string> = {
   "math-functions": "functions",
   "math-data": "data",
   "math-geometry": "geometry",
+  "math-inequalities": "inequalities",
+  "math-exponentials": "exponentials",
+  "math-trigonometry": "trigonometry",
+  "math-word-problems": "word-problems",
+  "math-advanced": "advanced-math",
   "reading-evidence": "evidence",
   "reading-words": "words",
+  "reading-main-idea": "main-idea",
+  "reading-tone": "tone",
+  "reading-rhetoric": "rhetoric",
   "reading-comprehension": "reading",
   "writing-conventions": "grammar",
+  "writing-conventions-advanced": "conventions-advanced",
   "writing-transitions": "transitions",
 };
 
@@ -45,7 +63,7 @@ export default function PracticeTopicPage() {
   const topic = TOPIC_MAP[topicSlug] || "algebra";
   const label = TOPIC_LABELS[topicSlug] || topicSlug;
 
-  const [difficulty, setDifficulty] = useState<"all" | "easy" | "medium" | "hard">("all");
+  const [difficulty, setDifficulty] = useState<"all" | "easy" | "medium" | "hard" | "very_hard">("all");
   const [questions, setQuestions] = useState<PracticeBankQuestion[]>([]);
   const [questionsLoading, setQuestionsLoading] = useState(true);
   const [current, setCurrent] = useState(0);
@@ -54,7 +72,7 @@ export default function PracticeTopicPage() {
   const [showResult, setShowResult] = useState(false);
 
   useEffect(() => {
-    const diff = difficulty === "all" ? undefined : difficulty;
+    const diff = difficulty === "all" ? undefined : difficulty as "easy" | "medium" | "hard" | "very_hard";
     setCurrent(0);
     setSelected(null);
     setShowResult(false);
@@ -136,7 +154,7 @@ export default function PracticeTopicPage() {
           </span>
         </div>
         <div className="flex gap-2 text-sm">
-          {(["all", "easy", "medium", "hard"] as const).map((d) => (
+          {(["all", "easy", "medium", "hard", "very_hard"] as const).map((d) => (
             <button
               key={d}
               onClick={() => setDifficulty(d)}
@@ -146,7 +164,7 @@ export default function PracticeTopicPage() {
                   : "border-sat-gray-200 text-sat-gray-600 hover:border-sat-gray-300 dark:border-sat-gray-600 dark:text-sat-gray-400"
               }`}
             >
-              {d === "all" ? "All" : d[0].toUpperCase() + d.slice(1)}
+              {d === "all" ? "All" : d === "very_hard" ? "Very Hard" : d[0].toUpperCase() + d.slice(1)}
             </button>
           ))}
         </div>

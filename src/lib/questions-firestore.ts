@@ -9,15 +9,15 @@ import {
 import { getDb, isFirebaseConfigured } from "./firebase";
 import type { PracticeBankQuestion } from "./questions";
 
-const MATH_TOPICS = ["algebra", "quadratics", "functions", "data", "geometry"];
-const READING_TOPICS = ["evidence", "words", "reading", "grammar", "transitions"];
-const DIFF_ORDER = { easy: 0, medium: 1, hard: 2 };
+const MATH_TOPICS = ["algebra", "quadratics", "functions", "data", "geometry", "inequalities", "exponentials", "trigonometry", "word-problems", "advanced-math"];
+const READING_TOPICS = ["evidence", "words", "reading", "grammar", "transitions", "main-idea", "tone", "rhetoric", "conventions-advanced"];
+const DIFF_ORDER = { easy: 0, medium: 1, hard: 2, very_hard: 3 };
 
 function mapDocToQuestion(id: string, data: Record<string, unknown>): PracticeBankQuestion {
   return {
     id: id || (data.id as string),
     topic: (data.topic as string) || "algebra",
-    difficulty: (data.difficulty as "easy" | "medium" | "hard") || "easy",
+    difficulty: (data.difficulty as "easy" | "medium" | "hard" | "very_hard") || "easy",
     question: (data.question as string) || "",
     options: Array.isArray(data.options)
       ? (data.options as { key: string; text: string }[])
@@ -32,7 +32,7 @@ function mapDocToQuestion(id: string, data: Record<string, unknown>): PracticeBa
  */
 export async function fetchQuestionsFromFirestore(
   topic: string,
-  difficulty: "all" | "easy" | "medium" | "hard" | undefined,
+  difficulty: "all" | "easy" | "medium" | "hard" | "very_hard" | undefined,
   limitCount: number
 ): Promise<PracticeBankQuestion[]> {
   if (!isFirebaseConfigured()) return [];

@@ -93,20 +93,36 @@ export function SkillTree() {
           <h2 className="text-lg font-semibold text-sat-gray-700 dark:text-sat-gray-300 mb-6 pl-1">
             {label}
           </h2>
-          <div className="relative flex flex-col items-center max-w-md mx-auto">
-            {/* Vertical path line */}
-            <div
-              className="absolute left-1/2 top-0 bottom-0 w-0.5 -translate-x-1/2 path-line"
+          <div className="relative flex flex-col max-w-md mx-auto w-full" style={{ minHeight: nodes.length * 88 }}>
+            {/* Snake path: zigzag through node positions */}
+            <svg
+              className="absolute inset-0 w-full h-full pointer-events-none"
+              viewBox={`0 0 100 ${nodes.length * 88}`}
+              preserveAspectRatio="none"
               aria-hidden
-            />
+            >
+              <path
+                d={[
+                  "M 50 0",
+                  ...nodes.map((_, i) => {
+                    const x = i % 2 === 0 ? 25 : 75;
+                    const y = 44 + i * 88;
+                    return `L ${x} ${y}`;
+                  }),
+                ].join(" ")}
+                fill="none"
+                className="path-snake"
+                strokeWidth="0.4"
+              />
+            </svg>
             {nodes.map((node, i) => {
               const isLeft = i % 2 === 0;
               const showReward = (i + 1) % 5 === 0 && i > 0;
               return (
                 <motion.div
                   key={node.id}
-                  className="relative flex items-center w-full"
-                  style={{ minHeight: showReward ? 100 : 88 }}
+                  className="relative grid w-full items-center gap-0 px-1"
+                  style={{ gridTemplateColumns: "1fr 2fr 1fr", minHeight: showReward ? 100 : 88 }}
                   variants={item}
                 >
                   {showReward && (
@@ -119,23 +135,21 @@ export function SkillTree() {
                       <Gift className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                     </div>
                   )}
-                  <div
-                    className={clsx(
-                      "flex items-center gap-4 w-full",
-                      isLeft ? "flex-row" : "flex-row-reverse"
+                  {/* Left zone (25%): node when isLeft */}
+                  <div className="flex items-center justify-end h-full pr-1">
+                    {isLeft ? <PathNode node={node} /> : null}
+                  </div>
+                  {/* Middle (50%): title */}
+                  <div className={clsx("flex items-center h-full px-2", isLeft ? "justify-start" : "justify-end")}>
+                    {(node.status === "available" || node.status === "current") && (
+                      <p className={clsx("text-sm font-medium text-sat-gray-700 dark:text-sat-gray-300 line-clamp-2", isLeft ? "text-left" : "text-right")}>
+                        {node.title}
+                      </p>
                     )}
-                  >
-                    <div className={clsx("flex-1", isLeft ? "text-right" : "text-left")}>
-                      {(node.status === "available" || node.status === "current") && (
-                        <p className="text-sm font-medium text-sat-gray-700 dark:text-sat-gray-300 line-clamp-2">
-                          {node.title}
-                        </p>
-                      )}
-                    </div>
-                    <div className="shrink-0">
-                      <PathNode node={node} />
-                    </div>
-                    <div className={clsx("flex-1 w-0", isLeft ? "text-left" : "text-right")} />
+                  </div>
+                  {/* Right zone (25%): node when !isLeft */}
+                  <div className="flex items-center justify-start h-full pl-1">
+                    {!isLeft ? <PathNode node={node} /> : null}
                   </div>
                 </motion.div>
               );
