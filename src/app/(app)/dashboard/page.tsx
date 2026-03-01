@@ -2,11 +2,10 @@
 
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { SkillTree } from "@/components/learn/SkillTree";
 import { ProgressTracker } from "@/components/dashboard/ProgressTracker";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen, Target, ArrowRight, Flame, Trophy, Zap, Lightbulb, Clock, ChevronRight, Star } from "lucide-react";
+import { BookOpen, Target, ArrowRight, Trophy, Zap, Lightbulb, Clock, ChevronRight, Star } from "lucide-react";
 import { LESSONS } from "@/lib/lessons";
 
 const MATH_IDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "19", "20", "21"];
@@ -145,7 +144,7 @@ export default function DashboardPage() {
               ))}
             </ul>
           ) : (
-            <p className="text-sat-gray-500 dark:text-sky-300 py-6">No lessons completed yet. Start your first lesson below!</p>
+            <p className="text-sat-gray-500 dark:text-sky-300 py-6">No lessons completed yet. Go to the <Link href="/lessons" className="text-sky-600 dark:text-sky-400 font-medium hover:underline">Lessons</Link> tab to start!</p>
           )}
         </motion.div>
         <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
@@ -179,18 +178,13 @@ export default function DashboardPage() {
         </motion.div>
       )}
 
-      <motion.div className="mb-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36 }}>
-        <h2 className="text-xl font-display font-bold mb-1 text-sat-gray-900 dark:text-white">
-          Learning Path (Lessons)
-        </h2>
-        <p className="text-sat-gray-600 dark:text-sat-gray-400 text-sm">Complete lessons in order to unlock the next. Tap a circle to play.</p>
-      </motion.div>
-
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-        <SkillTree />
-      </motion.div>
-
-      <motion.div className="flex flex-col sm:flex-row gap-4 mt-14" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.45 }}>
+      <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.36 }}>
+        <Link href="/lessons">
+          <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+            <BookOpen className="w-5 h-5" />
+            Lessons
+          </motion.span>
+        </Link>
         <Link href="/practice">
           <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
             <Target className="w-5 h-5" />
@@ -199,7 +193,6 @@ export default function DashboardPage() {
         </Link>
         <Link href="/plans" target="_blank" rel="noopener noreferrer">
           <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-            <Flame className="w-5 h-5" />
             View Plans
           </motion.span>
         </Link>

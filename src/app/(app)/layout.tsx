@@ -31,10 +31,12 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex bg-sat-cream dark:bg-sat-gray-900">
+    <div className="h-screen flex bg-sat-cream dark:bg-sat-gray-900 overflow-hidden">
       <AppSidebar />
-      <main className="flex-1 min-w-0 lg:pl-0 pl-14 pt-14 lg:pt-0">
-        <div className="p-4 md:p-6 lg:p-8">{children}</div>
+      <main className="flex-1 min-w-0 min-h-0 flex flex-col lg:pl-0 pl-14 pt-14 lg:pt-0">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+          <div className="p-4 md:p-6 lg:p-8">{children}</div>
+        </div>
       </main>
     </div>
   );

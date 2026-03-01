@@ -23,6 +23,7 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const mainLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/lessons", label: "Lessons", icon: BookOpen },
   { href: "/full-test", label: "Full Test", icon: FileQuestion },
   { href: "/calendar", label: "Calendar", icon: Calendar },
   { href: "/practice", label: "Practice", icon: Target },
@@ -35,11 +36,12 @@ export function AppSidebar() {
 
   const isActive = (href: string) => {
     if (href === "/dashboard") return pathname === "/dashboard";
+    if (href === "/lessons") return pathname === "/lessons";
     return pathname.startsWith(href);
   };
 
   const sidebar = (
-    <aside className="flex flex-col w-64 min-h-screen border-r border-sat-gray-200 dark:border-sat-gray-700 bg-white dark:bg-sat-gray-900 shrink-0">
+    <aside className="flex flex-col w-64 h-screen border-r border-sat-gray-200 dark:border-sat-gray-700 bg-white dark:bg-sat-gray-900 shrink-0 overflow-hidden">
       <div className="p-4 border-b border-sat-gray-100 dark:border-sat-gray-800">
         <Link href="/dashboard" className="flex items-center gap-2" onClick={() => setMobileOpen(false)}>
           <KcainLogo size="md" />
