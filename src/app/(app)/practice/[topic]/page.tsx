@@ -6,6 +6,9 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X } from "lucide-react";
 import { getQuestionsByDifficultyOrdered } from "@/lib/questions";
+import { fetchQuestionsFromFirestore } from "@/lib/questions-firestore";
+import { isFirebaseConfigured } from "@/lib/firebase";
+import type { PracticeBankQuestion } from "@/lib/questions";
 
 const TOPIC_LABELS: Record<string, string> = {
   "math-algebra": "Math – Algebra",
@@ -43,7 +46,8 @@ export default function PracticeTopicPage() {
   const label = TOPIC_LABELS[topicSlug] || topicSlug;
 
   const [difficulty, setDifficulty] = useState<"all" | "easy" | "medium" | "hard">("all");
-  const [questions, setQuestions] = useState<ReturnType<typeof getQuestionsByDifficultyOrdered>>([]);
+  const [questions, setQuestions] = useState<PracticeBankQuestion[]>([]);
+  const [questionsLoading, setQuestionsLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [score, setScore] = useState(0);
@@ -51,11 +55,26 @@ export default function PracticeTopicPage() {
 
   useEffect(() => {
     const diff = difficulty === "all" ? undefined : difficulty;
-    setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
     setCurrent(0);
     setSelected(null);
     setShowResult(false);
     setScore(0);
+    setQuestionsLoading(true);
+
+    if (isFirebaseConfigured()) {
+      fetchQuestionsFromFirestore(topic, diff ?? "all", 15)
+        .then((list) => {
+          setQuestions(list);
+          setQuestionsLoading(false);
+        })
+        .catch(() => {
+          setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
+          setQuestionsLoading(false);
+        });
+    } else {
+      setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
+      setQuestionsLoading(false);
+    }
   }, [topic, difficulty]);
 
   const q = questions[current];
@@ -75,10 +94,17 @@ export default function PracticeTopicPage() {
 
   const handleFinish = () => router.push("/practice");
 
-  if (questions.length === 0) {
+  if (questionsLoading || questions.length === 0) {
     return (
       <div className="max-w-2xl mx-auto py-10">
+        <Link href="/practice" className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary dark:text-sky-200 dark:hover:text-sky-400 mb-8 font-medium">
+          <ArrowLeft className="w-4 h-4" />
+          Back
+        </Link>
         <div className="animate-pulse h-64 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl" />
+        {!questionsLoading && questions.length === 0 && (
+          <p className="mt-4 text-sat-gray-600 dark:text-sat-gray-400 text-sm">No questions found. Try another topic or difficulty.</p>
+        )}
       </div>
     );
   }

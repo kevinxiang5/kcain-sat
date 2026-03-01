@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 import { BookOpen, Target, ArrowRight, Trophy, Zap, Lightbulb, Clock, ChevronRight, Star } from "lucide-react";
 import { LESSONS } from "@/lib/lessons";
 
-const MATH_IDS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "19", "20", "21"];
-const READING_IDS = ["11", "12", "13", "14", "15", "16", "17", "18", "22", "23", "24"];
+const MATH_IDS = ["1", "2", "3", "R1", "4", "5", "6", "R2", "7", "8", "9", "10", "R3", "19", "20", "21", "R4", "25", "26", "27", "28", "29", "35", "36", "37", "38", "39", "45", "46", "47", "48", "49", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64"];
+const READING_IDS = ["11", "12", "13", "R5", "14", "15", "16", "R6", "17", "18", "22", "23", "24", "R7", "30", "31", "32", "33", "34", "40", "41", "42", "43", "44", "50", "51", "52", "53", "54", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74"];
 const SAT_TIPS = [
   "Plug answer choices back in—start with B or C; they're correct more often than A or D.",
   "For paired evidence questions, answer the main question first, then find the line that proves it.",
@@ -43,7 +43,8 @@ export default function DashboardPage() {
   const lessonsCompleted = progress.completedLessonIds.length;
   const mathPercent = Math.round((progress.mathCompleted / MATH_IDS.length) * 100);
   const readingPercent = Math.round((progress.readingCompleted / READING_IDS.length) * 100);
-  const totalPercent = Math.round((lessonsCompleted / 24) * 100);
+  const TOTAL_LESSONS = MATH_IDS.length + READING_IDS.length;
+  const totalPercent = Math.round((lessonsCompleted / TOTAL_LESSONS) * 100);
   const level = Math.floor(progress.totalXP / 50) + 1;
   const xpToNext = 50 - (progress.totalXP % 50);
   const nextTip = SAT_TIPS[progress.totalXP % SAT_TIPS.length] ?? SAT_TIPS[0]!;
@@ -121,7 +122,7 @@ export default function DashboardPage() {
           <div className="h-1.5 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full overflow-hidden">
             <motion.div className="h-full bg-amber-500 dark:bg-amber-600" initial={{ width: 0 }} animate={{ width: `${totalPercent}%` }} transition={{ duration: 0.8 }} />
           </div>
-          <p className="text-xs text-sat-gray-600 dark:text-sat-gray-400 mt-1">{lessonsCompleted}/24 · {totalPercent}%</p>
+          <p className="text-xs text-sat-gray-600 dark:text-sat-gray-400 mt-1">{lessonsCompleted}/{TOTAL_LESSONS} · {totalPercent}%</p>
         </motion.div>
       </div>
 
