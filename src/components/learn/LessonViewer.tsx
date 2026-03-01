@@ -111,15 +111,15 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         />
       </div>
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         {step === "content" && (
           <motion.div
             key="content"
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-6"
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-6 min-h-[280px]"
           >
             {content.map((block, i) => (
               <motion.div
@@ -157,11 +157,11 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         {step.startsWith("q:") && currentQuestion && (
           <motion.div
             key={step}
-            initial={{ opacity: 0, x: 20 }}
+            initial={{ opacity: 0, x: 12 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-6"
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-6 min-h-[280px]"
           >
             <h2 className="text-xl font-display font-bold dark:text-white">
               Practice {questions.length > 1 ? `(${questionIndex + 1} of ${questions.length})` : ""}
@@ -205,11 +205,11 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         {isResultStep && currentQuestion && (
           <motion.div
             key={step}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-6 min-h-[280px]"
           >
             <motion.div
               className={clsx(
@@ -280,11 +280,11 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         {isHackStep && currentHack && (
           <motion.div
             key={step}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-6 min-h-[280px]"
           >
             <div
               className={clsx(
@@ -330,10 +330,11 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
         {step === "done" && (
           <motion.div
             key="done"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="space-y-6"
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.22, ease: [0.25, 0.1, 0.25, 1] }}
+            className="space-y-6 min-h-[280px]"
           >
             <motion.div
               className="p-8 rounded-2xl flex items-center gap-6 bg-gradient-to-br from-emerald-50 to-green-50 dark:from-emerald-900/30 dark:to-green-900/30 border-2 border-emerald-200 dark:border-emerald-700"
