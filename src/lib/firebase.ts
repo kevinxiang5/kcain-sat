@@ -1,5 +1,4 @@
-import { getApps, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+/** Firebase is optional. Use dynamic imports so the app builds without it (e.g. on Vercel without Firebase). */
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,23 +9,41 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-function getFirebaseApp() {
+let cachedApp: unknown = null;
+
+async function getFirebaseApp(): Promise<unknown> {
   if (typeof window === "undefined") return null;
-  const apps = getApps();
-  if (apps.length > 0) return apps[0]!;
+  if (cachedApp) return cachedApp;
   if (!firebaseConfig.apiKey || !firebaseConfig.projectId) return null;
-  return initializeApp(firebaseConfig);
+  try {
+    const { getApps, initializeApp } = await import("firebase/app");
+    const apps = getApps();
+    if (apps.length > 0) {
+      cachedApp = apps[0];
+      return cachedApp;
+    }
+    cachedApp = initializeApp(firebaseConfig);
+    return cachedApp;
+  } catch {
+    return null;
+  }
 }
 
-/** Client-side Firebase app. Only initialized in the browser when env vars are set. */
-export function getApp() {
+/** Client-side Firebase app (async). Only initialized in the browser when env vars are set. */
+export function getApp(): Promise<unknown> {
   return getFirebaseApp();
 }
 
-/** Client-side Firestore. Use for reading questions in the browser. */
-export function getDb() {
-  const app = getFirebaseApp();
-  return app ? getFirestore(app) : null;
+/** Client-side Firestore (async). Use for reading questions in the browser. */
+export async function getDb(): Promise<unknown> {
+  const app = await getFirebaseApp();
+  if (!app) return null;
+  try {
+    const { getFirestore } = await import("firebase/firestore");
+    return getFirestore(app as import("firebase/app").FirebaseApp);
+  } catch {
+    return null;
+  }
 }
 
 export function isFirebaseConfigured(): boolean {

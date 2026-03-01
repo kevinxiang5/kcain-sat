@@ -6,7 +6,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X } from "lucide-react";
 import { getQuestionsByDifficultyOrdered } from "@/lib/questions";
-import { fetchQuestionsFromFirestore } from "@/lib/questions-firestore";
 import { isFirebaseConfigured } from "@/lib/firebase";
 import type { PracticeBankQuestion } from "@/lib/questions";
 
@@ -80,7 +79,8 @@ export default function PracticeTopicPage() {
     setQuestionsLoading(true);
 
     if (isFirebaseConfigured()) {
-      fetchQuestionsFromFirestore(topic, diff ?? "all", 15)
+      import("@/lib/questions-firestore")
+        .then(({ fetchQuestionsFromFirestore }) => fetchQuestionsFromFirestore(topic, diff ?? "all", 15))
         .then((list) => {
           setQuestions(list);
           setQuestionsLoading(false);

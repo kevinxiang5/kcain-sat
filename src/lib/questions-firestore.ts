@@ -1,12 +1,4 @@
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  limit as firestoreLimit,
-} from "firebase/firestore";
-import { getDb, isFirebaseConfigured } from "./firebase";
+import { isFirebaseConfigured, getDb } from "./firebase";
 import type { PracticeBankQuestion } from "./questions";
 
 const MATH_TOPICS = ["algebra", "quadratics", "functions", "data", "geometry", "inequalities", "exponentials", "trigonometry", "word-problems", "advanced-math"];
@@ -29,6 +21,7 @@ function mapDocToQuestion(id: string, data: Record<string, unknown>): PracticeBa
 
 /**
  * Fetches practice questions from Firestore. Returns [] if Firebase is not configured or the query fails.
+ * Uses dynamic import for firebase/firestore so the app builds without Firebase installed.
  */
 export async function fetchQuestionsFromFirestore(
   topic: string,
@@ -36,39 +29,40 @@ export async function fetchQuestionsFromFirestore(
   limitCount: number
 ): Promise<PracticeBankQuestion[]> {
   if (!isFirebaseConfigured()) return [];
-  const db = getDb();
+  const db = await getDb();
   if (!db) return [];
 
   try {
-    const coll = collection(db, "questions");
+    const firestore = await import("firebase/firestore");
+    const coll = firestore.collection(db as import("firebase/firestore").Firestore, "questions");
     let q;
 
     if (topic === "math") {
-      q = query(
+      q = firestore.query(
         coll,
-        where("topic", "in", MATH_TOPICS),
-        ...(difficulty && difficulty !== "all" ? [where("difficulty", "==", difficulty)] : []),
-        firestoreLimit(limitCount * 2)
+        firestore.where("topic", "in", MATH_TOPICS),
+        ...(difficulty && difficulty !== "all" ? [firestore.where("difficulty", "==", difficulty)] : []),
+        firestore.limit(limitCount * 2)
       );
     } else if (topic === "reading") {
-      q = query(
+      q = firestore.query(
         coll,
-        where("topic", "in", READING_TOPICS),
-        ...(difficulty && difficulty !== "all" ? [where("difficulty", "==", difficulty)] : []),
-        firestoreLimit(limitCount * 2)
+        firestore.where("topic", "in", READING_TOPICS),
+        ...(difficulty && difficulty !== "all" ? [firestore.where("difficulty", "==", difficulty)] : []),
+        firestore.limit(limitCount * 2)
       );
     } else {
-      q = query(
+      q = firestore.query(
         coll,
-        where("topic", "==", topic),
-        ...(difficulty && difficulty !== "all" ? [where("difficulty", "==", difficulty)] : []),
-        firestoreLimit(limitCount * 2)
+        firestore.where("topic", "==", topic),
+        ...(difficulty && difficulty !== "all" ? [firestore.where("difficulty", "==", difficulty)] : []),
+        firestore.limit(limitCount * 2)
       );
     }
 
-    const snapshot = await getDocs(q);
+    const snapshot = await firestore.getDocs(q);
     const list: PracticeBankQuestion[] = [];
-    snapshot.forEach((doc) => {
+    snapshot.forEach((doc: { id: string; data: () => Record<string, unknown> }) => {
       list.push(mapDocToQuestion(doc.id, doc.data() as Record<string, unknown>));
     });
 
