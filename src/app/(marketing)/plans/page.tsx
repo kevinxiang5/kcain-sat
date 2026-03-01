@@ -74,7 +74,7 @@ export default function PlansPage() {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
         >
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4 bg-gradient-to-r from-sat-primary to-sat-crimson bg-clip-text text-transparent dark:from-sky-400 dark:to-sky-600">
             Choose your plan
           </h1>
           <p className="text-sat-gray-600 dark:text-sky-200 text-lg max-w-2xl mx-auto">
@@ -93,19 +93,19 @@ export default function PlansPage() {
                 transition={{ delay: 0.1 + i * 0.1 }}
                 className={`relative rounded-3xl p-8 ${
                   plan.highlighted
-                    ? "bg-gradient-to-br from-sat-primary to-sat-crimson text-white shadow-2xl shadow-sat-primary/30 scale-105"
-                    : "bg-white card"
+                    ? "bg-gradient-to-br from-sat-primary to-sat-crimson text-white shadow-2xl shadow-sat-primary/30 scale-105 dark:from-sky-500 dark:to-sky-700"
+                    : "bg-white card dark:bg-sat-gray-800 dark:border-sat-gray-700"
                 }`}
               >
                 {plan.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-white text-sat-primary text-sm font-bold">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-white text-sat-primary dark:text-sky-600 text-sm font-bold">
                     Most popular
                   </div>
                 )}
                 <div
                   className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 ${
-                    plan.highlighted ? "bg-white/20" : "bg-sat-primary/10"
-                  } ${plan.highlighted ? "text-white" : "text-sat-primary"}`}
+                    plan.highlighted ? "bg-white/20" : "bg-sat-primary/10 dark:bg-sky-500/20"
+                  } ${plan.highlighted ? "text-white" : "text-sat-primary dark:text-sky-400"}`}
                 >
                   <Icon className="w-7 h-7" />
                 </div>
@@ -114,7 +114,7 @@ export default function PlansPage() {
                   {plan.description}
                 </p>
                 <div className="mb-6">
-                  <span className="text-4xl font-bold">{plan.price}</span>
+                  <span className="text-4xl font-bold dark:text-white">{plan.price}</span>
                   <span className={plan.highlighted ? "text-white/80" : "text-sat-gray-500 dark:text-sky-300"}>
                     {plan.period}
                   </span>
@@ -131,7 +131,7 @@ export default function PlansPage() {
                   <motion.span
                     className={`block w-full py-3 rounded-xl text-center font-bold ${
                       plan.highlighted
-                        ? "bg-white text-sat-primary hover:bg-sat-cream"
+                        ? "bg-white text-sat-primary hover:bg-sat-cream dark:text-sky-600"
                         : "btn-primary"
                     }`}
                     whileHover={{ scale: 1.02 }}

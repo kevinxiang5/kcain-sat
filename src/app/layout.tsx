@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers/Providers";
-import { Navigation } from "@/components/layout/Navigation";
 import { CalculatorWrapper } from "@/components/CalculatorWrapper";
-import { AppShell } from "@/components/layout/AppShell";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -32,8 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${outfit.variable} ${dmSans.variable}`}>
       <body className="min-h-screen flex flex-col">
         <Providers>
-          <Navigation />
-          <main className="flex-1"><AppShell>{children}</AppShell></main>
+          {children}
           <CalculatorWrapper />
         </Providers>
       </body>

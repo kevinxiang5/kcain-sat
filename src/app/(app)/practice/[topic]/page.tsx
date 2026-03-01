@@ -77,7 +77,7 @@ export default function PracticeTopicPage() {
 
   if (questions.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-10">
+      <div className="max-w-2xl mx-auto py-10">
         <div className="animate-pulse h-64 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl" />
       </div>
     );
@@ -85,7 +85,7 @@ export default function PracticeTopicPage() {
 
   if (!q) {
     return (
-      <div className="container mx-auto px-4 py-10 text-center">
+      <div className="max-w-2xl mx-auto py-10 text-center">
         <p className="text-sat-gray-600 dark:text-sky-200">No questions loaded. <Link href="/practice" className="text-sat-primary dark:text-sky-400 hover:underline">Back to Practice</Link></p>
       </div>
     );
@@ -93,7 +93,7 @@ export default function PracticeTopicPage() {
 
   return (
     <motion.div
-      className="container mx-auto px-4 py-10 max-w-2xl"
+      className="max-w-2xl mx-auto py-10"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -117,7 +117,7 @@ export default function PracticeTopicPage() {
               className={`px-3 py-1 rounded-full border text-xs font-medium ${
                 difficulty === d
                   ? "border-sat-primary bg-sat-primary/10 text-sat-primary"
-                  : "border-sat-gray-200 text-sat-gray-600 hover:border-sat-gray-300"
+                  : "border-sat-gray-200 text-sat-gray-600 hover:border-sat-gray-300 dark:border-sat-gray-600 dark:text-sat-gray-400"
               }`}
             >
               {d === "all" ? "All" : d[0].toUpperCase() + d.slice(1)}
@@ -162,7 +162,7 @@ export default function PracticeTopicPage() {
                     : "border-sat-gray-200 dark:border-sat-gray-600 opacity-70"
                 }`}
               >
-                <span className="w-10 h-10 rounded-xl bg-sat-gray-100 flex items-center justify-center font-bold shrink-0">
+                <span className="w-10 h-10 rounded-xl bg-sat-gray-100 dark:bg-sat-gray-700 flex items-center justify-center font-bold shrink-0">
                   {opt.key}
                 </span>
                 {opt.text}

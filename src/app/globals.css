@@ -40,8 +40,55 @@
            dark:bg-sat-gray-800 dark:border-sat-gray-700 dark:shadow-none dark:text-white;
   }
 
+  /* Duolingo-style path */
+  .path-line {
+    --path-color: #e5e7eb;
+    background: var(--path-color);
+  }
+  .dark .path-line {
+    --path-color: #374151;
+  }
+
+  .path-node--circle {
+    @apply w-14 h-14 rounded-full flex flex-col items-center justify-center
+           border-2 transition-all duration-200 cursor-pointer shrink-0
+           shadow-md;
+  }
+
+  .path-node-stars {
+    @apply flex gap-0.5 mt-0.5;
+  }
+
+  .path-node-play {
+    @apply flex items-center justify-center;
+  }
+
+  .path-node--locked {
+    @apply bg-sat-gray-200 border-sat-gray-300 text-sat-gray-400 cursor-not-allowed
+           dark:bg-sat-gray-600 dark:border-sat-gray-500 dark:text-sat-gray-400;
+  }
+
+  .path-node--available {
+    @apply bg-white border-2 border-sky-500 text-sky-600
+           hover:shadow-lg hover:shadow-sky-400/30
+           dark:bg-sat-gray-800 dark:border-sky-400 dark:text-sky-400 dark:hover:shadow-sky-400/20;
+  }
+
+  .path-node--completed {
+    @apply bg-amber-500 border-amber-600 text-white
+           dark:bg-amber-500 dark:border-amber-600;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+  }
+
+  .path-node--current {
+    @apply bg-sky-500 border-sky-600 text-white ring-4 ring-sky-400/40
+           dark:bg-sky-500 dark:border-sky-600 dark:ring-sky-400/30;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35);
+  }
+
+  /* Legacy skill-node (kept for any other refs) */
   .skill-node {
-    @apply w-14 h-14 rounded-2xl flex items-center justify-center font-display font-bold
+    @apply w-14 h-14 rounded-full flex items-center justify-center font-display font-bold
            border-2 transition-all duration-300 cursor-pointer;
   }
 
@@ -51,17 +98,17 @@
   }
 
   .skill-node--available {
-    @apply bg-white border-sat-primary text-sat-primary hover:scale-110 hover:shadow-lg hover:shadow-sat-primary/20
+    @apply bg-white border-sat-primary text-sat-primary hover:shadow-lg hover:shadow-sat-primary/20
            dark:bg-sat-gray-800 dark:border-sky-500 dark:text-sky-400 dark:hover:shadow-sky-500/20;
   }
 
   .skill-node--completed {
-    @apply bg-sat-crimson border-sat-crimson-dark text-white
-           dark:bg-sky-600 dark:border-sky-700;
+    @apply bg-amber-500 border-amber-600 text-white
+           dark:bg-amber-500 dark:border-amber-600;
   }
 
   .skill-node--current {
-    @apply bg-sat-primary border-sat-accent text-white ring-4 ring-sat-primary/30
-           dark:bg-sky-500 dark:border-sky-600 dark:ring-sky-500/30;
+    @apply bg-sky-500 border-sky-600 text-white ring-4 ring-sky-400/30
+           dark:bg-sky-500 dark:border-sky-600 dark:ring-sky-400/30;
   }
 }

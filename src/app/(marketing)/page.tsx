@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle, LayoutDashboard } from "lucide-react";
+import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle, LayoutDashboard, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
 
@@ -29,7 +29,6 @@ export default function LandingPage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-sat-primary via-sat-flame to-sat-crimson text-white min-h-[85vh] flex items-center">
-        {/* Graph paper + sine wave background */}
         <div className="absolute inset-0 opacity-30">
           <svg className="w-full h-full" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -42,7 +41,6 @@ export default function LandingPage() {
               </linearGradient>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
-            {/* Multiple sine waves - mathematical graph aesthetic */}
             <path d="M0,50 Q25,20 50,50 T100,50 T150,50 T200,50 T250,50 T300,50 T350,50 T400,50 T450,50 T500,50 T550,50 T600,50 T650,50 T700,50 T750,50 T800,50 T850,50 T900,50 T950,50 T1000,50 T1050,50 T1100,50 T1150,50 T1200,50" fill="none" stroke="url(#waveGrad)" strokeWidth="3" strokeLinecap="round" className="translate-y-[10vh]" />
             <path d="M0,150 Q25,120 50,150 T100,150 T150,150 T200,150 T250,150 T300,150 T350,150 T400,150 T450,150 T500,150 T550,150 T600,150 T650,150 T700,150 T750,150 T800,150 T850,150 T900,150 T950,150 T1000,150 T1050,150 T1100,150 T1150,150 T1200,150" fill="none" stroke="url(#waveGrad)" strokeWidth="2" strokeLinecap="round" className="translate-y-[30vh]" opacity="0.7" />
             <path d="M0,250 Q25,220 50,250 T100,250 T150,250 T200,250 T250,250 T300,250 T350,250 T400,250 T450,250 T500,250 T550,250 T600,250 T650,250 T700,250 T750,250 T800,250 T850,250 T900,250 T950,250 T1000,250 T1050,250 T1100,250 T1150,250 T1200,250" fill="none" stroke="url(#waveGrad)" strokeWidth="2.5" strokeLinecap="round" className="translate-y-[50vh]" opacity="0.5" />
@@ -78,52 +76,25 @@ export default function LandingPage() {
               variants={fadeUp}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {session ? (
-                <>
-                  <Link href="/dashboard">
-                    <motion.span
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <LayoutDashboard className="w-5 h-5" />
-                      Go to Dashboard
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.span>
-                  </Link>
-                  <Link href="/dashboard">
-                    <motion.span
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Continue Learning
-                    </motion.span>
-                  </Link>
-                </>
-              ) : (
-                <>
-                  <Link href="/auth/signup">
-                    <motion.span
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Get Started Free
-                      <ArrowRight className="w-5 h-5" />
-                    </motion.span>
-                  </Link>
-                  <Link href="/dashboard">
-                    <motion.span
-                      className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
-                      whileHover={{ scale: 1.03, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Try free
-                    </motion.span>
-                  </Link>
-                </>
-              )}
+              <Link href="/auth/signup">
+                <motion.span
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold text-sat-primary bg-white hover:bg-sat-cream text-lg shadow-xl"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Get Started Free
+                  <ArrowRight className="w-5 h-5" />
+                </motion.span>
+              </Link>
+              <Link href="/auth/login">
+                <motion.span
+                  className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl font-display font-bold border-2 border-white/80 text-white hover:bg-white/15 text-lg"
+                  whileHover={{ scale: 1.03, y: -2 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  Log in
+                </motion.span>
+              </Link>
             </motion.div>
           </motion.div>
         </div>
@@ -184,8 +155,84 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* Subscriptions / Plans Section */}
       <section className="py-24 md:py-32 bg-white dark:bg-sat-gray-800">
+        <div className="container mx-auto px-4">
+          <motion.h2
+            className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800 dark:text-white"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Plans & pricing
+          </motion.h2>
+          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-16">
+            Start free. Upgrade when you&apos;re ready. No credit card required to begin.
+          </p>
+
+          <motion.div
+            className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={stagger}
+          >
+            <motion.div className="card p-6" variants={fadeUp}>
+              <div className="w-12 h-12 rounded-xl bg-sat-primary/10 dark:bg-sky-500/20 flex items-center justify-center mb-4">
+                <BookOpen className="w-6 h-6 text-sat-primary dark:text-sky-400" />
+              </div>
+              <h3 className="font-display font-bold text-xl mb-1 dark:text-white">Free</h3>
+              <p className="text-3xl font-bold text-sat-gray-900 dark:text-white">$0</p>
+              <p className="text-sm text-sat-gray-600 dark:text-sky-200 mb-4">forever</p>
+              <ul className="space-y-2 text-sm text-sat-gray-700 dark:text-sky-100 mb-6">
+                <li>5 lessons per day</li>
+                <li>Math & Reading paths</li>
+                <li>Basic progress & streaks</li>
+              </ul>
+              <Link href="/auth/signup" className="btn-secondary block text-center py-2.5">Get started</Link>
+            </motion.div>
+            <motion.div className="card p-6 border-2 border-sat-primary dark:border-sky-500 relative" variants={fadeUp}>
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-sat-primary dark:bg-sky-500 text-white text-xs font-bold">Popular</div>
+              <div className="w-12 h-12 rounded-xl bg-sat-primary/20 dark:bg-sky-500/30 flex items-center justify-center mb-4">
+                <Trophy className="w-6 h-6 text-sat-primary dark:text-sky-400" />
+              </div>
+              <h3 className="font-display font-bold text-xl mb-1 dark:text-white">Premium</h3>
+              <p className="text-3xl font-bold text-sat-gray-900 dark:text-white">$9.99<span className="text-base font-normal text-sat-gray-500">/month</span></p>
+              <p className="text-sm text-sat-gray-600 dark:text-sky-200 mb-4">Unlimited access</p>
+              <ul className="space-y-2 text-sm text-sat-gray-700 dark:text-sky-100 mb-6">
+                <li>Unlimited lessons</li>
+                <li>Full practice test bank</li>
+                <li>Detailed analytics</li>
+                <li>Ad-free</li>
+              </ul>
+              <Link href="/auth/signup?plan=premium" className="btn-primary block text-center py-2.5">Start free trial</Link>
+            </motion.div>
+            <motion.div className="card p-6" variants={fadeUp}>
+              <div className="w-12 h-12 rounded-xl bg-amber-500/20 flex items-center justify-center mb-4">
+                <Zap className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+              </div>
+              <h3 className="font-display font-bold text-xl mb-1 dark:text-white">Annual</h3>
+              <p className="text-3xl font-bold text-sat-gray-900 dark:text-white">$79<span className="text-base font-normal text-sat-gray-500">/year</span></p>
+              <p className="text-sm text-sat-gray-600 dark:text-sky-200 mb-4">Save 34%</p>
+              <ul className="space-y-2 text-sm text-sat-gray-700 dark:text-sky-100 mb-6">
+                <li>Everything in Premium</li>
+                <li>2 months free</li>
+                <li>Full practice tests</li>
+              </ul>
+              <Link href="/auth/signup?plan=annual" className="btn-secondary block text-center py-2.5">Get best value</Link>
+            </motion.div>
+          </motion.div>
+          <p className="text-center mt-8">
+            <Link href="/plans" className="text-sat-primary dark:text-sky-400 font-medium hover:underline inline-flex items-center gap-1">
+              <CreditCard className="w-4 h-4" />
+              View full plan details
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-24 md:py-32 bg-sat-cream dark:bg-sat-gray-900">
         <div className="container mx-auto px-4">
           <motion.h2
             className="text-3xl md:text-5xl font-display font-bold text-center mb-4 text-sat-gray-800 dark:text-white"
@@ -195,14 +242,14 @@ export default function LandingPage() {
           >
             How It Works
           </motion.h2>
-          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20">Start today. Build momentum. Ace the SAT.</p>
+          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20">Sign up to unlock lessons, practice, and full tests. No questions on this page—everything happens after you log in.</p>
 
           <div className="max-w-3xl mx-auto space-y-10">
             {[
               { step: 1, title: "Sign up in seconds", desc: "Create a free account. No credit card required." },
-              { step: 2, title: "Choose your path", desc: "Pick Math or Reading & Writing. 24 lessons to unlock." },
-              { step: 3, title: "Complete lessons", desc: "5–10 minute lessons with concepts and practice. Immediate feedback." },
-              { step: 4, title: "Track & improve", desc: "Dashboard, streaks, topic strengths. Unlock premium for unlimited access." },
+              { step: 2, title: "Log in", desc: "You’ll be taken to your private dashboard—separate from this page." },
+              { step: 3, title: "Use the app", desc: "Lessons, Full Test, Calendar, and Practice live in the app. Tabs on the left." },
+              { step: 4, title: "Track & improve", desc: "Build streaks, earn XP, and unlock premium for unlimited access." },
             ].map(({ step, title, desc }) => (
               <motion.div
                 key={step}
@@ -240,7 +287,7 @@ export default function LandingPage() {
             Ready to start?
           </motion.h2>
           <p className="text-white/95 text-lg mb-10 max-w-xl mx-auto">
-            Join students leveling up their SAT scores with kcain.
+            Sign up to access your dashboard, lessons, full tests, and calendar.
           </p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -249,42 +296,27 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            {session ? (
-              <Link href="/dashboard">
-                <motion.span
-                  className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <LayoutDashboard className="w-5 h-5" />
-                  Go to Dashboard
-                </motion.span>
-              </Link>
-            ) : (
-              <>
-                <Link href="/auth/signup">
-                  <motion.span
-                    className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Sign Up Free
-                    <CheckCircle className="w-5 h-5" />
-                  </motion.span>
-                </Link>
-                <Link href="/auth/login">
-                  <motion.span
-                    className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold border-2 border-white hover:bg-white/15"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Log In
-                  </motion.span>
-                </Link>
-              </>
-            )}
+            <Link href="/auth/signup">
+              <motion.span
+                className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold bg-white text-sat-primary hover:bg-sat-cream"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Sign Up Free
+                <CheckCircle className="w-5 h-5" />
+              </motion.span>
+            </Link>
+            <Link href="/auth/login">
+              <motion.span
+                className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-2xl font-display font-bold border-2 border-white hover:bg-white/15"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Log In
+              </motion.span>
+            </Link>
           </motion.div>
-          <p className="mt-8 text-sm text-white/85">Free tier: 5 lessons/day • Premium: Unlimited • <Link href="/plans" className="underline hover:no-underline">View plans</Link></p>
+          <p className="mt-8 text-sm text-white/85">Free: 5 lessons/day • Premium: Unlimited • <Link href="/plans" className="underline hover:no-underline">View plans</Link></p>
         </div>
       </section>
 

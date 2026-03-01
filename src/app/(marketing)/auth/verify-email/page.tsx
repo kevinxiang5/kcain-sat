@@ -35,7 +35,7 @@ function VerifyEmailContent() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <div className="card w-full max-w-md p-8 text-center">
+      <div className="card w-full max-w-md p-8 text-center dark:bg-sat-gray-800 dark:border-sat-gray-700">
         <div className="flex justify-center mb-8">
           <KcainLogo size="lg" />
         </div>
@@ -43,7 +43,7 @@ function VerifyEmailContent() {
         {status === "loading" && (
           <div className="space-y-6">
             <div className="w-12 h-12 border-4 border-sat-primary border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-sat-gray-600">Verifying your email...</p>
+            <p className="text-sat-gray-600 dark:text-sat-gray-400">Verifying your email...</p>
           </div>
         )}
 
@@ -54,8 +54,8 @@ function VerifyEmailContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h1 className="text-2xl font-display font-bold">Email verified!</h1>
-            <p className="text-sat-gray-600">Your account is active. You can now log in.</p>
+            <h1 className="text-2xl font-display font-bold dark:text-white">Email verified!</h1>
+            <p className="text-sat-gray-600 dark:text-sat-gray-400">Your account is active. Log in to go to your dashboard.</p>
             <Link href="/auth/login" className="btn-primary inline-block">Log in</Link>
           </motion.div>
         )}
@@ -67,8 +67,8 @@ function VerifyEmailContent() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
-            <h1 className="text-2xl font-display font-bold">Verification failed</h1>
-            <p className="text-sat-gray-600">The link may be expired or invalid.</p>
+            <h1 className="text-2xl font-display font-bold dark:text-white">Verification failed</h1>
+            <p className="text-sat-gray-600 dark:text-sat-gray-400">The link may be expired or invalid.</p>
             <div className="flex gap-4 justify-center">
               <Link href="/auth/signup" className="btn-secondary">Sign up again</Link>
               <Link href="/auth/login" className="text-sat-primary font-medium hover:underline">Log in</Link>

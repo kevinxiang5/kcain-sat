@@ -20,7 +20,7 @@ const topics = [
 export default function PracticePage() {
   return (
     <motion.div
-      className="container mx-auto px-4 py-10"
+      className="max-w-5xl mx-auto"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
@@ -31,7 +31,7 @@ export default function PracticePage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
       >
-        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-400 dark:to-sky-600 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-display font-bold mb-2 text-sat-gray-900 dark:text-white">
           Practice Questions
         </h1>
         <p className="text-sat-gray-600 dark:text-sky-200 text-lg">
@@ -59,31 +59,30 @@ export default function PracticePage() {
               whileHover={{ y: -8, boxShadow: "0 20px 40px -15px rgba(255, 107, 53, 0.2)" }}
               transition={{ duration: 0.2 }}
             >
-              <h3 className="font-display font-bold text-lg mb-2 group-hover:text-sat-primary transition-colors">
+              <h3 className="font-display font-bold text-lg mb-2 group-hover:text-sat-primary transition-colors dark:text-white">
                 {topic}
               </h3>
-              <p className="text-sat-gray-600 text-sm">{String(count)} questions • {difficulty}</p>
+              <p className="text-sat-gray-600 text-sm dark:text-sat-gray-400">{String(count)} questions • {difficulty}</p>
             </motion.div>
           </Link>
         ))}
       </motion.div>
 
       <motion.div
-        className="card p-6 bg-gradient-to-br from-sat-primary/5 to-sat-crimson/5 dark:from-sky-500/10 dark:to-sky-600/10 border-2 border-sat-primary/20 dark:border-sky-500/30"
+        className="card p-6 bg-sat-gray-50 dark:bg-sat-gray-800/50 border border-sat-gray-200 dark:border-sat-gray-700"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
         <h3 className="font-display font-bold text-lg mb-2 dark:text-white">Full Practice Test</h3>
         <p className="text-sat-gray-600 dark:text-sky-200 mb-4">
-          Simulate a real SAT with a timed full-length practice test. Premium feature.
+          Simulate a real SAT with a timed full-length practice test. Use the <strong>Full Test</strong> tab in the sidebar for the full experience.
         </p>
-        <motion.button
-          className="btn-secondary text-sm py-2 px-5 opacity-75 cursor-not-allowed"
-          whileHover={{ scale: 1.02 }}
-        >
-          Unlock with Premium
-        </motion.button>
+        <Link href="/full-test">
+          <motion.span className="btn-secondary text-sm py-2 px-5 inline-block" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+            Go to Full Test
+          </motion.span>
+        </Link>
       </motion.div>
     </motion.div>
   );

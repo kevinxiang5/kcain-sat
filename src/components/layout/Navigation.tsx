@@ -11,9 +11,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
 const navLinks = [
-  { href: "/dashboard", label: "Dashboard" },
-  { href: "/practice", label: "Practice" },
-  { href: "/plans", label: "Plans" },
+  { href: "/dashboard", label: "Dashboard", requireAuth: true },
+  { href: "/practice", label: "Practice", requireAuth: true },
+  { href: "/plans", label: "Plans", requireAuth: false },
 ];
 
 export function Navigation() {
@@ -36,7 +36,7 @@ export function Navigation() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map(({ href, label }) => (
+          {navLinks.filter((link) => !link.requireAuth || session).map(({ href, label }) => (
             <Link
               key={href}
               href={href}
@@ -112,7 +112,7 @@ export function Navigation() {
             transition={{ duration: 0.2 }}
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-              {navLinks.map(({ href, label }) => (
+              {navLinks.filter((link) => !link.requireAuth || session).map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}

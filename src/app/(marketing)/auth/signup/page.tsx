@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
 
 export default function SignUpPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -68,7 +66,7 @@ export default function SignUpPage() {
           </motion.div>
           <h1 className="text-2xl font-display font-bold mb-2 dark:text-white">Check your email</h1>
           <p className="text-sat-gray-600 dark:text-sky-200 mb-6">
-            We sent a verification link to <strong>{email}</strong>. Click it to activate your account.
+            We sent a verification link to <strong>{email}</strong>. Click it to activate your account, then log in to go to your dashboard.
           </p>
           {devVerifyUrl && process.env.NODE_ENV === "development" && (
             <div className="mb-6 p-4 bg-sat-primary/5 rounded-xl text-left">
@@ -97,7 +95,7 @@ export default function SignUpPage() {
           <KcainLogo size="lg" />
         </div>
         <h1 className="text-2xl font-display font-bold text-center mb-2 dark:text-white">Create your account</h1>
-        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Start your SAT prep journey with kcain</p>
+        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Sign up to access lessons, practice, and your dashboard.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (

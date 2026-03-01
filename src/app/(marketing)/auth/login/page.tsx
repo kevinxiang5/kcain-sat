@@ -45,7 +45,7 @@ function LoginForm() {
           <KcainLogo size="lg" />
         </div>
         <h1 className="text-2xl font-display font-bold text-center mb-2 dark:text-white">Welcome back</h1>
-        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Log in to continue your SAT journey</p>
+        <p className="text-sat-gray-600 dark:text-sky-200 text-center mb-8">Log in to access your dashboard, lessons, and practice.</p>
         <p className="text-xs text-sat-gray-500 dark:text-sky-300 text-center mb-4">New? Check your email for a verification link before logging in.</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
