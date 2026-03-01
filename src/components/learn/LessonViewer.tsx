@@ -30,12 +30,25 @@ function buildFlow(questionCount: number, hackSlides: HackSlide[]): FlowStep[] {
 export function LessonViewer({ lessonId }: { lessonId: string }) {
   const lesson = getLesson(lessonId);
   const questions = lesson ? getLessonQuestions(lesson) : [];
-  const hackSlides = lesson ? getLessonHackSlides(lesson) : [];
-  const flow = useMemo(() => buildFlow(questions.length, hackSlides), [questions.length, hackSlides.length]);
+  const hackSlides = useMemo(() => (lesson ? getLessonHackSlides(lesson) : []), [lesson]);
+  const flow = useMemo(() => buildFlow(questions.length, hackSlides), [questions.length, hackSlides]);
 
   const [flowIndex, setFlowIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const completedRef = useRef(false);
+
+  const step = flow[flowIndex] ?? "content";
+  useEffect(() => {
+    if (!lesson) return;
+    if (step === "done" && !completedRef.current) {
+      completedRef.current = true;
+      fetch("/api/progress/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lessonId }),
+      }).catch(() => {});
+    }
+  }, [lesson, step, lessonId]);
 
   if (!lesson) {
     return (
@@ -55,26 +68,14 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
   }
 
   const { content } = lesson;
-  const step = flow[flowIndex] ?? "content";
   const nextLessonId = getNextLessonId(lesson.id);
   const nextLesson = nextLessonId ? getLesson(nextLessonId) : null;
 
   const progressWidth = flow.length <= 1 ? "100%" : `${(flowIndex / (flow.length - 1)) * 100}%`;
 
-  const handleCheck = (q: PracticeQuestion) => {
+  const handleCheck = (_q: PracticeQuestion) => {
     setFlowIndex((i) => i + 1);
   };
-
-  useEffect(() => {
-    if (step === "done" && !completedRef.current) {
-      completedRef.current = true;
-      fetch("/api/progress/complete", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lessonId }),
-      }).catch(() => {});
-    }
-  }, [step, lessonId]);
 
   const handleNextFromResult = () => {
     setSelectedAnswer(null);

@@ -6,7 +6,6 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X } from "lucide-react";
 import { getQuestionsByDifficultyOrdered } from "@/lib/questions";
-import { isFirebaseConfigured } from "@/lib/firebase";
 import type { PracticeBankQuestion } from "@/lib/questions";
 
 const TOPIC_LABELS: Record<string, string> = {
@@ -77,22 +76,8 @@ export default function PracticeTopicPage() {
     setShowResult(false);
     setScore(0);
     setQuestionsLoading(true);
-
-    if (isFirebaseConfigured()) {
-      import("@/lib/questions-firestore")
-        .then(({ fetchQuestionsFromFirestore }) => fetchQuestionsFromFirestore(topic, diff ?? "all", 15))
-        .then((list) => {
-          setQuestions(list);
-          setQuestionsLoading(false);
-        })
-        .catch(() => {
-          setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
-          setQuestionsLoading(false);
-        });
-    } else {
-      setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
-      setQuestionsLoading(false);
-    }
+    setQuestions(getQuestionsByDifficultyOrdered(15, topic, diff));
+    setQuestionsLoading(false);
   }, [topic, difficulty]);
 
   const q = questions[current];
@@ -114,70 +99,43 @@ export default function PracticeTopicPage() {
 
   if (questionsLoading || questions.length === 0) {
     return (
-      <div className="max-w-2xl mx-auto py-10">
-        <Link href="/practice" className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary dark:text-sky-200 dark:hover:text-sky-400 mb-8 font-medium">
-          <ArrowLeft className="w-4 h-4" />
-          Back
+      <div className="max-w-3xl mx-auto">
+        <Link href="/practice" className="inline-flex items-center gap-2 text-sat-primary hover:underline mb-6">
+          <ArrowLeft className="w-4 h-4" /> Back to Practice
         </Link>
-        <div className="animate-pulse h-64 bg-sat-gray-100 dark:bg-sat-gray-700 rounded-2xl" />
-        {!questionsLoading && questions.length === 0 && (
-          <p className="mt-4 text-sat-gray-600 dark:text-sat-gray-400 text-sm">No questions found. Try another topic or difficulty.</p>
-        )}
-      </div>
-    );
-  }
-
-  if (!q) {
-    return (
-      <div className="max-w-2xl mx-auto py-10 text-center">
-        <p className="text-sat-gray-600 dark:text-sky-200">No questions loaded. <Link href="/practice" className="text-sat-primary dark:text-sky-400 hover:underline">Back to Practice</Link></p>
+        <div className="card p-8 text-center text-sat-gray-600 dark:text-sat-gray-400">
+          {questionsLoading ? "Loading questions…" : "No questions found for this topic."}
+        </div>
       </div>
     );
   }
 
   return (
-    <motion.div
-      className="max-w-2xl mx-auto py-10"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <Link href="/practice" className="inline-flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary dark:text-sky-200 dark:hover:text-sky-400 mb-8 font-medium">
-        <ArrowLeft className="w-4 h-4" />
-        Back
+    <div className="max-w-3xl mx-auto">
+      <Link href="/practice" className="inline-flex items-center gap-2 text-sat-primary hover:underline mb-6">
+        <ArrowLeft className="w-4 h-4" /> Back to Practice
       </Link>
 
-      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-xl font-display font-bold dark:text-white">{label}</h1>
-          <span className="text-sm text-sat-gray-500 dark:text-sky-300">
-            {current + 1} / {questions.length} • Score: {score}
-          </span>
-        </div>
-        <div className="flex gap-2 text-sm">
-          {(["all", "easy", "medium", "hard", "very_hard"] as const).map((d) => (
-            <button
-              key={d}
-              onClick={() => setDifficulty(d)}
-              className={`px-3 py-1 rounded-full border text-xs font-medium ${
-                difficulty === d
-                  ? "border-sat-primary bg-sat-primary/10 text-sat-primary"
-                  : "border-sat-gray-200 text-sat-gray-600 hover:border-sat-gray-300 dark:border-sat-gray-600 dark:text-sat-gray-400"
-              }`}
-            >
-              {d === "all" ? "All" : d === "very_hard" ? "Very Hard" : d[0].toUpperCase() + d.slice(1)}
-            </button>
-          ))}
-        </div>
+      <div className="flex flex-wrap gap-2 mb-6">
+        {(["all", "easy", "medium", "hard", "very_hard"] as const).map((d) => (
+          <button
+            key={d}
+            type="button"
+            onClick={() => setDifficulty(d)}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              difficulty === d
+                ? "bg-sat-primary text-white"
+                : "bg-sat-gray-200 dark:bg-sat-gray-700 text-sat-gray-700 dark:text-sat-gray-300 hover:bg-sat-gray-300 dark:hover:bg-sat-gray-600"
+            }`}
+          >
+            {d === "all" ? "All" : d.replace("_", " ")}
+          </button>
+        ))}
       </div>
 
-      <div className="h-2 bg-sat-gray-200 dark:bg-sat-gray-700 rounded-full mb-8 overflow-hidden">
-        <motion.div
-          className="h-full bg-gradient-to-r from-sat-primary to-sat-crimson dark:from-sky-500 dark:to-sky-600"
-          initial={{ width: 0 }}
-          animate={{ width: `${((current + 1) / questions.length) * 100}%` }}
-          transition={{ duration: 0.3 }}
-        />
-      </div>
+      <p className="text-sat-gray-600 dark:text-sat-gray-400 mb-4">
+        Question {current + 1} of {questions.length} · Score: {score}
+      </p>
 
       <AnimatePresence mode="wait">
         <motion.div
@@ -185,72 +143,57 @@ export default function PracticeTopicPage() {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -20 }}
-          className="space-y-6"
+          transition={{ duration: 0.2 }}
+          className="card p-6 md:p-8"
         >
-          <p className="text-lg text-sat-gray-800 dark:text-white">{q.question}</p>
+          <h2 className="font-display font-bold text-lg mb-4 dark:text-white">{label}</h2>
+          <p className="text-sat-gray-800 dark:text-sat-gray-200 whitespace-pre-line mb-6">{q.question}</p>
           <div className="space-y-3">
             {q.options.map((opt) => (
               <button
                 key={opt.key}
-                onClick={() => !showResult && setSelected(opt.key)}
+                type="button"
                 disabled={showResult}
-                className={`w-full p-4 rounded-xl border-2 text-left flex items-center gap-4 transition-all dark:text-white ${
-                  !showResult
-                    ? selected === opt.key
-                      ? "border-sat-primary dark:border-sky-500 bg-sat-primary/5 dark:bg-sky-500/10"
-                      : "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-gray-300 dark:hover:border-sky-500/50"
-                    : opt.key === q.correctKey
-                    ? "border-emerald-500 dark:border-emerald-400 bg-emerald-50 dark:bg-emerald-900/30"
-                    : selected === opt.key
-                    ? "border-red-400 dark:border-red-500 bg-red-50 dark:bg-red-900/30"
-                    : "border-sat-gray-200 dark:border-sat-gray-600 opacity-70"
+                onClick={() => !showResult && setSelected(opt.key)}
+                className={`w-full text-left px-4 py-3 rounded-lg border-2 transition-colors flex items-center gap-3 ${
+                  selected !== opt.key && !showResult
+                    ? "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-primary/50 dark:hover:border-sat-primary/50"
+                    : selected === opt.key && !showResult
+                    ? "border-sat-primary bg-sat-primary/10"
+                    : showResult && opt.key === q.correctKey
+                    ? "border-green-500 bg-green-500/10"
+                    : showResult && selected === opt.key
+                    ? "border-red-500 bg-red-500/10"
+                    : "border-sat-gray-200 dark:border-sat-gray-600"
                 }`}
               >
-                <span className="w-10 h-10 rounded-xl bg-sat-gray-100 dark:bg-sat-gray-700 flex items-center justify-center font-bold shrink-0">
-                  {opt.key}
-                </span>
-                {opt.text}
-                {showResult && opt.key === q.correctKey && <Check className="w-5 h-5 text-emerald-500 ml-auto" />}
-                {showResult && selected === opt.key && opt.key !== q.correctKey && <X className="w-5 h-5 text-red-500 ml-auto" />}
+                {showResult && (opt.key === q.correctKey ? <Check className="w-5 h-5 text-green-600 shrink-0" /> : selected === opt.key ? <X className="w-5 h-5 text-red-600 shrink-0" /> : null)}
+                <span className="font-medium dark:text-white">{opt.key}. {opt.text}</span>
               </button>
             ))}
           </div>
-
-          {showResult && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-4 bg-sat-gray-50 dark:bg-sat-gray-700/50 rounded-xl border border-sat-gray-200 dark:border-sat-gray-600"
-            >
-              <p className="font-medium mb-1 dark:text-white">Explanation</p>
-              <p className="text-sat-gray-700 dark:text-sky-200 text-sm">{q.explanation}</p>
-            </motion.div>
+          {showResult && q.explanation && (
+            <div className="mt-6 p-4 rounded-lg bg-sat-gray-100 dark:bg-sat-gray-800 text-sat-gray-800 dark:text-sat-gray-200 text-sm">
+              <strong>Explanation:</strong> {q.explanation}
+            </div>
           )}
-
-          <div className="flex gap-3 pt-4">
+          <div className="mt-6 flex gap-3">
             {!showResult ? (
-              <button
-                onClick={handleCheck}
-                disabled={!selected}
-                className="btn-primary flex-1 py-3 disabled:opacity-50"
-              >
+              <button type="button" onClick={handleCheck} disabled={!selected} className="btn-primary">
                 Check
               </button>
             ) : current < questions.length - 1 ? (
-              <button onClick={handleNext} className="btn-primary flex-1 py-3">
-                Next question
+              <button type="button" onClick={handleNext} className="btn-primary">
+                Next
               </button>
             ) : (
-              <>
-                <button onClick={handleFinish} className="btn-primary flex-1 py-3">
-                  Finish — {score}/{questions.length} correct
-                </button>
-                <Link href="/practice" className="btn-secondary py-3 px-6">Back to topics</Link>
-              </>
+              <button type="button" onClick={handleFinish} className="btn-primary">
+                Finish
+              </button>
             )}
           </div>
         </motion.div>
       </AnimatePresence>
-    </motion.div>
+    </div>
   );
 }
