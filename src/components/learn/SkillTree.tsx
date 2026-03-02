@@ -21,8 +21,8 @@ export interface SkillNode {
   order: number;
 }
 
-const MATH_IDS = ["1", "2", "3", "R1", "4", "5", "6", "R2", "7", "8", "9", "10", "R3", "19", "20", "21", "R4", "25", "26", "27", "28", "29", "35", "36", "37", "38", "39", "45", "46", "47", "48", "49", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64"];
-const READING_IDS = ["11", "12", "13", "R5", "14", "15", "16", "R6", "17", "18", "22", "23", "24", "R7", "30", "31", "32", "33", "34", "40", "41", "42", "43", "44", "50", "51", "52", "53", "54", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74"];
+const MATH_IDS = ["1", "2", "3", "R1", "4", "5", "6", "R2", "7", "8", "9", "10", "R3", "19", "20", "21", "R4", "25", "26", "27", "28", "29", "35", "36", "37", "38", "39", "45", "46", "47", "48", "49", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "75", "77", "79", "81"];
+const READING_IDS = ["11", "12", "13", "R5", "14", "15", "16", "R6", "17", "18", "22", "23", "24", "R7", "30", "31", "32", "33", "34", "40", "41", "42", "43", "44", "50", "51", "52", "53", "54", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "76", "78", "80", "82"];
 
 function buildNodes(ids: string[], section: "math" | "reading", completedIds: Set<string>): SkillNode[] {
   let foundCurrent = false;
@@ -63,6 +63,7 @@ const item = {
 export function SkillTree() {
   const { data: session } = useSession();
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
+  const [activeSection, setActiveSection] = useState<"math" | "reading">("math");
 
   useEffect(() => {
     if (!session) {
@@ -78,17 +79,36 @@ export function SkillTree() {
   const mathNodes = buildNodes(MATH_IDS, "math", completedIds);
   const readingNodes = buildNodes(READING_IDS, "reading", completedIds);
 
+  const sections = [
+    { section: "math" as const, nodes: mathNodes, label: SAT_SECTIONS[0].name },
+    { section: "reading" as const, nodes: readingNodes, label: SAT_SECTIONS[1].name },
+  ];
+
   return (
-    <motion.div
-      className="space-y-12"
-      initial="hidden"
-      animate="show"
-      variants={container}
-    >
-      {[
-        { section: "math", nodes: mathNodes, label: SAT_SECTIONS[0].name },
-        { section: "reading", nodes: readingNodes, label: SAT_SECTIONS[1].name },
-      ].map(({ section, nodes, label }) => (
+    <motion.div className="space-y-10" initial="hidden" animate="show" variants={container}>
+      <motion.div variants={item} className="flex justify-center mb-2">
+        <div className="inline-flex rounded-full bg-sat-gray-100 dark:bg-sat-gray-800 p-1">
+          {(["math", "reading"] as const).map((sec) => (
+            <button
+              key={sec}
+              type="button"
+              onClick={() => setActiveSection(sec)}
+              className={clsx(
+                "px-4 py-1.5 text-sm font-semibold rounded-full transition-colors",
+                activeSection === sec
+                  ? "bg-sat-primary text-white dark:bg-sky-500"
+                  : "text-sat-gray-700 dark:text-sat-gray-300 hover:bg-sat-gray-200 dark:hover:bg-sat-gray-700"
+              )}
+            >
+              {sec === "math" ? SAT_SECTIONS[0].name : SAT_SECTIONS[1].name}
+            </button>
+          ))}
+        </div>
+      </motion.div>
+
+      {sections
+        .filter(({ section }) => section === activeSection)
+        .map(({ section, nodes, label }) => (
         <motion.div key={section} variants={item} className="path-section">
           <h2 className="text-lg font-semibold text-sat-gray-700 dark:text-sat-gray-300 mb-6 pl-1">
             {label}
