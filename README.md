@@ -1,10 +1,10 @@
-# kcain — SAT Prep (Math + Reading)
+# cain — SAT Prep (Math + Reading)
 
 A modern SAT preparation platform where math meets reading. Structured lessons, practice questions, and gamified progress.
 
 ## Features
 
-- **kcain branding** — Sine wave + book logo, orange/red gradient theme
+- **cain branding** — Sine wave + book logo, orange/red gradient theme
 - **Learning path** — 18+ lessons across Math and Reading & Writing
 - **Real auth** — Sign up, email verification (Resend), secure login
 - **Practice bank** — 30+ SAT-style questions, randomized by topic
@@ -73,7 +73,7 @@ src/
 │   ├── plans/            # subscription pricing
 │   └── dashboard/
 ├── components/
-│   ├── layout/           # Navigation, KcainLogo
+│   ├── layout/           # Navigation, Cain logo
 │   ├── learn/            # SkillTree, LessonViewer
 │   └── dashboard/        # ProgressTracker
 ├── lib/

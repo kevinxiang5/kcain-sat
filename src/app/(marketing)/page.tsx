@@ -62,7 +62,7 @@ export default function LandingPage() {
               transition={{ duration: 0.5 }}
             >
               Math meets Reading.
-              <span className="block text-white drop-shadow-2xl mt-2">Meet kcain.</span>
+              <span className="block text-white drop-shadow-2xl mt-2">Meet cain.</span>
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl text-white/95 mb-10 max-w-2xl leading-relaxed"
@@ -111,7 +111,7 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            Why kcain?
+            Why cain?
           </motion.h2>
           <motion.p
             className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20 text-lg"
@@ -321,7 +321,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="py-10 bg-sat-gray-900 text-sat-gray-400 dark:text-sky-300/80 text-center text-sm">
-        <p>© {new Date().getFullYear()} kcain</p>
+        <p>© {new Date().getFullYear()} cain</p>
       </footer>
     </div>
   );

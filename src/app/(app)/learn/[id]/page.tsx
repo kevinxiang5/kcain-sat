@@ -8,8 +8,8 @@ type Props = { params: { id: string } };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const lesson = getLesson(params.id);
-  if (!lesson) return { title: "Lesson | kcain SAT Prep" };
-  return { title: `${lesson.title} | kcain SAT Prep` };
+  if (!lesson) return { title: "Lesson | cain SAT Prep" };
+  return { title: `${lesson.title} | cain SAT Prep` };
 }
 
 export default function LessonPage({ params }: Props) {

@@ -38,13 +38,13 @@ export async function sendVerificationEmail(email: string, token: string): Promi
   const verifyUrl = `${baseUrl}/auth/verify-email?token=${token}&email=${encodeURIComponent(email)}`;
 
   const { error } = await resend.emails.send({
-    from: process.env.EMAIL_FROM || "Kcain <onboarding@resend.dev>",
+    from: process.env.EMAIL_FROM || "Cain <onboarding@resend.dev>",
     to: email,
-    subject: "Verify your Kcain account",
+    subject: "Verify your Cain account",
     html: `
       <div style="font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto;">
         <h1 style="color: #FF6B35;">Verify your email</h1>
-        <p>Thanks for signing up for Kcain. Click the button below to verify your email and start learning.</p>
+        <p>Thanks for signing up for Cain. Click the button below to verify your email and start learning.</p>
         <a href="${verifyUrl}" style="display: inline-block; margin: 16px 0; padding: 12px 24px; background: linear-gradient(135deg, #FF6B35, #C62828); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
           Verify Email
         </a>
@@ -93,9 +93,9 @@ export async function sendPasswordResetEmail(email: string, token: string): Prom
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const resetUrl = `${baseUrl}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
   const { error } = await resend.emails.send({
-    from: process.env.EMAIL_FROM || "Kcain <onboarding@resend.dev>",
+    from: process.env.EMAIL_FROM || "Cain <onboarding@resend.dev>",
     to: email,
-    subject: "Reset your Kcain password",
+    subject: "Reset your Cain password",
     html: `
       <div style="font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto;">
         <h1 style="color: #FF6B35;">Reset your password</h1>
