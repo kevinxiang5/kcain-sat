@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { BookOpen, Target, Trophy, Zap, ArrowRight, CheckCircle, LayoutDashboard, CreditCard } from "lucide-react";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
+import { TryItSection } from "@/components/landing/TryItSection";
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } };
 const stagger = { animate: { transition: { staggerChildren: 0.1 } } };
@@ -100,6 +101,8 @@ export default function LandingPage() {
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-sat-cream to-transparent" />
       </section>
+
+      <TryItSection />
 
       {/* Features Section */}
       <section className="py-24 md:py-32 bg-sat-cream dark:bg-sat-gray-900">
@@ -242,7 +245,7 @@ export default function LandingPage() {
           >
             How It Works
           </motion.h2>
-          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20">Sign up to unlock lessons, practice, and full tests. No questions on this page—everything happens after you log in.</p>
+          <p className="text-sat-gray-600 dark:text-sky-200 text-center max-w-2xl mx-auto mb-20">Try the examples above, then sign up to unlock the full path, practice bank, and tests.</p>
 
           <div className="max-w-3xl mx-auto space-y-10">
             {[
