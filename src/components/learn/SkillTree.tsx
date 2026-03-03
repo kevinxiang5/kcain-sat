@@ -60,6 +60,73 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
+function PathSection({ nodes, label }: { nodes: SkillNode[]; label: string }) {
+  return (
+    <div className="path-section">
+      <h2 className="text-lg font-semibold text-sat-gray-700 dark:text-sat-gray-300 mb-6 pl-1">
+        {label}
+      </h2>
+      <div className="relative flex flex-col max-w-md mx-auto w-full" style={{ minHeight: nodes.length * 88 }}>
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          viewBox={`0 0 100 ${nodes.length * 88}`}
+          preserveAspectRatio="none"
+          aria-hidden
+        >
+          <path
+            d={[
+              "M 50 0",
+              ...nodes.map((_, i) => {
+                const x = i % 2 === 0 ? 25 : 75;
+                const y = 44 + i * 88;
+                return `L ${x} ${y}`;
+              }),
+            ].join(" ")}
+            fill="none"
+            className="path-snake"
+            strokeWidth="0.4"
+          />
+        </svg>
+        {nodes.map((node, i) => {
+          const isLeft = i % 2 === 0;
+          const showReward = (i + 1) % 5 === 0 && i > 0;
+          return (
+            <div
+              key={node.id}
+              className="relative grid w-full items-center gap-0 px-1"
+              style={{ gridTemplateColumns: "1fr 2fr 1fr", minHeight: showReward ? 100 : 88 }}
+            >
+              {showReward && (
+                <div
+                  className={clsx(
+                    "absolute left-1/2 -translate-x-1/2 -top-2 z-10 flex items-center justify-center w-10 h-10 rounded-full path-reward",
+                    "bg-amber-100 dark:bg-amber-900/50 border-2 border-amber-400 dark:border-amber-600"
+                  )}
+                >
+                  <Gift className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                </div>
+              )}
+              <div className="flex items-center justify-end h-full pr-1">
+                {isLeft ? <PathNode node={node} /> : null}
+              </div>
+              <div className={clsx("flex items-center h-full px-2", isLeft ? "justify-start" : "justify-end")}>
+                {(node.status === "available" || node.status === "current") && (
+                  <p className={clsx("text-sm font-medium text-sat-gray-700 dark:text-sat-gray-300 line-clamp-2", isLeft ? "text-left" : "text-right")}>
+                    {node.title}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center justify-start h-full pl-1">
+                {!isLeft ? <PathNode node={node} /> : null}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export function SkillTree() {
   const { data: session } = useSession();
   const [completedIds, setCompletedIds] = useState<Set<string>>(new Set());
@@ -108,84 +175,11 @@ export function SkillTree() {
         </div>
       </motion.div>
 
-      {(() => {
-        const { section, nodes, label } = sections.find((s) => s.section === activeSection)!;
-        return (
-        <motion.div
-          key={section}
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-          className="path-section"
-        >
-          <h2 className="text-lg font-semibold text-sat-gray-700 dark:text-sat-gray-300 mb-6 pl-1">
-            {label}
-          </h2>
-          <div className="relative flex flex-col max-w-md mx-auto w-full" style={{ minHeight: nodes.length * 88 }}>
-            {/* Snake path: zigzag through node positions */}
-            <svg
-              className="absolute inset-0 w-full h-full pointer-events-none"
-              viewBox={`0 0 100 ${nodes.length * 88}`}
-              preserveAspectRatio="none"
-              aria-hidden
-            >
-              <path
-                d={[
-                  "M 50 0",
-                  ...nodes.map((_, i) => {
-                    const x = i % 2 === 0 ? 25 : 75;
-                    const y = 44 + i * 88;
-                    return `L ${x} ${y}`;
-                  }),
-                ].join(" ")}
-                fill="none"
-                className="path-snake"
-                strokeWidth="0.4"
-              />
-            </svg>
-            {nodes.map((node, i) => {
-              const isLeft = i % 2 === 0;
-              const showReward = (i + 1) % 5 === 0 && i > 0;
-              return (
-                <motion.div
-                  key={node.id}
-                  className="relative grid w-full items-center gap-0 px-1"
-                  style={{ gridTemplateColumns: "1fr 2fr 1fr", minHeight: showReward ? 100 : 88 }}
-                  variants={item}
-                >
-                  {showReward && (
-                    <div
-                      className={clsx(
-                        "absolute left-1/2 -translate-x-1/2 -top-2 z-10 flex items-center justify-center w-10 h-10 rounded-full path-reward",
-                        "bg-amber-100 dark:bg-amber-900/50 border-2 border-amber-400 dark:border-amber-600"
-                      )}
-                    >
-                      <Gift className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                    </div>
-                  )}
-                  {/* Left zone (25%): node when isLeft */}
-                  <div className="flex items-center justify-end h-full pr-1">
-                    {isLeft ? <PathNode node={node} /> : null}
-                  </div>
-                  {/* Middle (50%): title */}
-                  <div className={clsx("flex items-center h-full px-2", isLeft ? "justify-start" : "justify-end")}>
-                    {(node.status === "available" || node.status === "current") && (
-                      <p className={clsx("text-sm font-medium text-sat-gray-700 dark:text-sat-gray-300 line-clamp-2", isLeft ? "text-left" : "text-right")}>
-                        {node.title}
-                      </p>
-                    )}
-                  </div>
-                  {/* Right zone (25%): node when !isLeft */}
-                  <div className="flex items-center justify-start h-full pl-1">
-                    {!isLeft ? <PathNode node={node} /> : null}
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
-        );
-      })()}
+      <PathSection
+        key={activeSection}
+        nodes={activeSection === "math" ? mathNodes : readingNodes}
+        label={activeSection === "math" ? SAT_SECTIONS[0].name : SAT_SECTIONS[1].name}
+      />
     </motion.div>
   );
 }
