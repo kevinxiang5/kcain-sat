@@ -20,18 +20,38 @@ export async function POST(request: Request) {
       );
     }
 
-    const existing = await prisma.user.findUnique({ where: { email: email.trim().toLowerCase() } });
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const existing = await prisma.user.findUnique({ where: { email: normalizedEmail } });
     if (existing) {
-      return NextResponse.json(
-        { error: "An account with this email already exists" },
-        { status: 400 }
-      );
+      // If the account is already verified, block duplicate signups.
+      if (existing.emailVerified) {
+        return NextResponse.json(
+          { error: "An account with this email is already verified. Please log in instead." },
+          { status: 400 }
+        );
+      }
+
+      // If the account exists but is not verified, just resend verification instead of blocking.
+      const token = await createVerificationToken(existing.email);
+      const sent = await sendVerificationEmail(existing.email, token);
+
+      const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+      const verifyUrl = `${baseUrl}/auth/verify-email?token=${token}&email=${encodeURIComponent(existing.email)}`;
+
+      return NextResponse.json({
+        success: true,
+        message: sent
+          ? "You already started signing up. Check your email to verify your account."
+          : "You already started signing up. Verification email could not be sent—check console for link in dev.",
+        verifyUrl: !sent ? verifyUrl : undefined,
+      });
     }
 
     const hashed = await hashPassword(password);
     const user = await prisma.user.create({
       data: {
-        email: email.trim().toLowerCase(),
+        email: normalizedEmail,
         name: name?.trim() || null,
         password: hashed,
         emailVerified: null,
