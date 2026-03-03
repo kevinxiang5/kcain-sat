@@ -38,7 +38,7 @@ Edit `.env`:
 - `DATABASE_URL` — SQLite: `file:./dev.db` (default)
 - `NEXTAUTH_SECRET` — Generate with `openssl rand -base64 32`
 - `NEXTAUTH_URL` — `http://localhost:3000`
-- `RESEND_API_KEY` — (optional) From [resend.com](https://resend.com) for email verification. Without it, the signup success page shows the verification link for dev.
+- `RESEND_API_KEY` — From [resend.com](https://resend.com) for verification + password reset (see `RESEND_SETUP.md` for details). Without it, the signup success page shows the verification link for dev.
 
 ### 3. Database
 
