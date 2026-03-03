@@ -2,15 +2,13 @@
 
 import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
 
 function LoginForm() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -30,7 +28,7 @@ function LoginForm() {
       setError("Invalid email or password. New user? Verify your email first.");
       return;
     }
-    router.push(callbackUrl);
+    router.push("/dashboard");
     router.refresh();
   }
 
@@ -73,9 +71,14 @@ function LoginForm() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200 mb-1">
-              Password
-            </label>
+            <div className="flex items-center justify-between mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-sat-gray-700 dark:text-sky-200">
+                Password
+              </label>
+              <Link href="/auth/forgot-password" className="text-xs text-sat-primary font-medium hover:underline">
+                Forgot password?
+              </Link>
+            </div>
             <input
               id="password"
               type="password"

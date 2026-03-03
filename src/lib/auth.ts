@@ -65,3 +65,58 @@ export async function verifyEmailToken(email: string, token: string): Promise<bo
   await prisma.verificationToken.deleteMany({ where: { identifier: email } });
   return true;
 }
+
+// ----- Password reset (uses VerificationToken with identifier "password-reset:email")
+const RESET_EXPIRY_HOURS = 1;
+const RESET_PREFIX = "password-reset:";
+
+function resetIdentifier(email: string): string {
+  return RESET_PREFIX + email.trim().toLowerCase();
+}
+
+export async function createPasswordResetToken(email: string): Promise<string> {
+  const token = crypto.randomBytes(32).toString("hex");
+  const expires = new Date(Date.now() + RESET_EXPIRY_HOURS * 60 * 60 * 1000);
+  const identifier = resetIdentifier(email);
+  await prisma.verificationToken.deleteMany({ where: { identifier } });
+  await prisma.verificationToken.create({
+    data: { identifier, token, expires },
+  });
+  return token;
+}
+
+export async function sendPasswordResetEmail(email: string, token: string): Promise<boolean> {
+  if (!resend) {
+    console.warn("RESEND_API_KEY not set - skipping reset email. Token:", token);
+    return false;
+  }
+  const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+  const resetUrl = `${baseUrl}/auth/reset-password?token=${token}&email=${encodeURIComponent(email)}`;
+  const { error } = await resend.emails.send({
+    from: process.env.EMAIL_FROM || "Kcain <onboarding@resend.dev>",
+    to: email,
+    subject: "Reset your Kcain password",
+    html: `
+      <div style="font-family: system-ui, sans-serif; max-width: 480px; margin: 0 auto;">
+        <h1 style="color: #FF6B35;">Reset your password</h1>
+        <p>You requested a password reset. Click the button below to set a new password.</p>
+        <a href="${resetUrl}" style="display: inline-block; margin: 16px 0; padding: 12px 24px; background: linear-gradient(135deg, #FF6B35, #C62828); color: white; text-decoration: none; border-radius: 8px; font-weight: bold;">
+          Reset Password
+        </a>
+        <p style="color: #666; font-size: 14px;">Or copy this link: ${resetUrl}</p>
+        <p style="color: #999; font-size: 12px;">This link expires in ${RESET_EXPIRY_HOURS} hour(s). If you didn't request this, you can ignore this email.</p>
+      </div>
+    `,
+  });
+  return !error;
+}
+
+export async function verifyPasswordResetToken(email: string, token: string): Promise<boolean> {
+  const identifier = resetIdentifier(email);
+  const record = await prisma.verificationToken.findFirst({
+    where: { identifier, token },
+  });
+  if (!record || record.expires < new Date()) return false;
+  await prisma.verificationToken.deleteMany({ where: { identifier } });
+  return true;
+}

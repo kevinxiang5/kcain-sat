@@ -35,7 +35,6 @@ function LogoSvg({ size }: { size: number }) {
 
 export function KcainLogo({ size = "md", showText = true, className = "" }: KcainLogoProps) {
   const px = sizes[size];
-  const [imgError, setImgError] = useState(false);
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <motion.div
@@ -43,23 +42,11 @@ export function KcainLogo({ size = "md", showText = true, className = "" }: Kcai
         whileHover={{ scale: 1.05, rotate: 2 }}
         transition={{ type: "spring", stiffness: 400 }}
       >
-        {!imgError ? (
-          <Image
-            src="/kcain-logo.png"
-            alt="Kcain"
-            width={px}
-            height={px}
-            className="rounded-lg object-contain"
-            priority
-            onError={() => setImgError(true)}
-          />
-        ) : (
-          <LogoSvg size={px} />
-        )}
+        <LogoSvg size={px} />
       </motion.div>
       {showText && (
         <span className="font-display font-bold text-sat-gray-800 dark:text-white tracking-tight lowercase">
-          kcain
+          cain
         </span>
       )}
     </div>
