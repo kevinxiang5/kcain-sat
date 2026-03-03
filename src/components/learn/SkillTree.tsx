@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Lock, Check, Play, Star, Gift } from "lucide-react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { SAT_SECTIONS } from "@/lib/db";
 import { LESSONS } from "@/lib/lessons";
 
@@ -89,7 +89,7 @@ export function SkillTree() {
       <motion.div variants={item} className="flex justify-center mb-2">
         <div className="inline-flex rounded-full bg-sat-gray-100 dark:bg-sat-gray-800 p-1">
           {(["math", "reading"] as const).map((sec) => (
-            <button
+            <motion.button
               key={sec}
               type="button"
               onClick={() => setActiveSection(sec)}
@@ -99,17 +99,27 @@ export function SkillTree() {
                   ? "bg-sat-primary text-white dark:bg-sky-500"
                   : "text-sat-gray-700 dark:text-sat-gray-300 hover:bg-sat-gray-200 dark:hover:bg-sat-gray-700"
               )}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
             >
               {sec === "math" ? SAT_SECTIONS[0].name : SAT_SECTIONS[1].name}
-            </button>
+            </motion.button>
           ))}
         </div>
       </motion.div>
 
+      <AnimatePresence mode="wait">
       {sections
         .filter(({ section }) => section === activeSection)
         .map(({ section, nodes, label }) => (
-        <motion.div key={section} variants={item} className="path-section">
+        <motion.div
+          key={section}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.2 }}
+          className="path-section"
+        >
           <h2 className="text-lg font-semibold text-sat-gray-700 dark:text-sat-gray-300 mb-6 pl-1">
             {label}
           </h2>
@@ -177,6 +187,7 @@ export function SkillTree() {
           </div>
         </motion.div>
       ))}
+      </AnimatePresence>
     </motion.div>
   );
 }
