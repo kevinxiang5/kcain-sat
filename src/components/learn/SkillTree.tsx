@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { Lock, Check, Play, Star, Gift } from "lucide-react";
 import clsx from "clsx";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { SAT_SECTIONS } from "@/lib/db";
 import { LESSONS } from "@/lib/lessons";
 
@@ -108,15 +108,13 @@ export function SkillTree() {
         </div>
       </motion.div>
 
-      <AnimatePresence mode="wait">
-      {sections
-        .filter(({ section }) => section === activeSection)
-        .map(({ section, nodes, label }) => (
+      {(() => {
+        const { section, nodes, label } = sections.find((s) => s.section === activeSection)!;
+        return (
         <motion.div
           key={section}
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.2 }}
           className="path-section"
         >
@@ -186,8 +184,8 @@ export function SkillTree() {
             })}
           </div>
         </motion.div>
-      ))}
-      </AnimatePresence>
+        );
+      })()}
     </motion.div>
   );
 }
