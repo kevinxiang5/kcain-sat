@@ -20,7 +20,7 @@ function Block({ block }: { block: { type: string; content: string } }) {
     return <h4 className="font-display font-bold text-lg mt-4 mb-1 dark:text-white">{block.content}</h4>;
   }
   if (block.type === "example") {
-    return <p className="text-sat-primary dark:text-sky-300 font-medium text-sm mt-2">{block.content}</p>;
+    return <p className="text-black dark:text-blue-300 font-medium text-sm mt-2">{block.content}</p>;
   }
   if (block.type === "formula") {
     return <p className="bg-sat-gray-100 dark:bg-sat-gray-700 rounded-lg px-3 py-2 text-sm font-mono mt-2 dark:text-sky-100">{block.content}</p>;
@@ -83,8 +83,8 @@ export function TryItSection() {
               }}
               className={`px-5 py-2.5 rounded-xl font-semibold transition-colors ${
                 tab === t
-                  ? "bg-sat-primary dark:bg-sky-500 text-white"
-                  : "bg-sat-gray-100 dark:bg-sat-gray-700 text-sat-gray-600 dark:text-sky-200 hover:bg-sat-gray-200 dark:hover:bg-sat-gray-600"
+                  ? "bg-black dark:bg-blue-600 text-white"
+                  : "bg-sat-gray-100 dark:bg-sat-gray-700 text-sat-gray-600 dark:text-blue-200 hover:bg-sat-gray-200 dark:hover:bg-sat-gray-600"
               }`}
             >
               {t === "questions" ? "Sample questions" : "Sample lesson"}
@@ -112,13 +112,13 @@ export function TryItSection() {
                     onClick={() => !submitted && setSelected(opt.key)}
                     className={`w-full text-left px-4 py-3 rounded-xl border-2 transition-all ${
                       !submitted
-                        ? "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-primary dark:hover:border-sky-500"
+                        ? "border-sat-gray-200 dark:border-sat-gray-600 hover:border-black dark:hover:border-blue-500"
                         : opt.key === q.correctKey
                           ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-200"
                           : selected === opt.key
                             ? "border-sat-crimson bg-red-50 dark:bg-red-900/20 text-red-800 dark:text-red-200"
                             : "border-sat-gray-200 dark:border-sat-gray-600 opacity-70"
-                    } ${selected === opt.key && !submitted ? "border-sat-primary dark:border-sky-500 bg-sat-primary/5 dark:bg-sky-500/10" : ""}`}
+                    } ${selected === opt.key && !submitted ? "border-black dark:border-blue-500 bg-black/5 dark:bg-blue-500/10" : ""}`}
                   >
                     <span className="font-medium">{opt.key}.</span> {opt.text}
                   </button>
@@ -168,7 +168,7 @@ export function TryItSection() {
                         onClick={() => !lessonSubmitted && setLessonAnswer(opt.key)}
                         className={`px-3 py-2 rounded-lg border-2 text-sm font-medium transition-all ${
                           !lessonSubmitted
-                            ? "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-primary dark:hover:border-sky-500"
+                            ? "border-sat-gray-200 dark:border-sat-gray-600 hover:border-black dark:hover:border-blue-500"
                             : opt.key === PREVIEW_QUESTION.correctKey
                               ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20"
                               : lessonAnswer === opt.key

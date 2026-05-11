@@ -29,7 +29,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      className="p-2 rounded-xl border border-sat-gray-200 hover:border-sat-primary hover:bg-sat-gray-100/70 dark:hover:bg-sat-gray-800 transition-colors"
+      className="p-2 rounded-xl border border-sat-gray-200 dark:border-sat-horizon hover:border-black dark:hover:border-blue-400 hover:bg-sat-gray-100/70 dark:hover:bg-white/5 transition-colors"
       aria-label="Toggle dark mode"
     >
       {dark ? <Sun className="w-4 h-4 text-sat-gray-100" /> : <Moon className="w-4 h-4 text-sat-gray-700" />}
