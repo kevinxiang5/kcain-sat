@@ -23,15 +23,21 @@ export function Navigation() {
   return (
     <motion.header
       className={clsx(
-        "sticky top-0 z-50 backdrop-blur-md border-b shadow-sm",
-        "bg-white/90 border-sat-gray-100 dark:bg-sat-gray-900/95 dark:border-sat-gray-700"
+        "sticky top-0 z-50 backdrop-blur-md border-b transition-colors",
+        "bg-white/92 border-black/8 shadow-[0_1px_0_rgba(0,0,0,0.06)]",
+        "dark:bg-sat-night/95 dark:border-sat-horizon dark:shadow-none"
       )}
+      initial={{ y: -4, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4 }}
     >
-      <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/" className="hover:opacity-90 transition-opacity">
+      <nav className="container mx-auto px-5 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="hover:opacity-85 transition-opacity">
           <KcainLogo size="md" showText />
         </Link>
 
+        {/* Desktop nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks
             .filter((link) => !link.requireAuth || session)
@@ -39,40 +45,42 @@ export function Navigation() {
               <Link
                 key={href}
                 href={href}
-                className="text-sat-gray-600 hover:text-sat-primary font-medium transition-colors relative group dark:text-sky-100 dark:hover:text-sky-300"
+                className="relative text-black/65 hover:text-black dark:text-sat-mist dark:hover:text-sat-frost font-medium text-sm transition-colors group"
               >
                 {label}
-                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-sat-primary to-sat-crimson group-hover:w-full transition-all duration-300" />
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-black dark:bg-blue-400 group-hover:w-full transition-all duration-300" />
               </Link>
             ))}
 
           {status === "loading" ? (
-            <div className="w-24 h-9 bg-sat-gray-200 rounded-xl animate-pulse" />
+            <div className="w-24 h-8 bg-black/8 dark:bg-white/8 rounded-xl animate-pulse" />
           ) : session ? (
             <div className="flex items-center gap-3">
               <Link
                 href="/dashboard"
-                className="flex items-center gap-2 text-sat-gray-600 hover:text-sat-primary transition-colors dark:text-sky-100 dark:hover:text-sky-300"
+                className="flex items-center gap-2 text-black/65 hover:text-black dark:text-sat-mist dark:hover:text-sat-frost transition-colors"
               >
                 {session.user?.image ? (
                   <Image
                     src={session.user.image}
                     alt=""
-                    width={36}
-                    height={36}
-                    className="w-9 h-9 rounded-xl object-cover"
+                    width={32}
+                    height={32}
+                    className="w-8 h-8 rounded-lg object-cover"
                     unoptimized
                   />
                 ) : (
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sat-primary/20 to-sat-crimson/20 flex items-center justify-center">
-                    <User className="w-4 h-4 text-sat-primary" />
+                  <div className="w-8 h-8 rounded-lg bg-black/8 dark:bg-sat-horizon flex items-center justify-center">
+                    <User className="w-4 h-4 text-black/50 dark:text-sat-mist" />
                   </div>
                 )}
-                <span className="font-medium">{session.user?.name || "Account"}</span>
+                <span className="text-sm font-medium">
+                  {session.user?.name || "Account"}
+                </span>
               </Link>
               <motion.button
                 onClick={() => signOut()}
-                className="flex items-center gap-2 text-sat-gray-500 hover:text-sat-crimson transition-colors text-sm"
+                className="flex items-center gap-1.5 text-black/42 hover:text-black dark:text-sat-mist dark:hover:text-sat-frost transition-colors text-sm"
                 whileHover={{ x: 2 }}
               >
                 <LogOut className="w-4 h-4" />
@@ -84,7 +92,7 @@ export function Navigation() {
             <div className="flex items-center gap-3">
               <Link
                 href="/auth/login"
-                className="text-sat-gray-600 hover:text-sat-primary font-medium dark:text-sky-100 dark:hover:text-sky-300"
+                className="text-black/62 hover:text-black dark:text-sat-mist dark:hover:text-sat-frost font-medium text-sm transition-colors"
               >
                 Log in
               </Link>
@@ -92,7 +100,7 @@ export function Navigation() {
                 <motion.span
                   className="btn-primary text-sm py-2 px-5 inline-block"
                   whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
+                  whileTap={{ scale: 0.97 }}
                 >
                   Sign up
                 </motion.span>
@@ -102,81 +110,89 @@ export function Navigation() {
           )}
         </div>
 
+        {/* Mobile menu button */}
         <motion.button
-          className="md:hidden p-2 rounded-xl hover:bg-sat-gray-100"
+          className="md:hidden p-2 rounded-xl hover:bg-black/6 dark:hover:bg-white/6 transition-colors"
           onClick={() => setMobileOpen(!mobileOpen)}
-          whileTap={{ scale: 0.95 }}
+          whileTap={{ scale: 0.93 }}
         >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileOpen ? (
+            <X className="w-5 h-5 text-black dark:text-sat-frost" />
+          ) : (
+            <Menu className="w-5 h-5 text-black dark:text-sat-frost" />
+          )}
         </motion.button>
       </nav>
 
+      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="md:hidden border-t border-sat-gray-100 bg-white dark:bg-sat-gray-900 dark:border-sat-gray-700"
+            className="md:hidden border-t border-black/8 dark:border-sat-horizon bg-white dark:bg-sat-night"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+            <div className="container mx-auto px-5 py-5 flex flex-col gap-4">
               {navLinks
                 .filter((link) => !link.requireAuth || session)
                 .map(({ href, label }) => (
                   <Link
                     key={href}
                     href={href}
-                    className="text-sat-gray-600 hover:text-sat-primary font-medium py-2 dark:text-sky-100 dark:hover:text-sky-300"
+                    className="text-black/70 hover:text-black dark:text-sat-mist dark:hover:text-sat-frost font-medium py-1.5 text-sm transition-colors"
                     onClick={() => setMobileOpen(false)}
                   >
                     {label}
                   </Link>
                 ))}
+
               {session ? (
                 <>
                   <Link
                     href="/dashboard"
-                    className="flex items-center gap-2 py-2"
+                    className="flex items-center gap-2.5 py-1.5"
                     onClick={() => setMobileOpen(false)}
                   >
                     {session.user?.image ? (
                       <Image
                         src={session.user.image}
                         alt=""
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-full object-cover"
+                        width={28}
+                        height={28}
+                        className="w-7 h-7 rounded-lg object-cover"
                         unoptimized
                       />
                     ) : (
-                      <User className="w-8 h-8 text-sat-gray-400" />
+                      <div className="w-7 h-7 rounded-lg bg-black/8 dark:bg-sat-horizon flex items-center justify-center">
+                        <User className="w-3.5 h-3.5 text-black/45 dark:text-sat-mist" />
+                      </div>
                     )}
-                    {session.user?.name || "Dashboard"}
+                    <span className="text-sm font-medium text-black dark:text-sat-frost">
+                      {session.user?.name || "Dashboard"}
+                    </span>
                   </Link>
                   <button
-                    onClick={() => {
-                      signOut();
-                      setMobileOpen(false);
-                    }}
-                    className="flex items-center gap-2 text-sat-crimson py-2 text-left"
+                    onClick={() => { signOut(); setMobileOpen(false); }}
+                    className="flex items-center gap-2 text-black/50 dark:text-sat-mist hover:text-black dark:hover:text-sat-frost py-1.5 text-sm text-left transition-colors"
                   >
                     <LogOut className="w-4 h-4" />
                     Sign out
                   </button>
                 </>
               ) : (
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-3 pt-1">
                   <Link
                     href="/auth/login"
-                    className="btn-secondary flex-1 text-center py-2"
+                    className="btn-secondary flex-1 text-center py-2.5"
                     onClick={() => setMobileOpen(false)}
                   >
                     Log in
                   </Link>
                   <Link
                     href="/auth/signup"
-                    className="btn-primary flex-1 text-center py-2"
+                    className="btn-primary flex-1 text-center py-2.5"
                     onClick={() => setMobileOpen(false)}
                   >
                     Sign up

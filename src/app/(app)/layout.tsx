@@ -20,8 +20,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   if (status === "loading") {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-sat-cream dark:bg-sat-gray-900">
-        <div className="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin" />
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-sat-night">
+        <div className="w-10 h-10 border-[3px] border-black/15 dark:border-blue-500/30 border-t-black dark:border-t-blue-500 rounded-full animate-spin" />
       </div>
     );
   }
@@ -31,7 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="h-screen flex bg-sat-cream dark:bg-sat-gray-900 overflow-hidden">
+    <div className="h-screen flex bg-white dark:bg-sat-night overflow-hidden">
       <AppSidebar />
       <main className="flex-1 min-w-0 min-h-0 flex flex-col lg:pl-0 pl-14 pt-14 lg:pt-0">
         <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">

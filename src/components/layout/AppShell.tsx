@@ -10,7 +10,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen bg-sat-cream dark:bg-sat-gray-900">
+    <div className="min-h-screen bg-white dark:bg-sat-night">
       {children}
     </div>
   );
