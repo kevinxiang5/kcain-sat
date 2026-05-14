@@ -13,6 +13,7 @@ import {
   type PracticeQuestion,
   type HackSlide,
 } from "@/lib/lessons";
+import { mathStr } from "@/components/MathText";
 
 type FlowStep = "content" | `q:${number}` | `r:${number}` | `h:${number}` | "done";
 
@@ -139,7 +140,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                     "p-5 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border-l-4 border-amber-500 dark:border-sky-500 font-medium text-sat-gray-800 dark:text-sky-100"
                 )}
               >
-                {block.content}
+                {mathStr(block.content)}
               </motion.div>
             ))}
             <motion.button
@@ -166,7 +167,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
             <h2 className="text-xl font-display font-bold dark:text-white">
               Practice {questions.length > 1 ? `(${questionIndex + 1} of ${questions.length})` : ""}
             </h2>
-            <p className="text-sat-gray-700 dark:text-sky-200 text-lg">{currentQuestion.question}</p>
+            <p className="text-sat-gray-700 dark:text-sky-200 text-lg">{mathStr(currentQuestion.question)}</p>
             <div className="space-y-3">
               {currentQuestion.options.map((opt, i) => (
                 <motion.button
@@ -186,7 +187,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                   <span className="w-10 h-10 rounded-xl bg-sat-gray-100 dark:bg-sat-gray-700 flex items-center justify-center font-bold shrink-0">
                     {opt.key}
                   </span>
-                  {opt.text}
+                  {mathStr(opt.text)}
                 </motion.button>
               ))}
             </div>
@@ -263,7 +264,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
               transition={{ delay: 0.3 }}
             >
               <p className="font-bold mb-2 text-sat-gray-800 dark:text-white">Explanation</p>
-              <p className="text-sat-gray-700 dark:text-sky-200">{currentQuestion.explanation}</p>
+              <p className="text-sat-gray-700 dark:text-sky-200">{mathStr(currentQuestion.explanation)}</p>
             </motion.div>
             <motion.button
               onClick={handleNextFromResult}
@@ -302,7 +303,7 @@ export function LessonViewer({ lessonId }: { lessonId: string }) {
                 )}
                 <h2 className="text-xl font-display font-bold dark:text-white">{currentHack.title}</h2>
               </div>
-              <p className="text-sat-gray-700 dark:text-sky-200 leading-relaxed mb-6">{currentHack.content}</p>
+              <p className="text-sat-gray-700 dark:text-sky-200 leading-relaxed mb-6">{mathStr(currentHack.content)}</p>
               {currentHack.url && (
                 <a
                   href={currentHack.url}

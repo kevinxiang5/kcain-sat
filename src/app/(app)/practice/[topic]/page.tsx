@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, Check, X, Calculator, ExternalLink } from "lucide-react";
 import { getQuestionsByTopic } from "@/lib/questions";
 import type { PracticeBankQuestion } from "@/lib/questions";
+import { mathStr } from "@/components/MathText";
 
 const QUESTIONS_PER_SESSION = 25;
 
@@ -242,7 +243,7 @@ export default function PracticeTopicPage() {
           className="card p-6 md:p-8"
         >
           <h2 className="font-display font-bold text-lg mb-4 dark:text-white">{label}</h2>
-          <p className="text-sat-gray-800 dark:text-sat-gray-200 whitespace-pre-line mb-6">{q.question}</p>
+          <p className="text-sat-gray-800 dark:text-sat-gray-200 whitespace-pre-line mb-6">{mathStr(q.question)}</p>
           <div className="space-y-3">
             {q.options.map((opt) => (
               <button
@@ -263,13 +264,13 @@ export default function PracticeTopicPage() {
                 }`}
               >
                 {showResult && (opt.key === q.correctKey ? <Check className="w-5 h-5 text-green-600 shrink-0" /> : selected === opt.key ? <X className="w-5 h-5 text-red-600 shrink-0" /> : null)}
-                <span className="font-medium dark:text-white">{opt.key}. {opt.text}</span>
+                <span className="font-medium dark:text-white">{opt.key}. {mathStr(opt.text)}</span>
               </button>
             ))}
           </div>
           {showResult && q.explanation && (
             <div className="mt-6 p-4 rounded-lg bg-sat-gray-100 dark:bg-sat-gray-800 text-sat-gray-800 dark:text-sat-gray-200 text-sm">
-              <strong>Explanation:</strong> {q.explanation}
+              <strong>Explanation:</strong> {mathStr(q.explanation)}
             </div>
           )}
           <div className="mt-6 flex gap-3">
