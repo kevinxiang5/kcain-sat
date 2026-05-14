@@ -322,7 +322,7 @@ export default function LandingPage() {
                 width: `${FEATURES.length * 100}%`,
               }}
             >
-              {FEATURES.map(({ icon: Icon, title, subtitle, description, stat, statLabel }, i) => (
+              {FEATURES.map(({ icon: Icon, title, subtitle, description }, i) => (
                 <div
                   key={title}
                   className="h-full flex items-center pr-20"
@@ -359,14 +359,6 @@ export default function LandingPage() {
                         <p className="text-white/52 text-base lg:text-lg leading-relaxed max-w-md">
                           {description}
                         </p>
-                        <div className="mt-7 inline-flex items-baseline gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10">
-                          <span className="text-2xl font-display font-bold text-white">
-                            {stat}
-                          </span>
-                          <span className="text-xs text-white/42 uppercase tracking-wider">
-                            {statLabel}
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -478,7 +470,7 @@ export default function LandingPage() {
 
             {/* Premium — featured */}
             <motion.div
-              className="relative card card-glow p-7 !border-black dark:!border-blue-500 !border-2"
+              className="relative card card-glow p-7 !border-black dark:!border-blue-500 !border-2 !overflow-visible"
               variants={fadeUp}
             >
               <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-black dark:bg-blue-600 text-white text-[10px] font-bold tracking-widest uppercase">

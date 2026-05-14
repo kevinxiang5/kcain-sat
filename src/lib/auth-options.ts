@@ -44,6 +44,87 @@ export const authOptions: NextAuthOptions = {
       : []),
   ],
   callbacks: {
+    async signIn({ user, account, profile }) {
+      // Only handle OAuth providers (Google, etc.)
+      if (account?.provider === "google") {
+        if (!user.email) return false;
+
+        try {
+          // Find or create the user record
+          const existingUser = await prisma.user.findUnique({
+            where: { email: user.email },
+            include: { accounts: true },
+          });
+
+          if (existingUser) {
+            // User exists — link Google account if not already linked
+            const alreadyLinked = existingUser.accounts.some(
+              (a) => a.provider === "google" && a.providerAccountId === account.providerAccountId
+            );
+            if (!alreadyLinked) {
+              await prisma.account.create({
+                data: {
+                  userId: existingUser.id,
+                  type: account.type,
+                  provider: account.provider,
+                  providerAccountId: account.providerAccountId,
+                  access_token: account.access_token,
+                  refresh_token: account.refresh_token,
+                  expires_at: account.expires_at,
+                  token_type: account.token_type,
+                  scope: account.scope,
+                  id_token: account.id_token,
+                },
+              });
+            }
+            // Ensure emailVerified is set for Google users
+            if (!existingUser.emailVerified) {
+              await prisma.user.update({
+                where: { id: existingUser.id },
+                data: {
+                  emailVerified: new Date(),
+                  image: user.image ?? existingUser.image,
+                  name: user.name ?? existingUser.name,
+                },
+              });
+            }
+            // Pass the DB id back through so jwt callback gets the right id
+            user.id = existingUser.id;
+          } else {
+            // New user — create them
+            const newUser = await prisma.user.create({
+              data: {
+                email: user.email,
+                name: user.name,
+                image: user.image,
+                emailVerified: new Date(),
+                accounts: {
+                  create: {
+                    type: account.type,
+                    provider: account.provider,
+                    providerAccountId: account.providerAccountId,
+                    access_token: account.access_token,
+                    refresh_token: account.refresh_token,
+                    expires_at: account.expires_at,
+                    token_type: account.token_type,
+                    scope: account.scope,
+                    id_token: account.id_token,
+                  },
+                },
+              },
+            });
+            user.id = newUser.id;
+          }
+          return true;
+        } catch (err) {
+          console.error("[Google signIn] DB error:", err);
+          return false;
+        }
+      }
+      // Credentials provider — already validated in authorize()
+      return true;
+    },
+
     async jwt({ token, user }) {
       if (user) token.id = user.id;
       return token;
