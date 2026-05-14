@@ -3,6 +3,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { ProgressTracker } from "@/components/dashboard/ProgressTracker";
+import { PomodoroTimer } from "@/components/dashboard/PomodoroTimer";
+import { TaskManager, useTasks } from "@/components/dashboard/TaskManager";
+import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BookOpen, Target, ArrowRight, Trophy, Zap, Lightbulb, Clock, ChevronRight, Star } from "lucide-react";
@@ -31,6 +34,8 @@ export default function DashboardPage() {
     readingCompleted: 0,
     lastCompleted: [] as { lessonId: string | null; title: string; completedAt: string }[],
   });
+
+  const { tasks, addTask, toggleTask, deleteTask } = useTasks();
 
   useEffect(() => {
     fetch("/api/progress")
@@ -61,6 +66,7 @@ export default function DashboardPage() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
     >
+      {/* Header */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.05 }}>
         <h1 className="text-2xl md:text-3xl font-display font-bold mb-1 text-sat-gray-900 dark:text-white">
           Welcome back, {name}
@@ -68,7 +74,8 @@ export default function DashboardPage() {
         <p className="text-sat-gray-600 dark:text-sat-gray-400 text-base">Track progress, build streaks, and complete your learning path.</p>
       </motion.div>
 
-      <motion.div className="mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+      {/* Progress tracker */}
+      <motion.div className="mb-8 mt-6" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
         <ProgressTracker
           xp={progress.totalXP}
           streak={progress.streak}
@@ -78,7 +85,8 @@ export default function DashboardPage() {
         />
       </motion.div>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
+      {/* Stats row */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <motion.div className="card p-4" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
           <div className="flex items-center gap-3 mb-2">
             <div className="w-9 h-9 rounded-lg bg-sky-500 dark:bg-sky-600 flex items-center justify-center">
@@ -126,8 +134,34 @@ export default function DashboardPage() {
         </motion.div>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6 mb-10">
-        <motion.div className="lg:col-span-2 card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.27 }}>
+      {/* ── Productivity section: Tasks + Pomodoro ── */}
+      <motion.div
+        className="grid lg:grid-cols-3 gap-6 mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.27 }}
+      >
+        <div className="lg:col-span-2">
+          <TaskManager tasks={tasks} addTask={addTask} toggleTask={toggleTask} deleteTask={deleteTask} />
+        </div>
+        <div>
+          <PomodoroTimer />
+        </div>
+      </motion.div>
+
+      {/* ── Calendar ── */}
+      <motion.div
+        className="mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <CalendarWidget tasks={tasks} />
+      </motion.div>
+
+      {/* ── Activity + Tip ── */}
+      <div className="grid lg:grid-cols-3 gap-6 mb-8">
+        <motion.div className="lg:col-span-2 card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.33 }}>
           <h2 className="font-display font-semibold text-base mb-3 flex items-center gap-2 text-sat-gray-900 dark:text-white">
             <Clock className="w-4 h-4 text-sat-gray-500 dark:text-sat-gray-400" />
             Recent Activity
@@ -148,7 +182,7 @@ export default function DashboardPage() {
             <p className="text-sat-gray-500 dark:text-sky-300 py-6">No lessons completed yet. Go to the <Link href="/lessons" className="text-sky-600 dark:text-sky-400 font-medium hover:underline">Lessons</Link> tab to start!</p>
           )}
         </motion.div>
-        <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+        <motion.div className="card p-5" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.36 }}>
           <h2 className="font-display font-semibold text-base mb-3 flex items-center gap-2 text-sat-gray-900 dark:text-white">
             <Lightbulb className="w-4 h-4 text-amber-500 dark:text-amber-400" />
             SAT Tip
@@ -157,8 +191,9 @@ export default function DashboardPage() {
         </motion.div>
       </div>
 
+      {/* Next lesson CTA */}
       {nextLesson && (
-        <motion.div className="mb-10" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.33 }}>
+        <motion.div className="mb-8" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.39 }}>
           <Link href={`/learn/${nextLessonId}`} className="block">
             <div className="card p-4 border border-sky-200 dark:border-sky-800 bg-sky-50/50 dark:bg-sky-950/30 hover:bg-sky-100/50 dark:hover:bg-sky-900/30 transition-colors group">
               <div className="flex items-center justify-between">
@@ -179,7 +214,8 @@ export default function DashboardPage() {
         </motion.div>
       )}
 
-      <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.36 }}>
+      {/* Action buttons */}
+      <motion.div className="flex flex-col sm:flex-row gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.42 }}>
         <Link href="/lessons">
           <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
             <BookOpen className="w-5 h-5" />

@@ -119,17 +119,6 @@ export default function LandingPage() {
 
         <div className="container mx-auto px-6 lg:px-10 py-24 relative z-10">
           <div className="max-w-5xl">
-            {/* Status badge */}
-            <motion.div
-              className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-white/15 bg-white/5 backdrop-blur-sm text-white/55 text-sm font-medium mb-10"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-white/60 animate-pulse" />
-              SAT Prep reimagined
-            </motion.div>
-
             {/* Headline */}
             <motion.h1
               className="text-5xl sm:text-7xl md:text-[5.5rem] lg:text-[7rem] font-display font-bold text-white leading-[0.92] tracking-tight mb-8"
@@ -240,24 +229,32 @@ export default function LandingPage() {
       <div
         ref={scrollRef}
         className="relative hidden md:block"
-        style={{ height: `${FEATURES.length * 100}vh` }}
+        style={{ height: `${FEATURES.length * 62}vh` }}
       >
-        <div className="sticky top-0 h-screen overflow-hidden flex flex-col bg-white dark:bg-sat-night">
-          {/* Dot pattern */}
-          <div className="absolute inset-0 bg-dots pointer-events-none" />
+        <div className="sticky top-0 h-screen overflow-hidden flex flex-col bg-black">
+          {/* Grid overlay — same as hero */}
+          <div className="absolute inset-0 bg-grid pointer-events-none" />
+          {/* Subtle radial glow */}
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 60% at 50% 50%, rgba(255,255,255,0.04) 0%, transparent 70%)",
+            }}
+          />
 
           {/* ── Section header ── */}
           <div className="relative z-10 flex-shrink-0 pt-10 pb-6 px-8 lg:px-16">
             <div className="flex items-end justify-between">
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/35 dark:text-sat-mist mb-2">
+                <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-white/35 mb-2">
                   What you get
                 </p>
-                <h2 className="text-3xl lg:text-4xl font-display font-bold text-black dark:text-sat-frost">
+                <h2 className="text-3xl lg:text-4xl font-display font-bold text-white">
                   Why cain works
                 </h2>
               </div>
-              <p className="text-xs text-black/30 dark:text-sat-mist font-mono pb-1">
+              <p className="text-xs text-white/25 font-mono pb-1">
                 scroll to explore →
               </p>
             </div>
@@ -266,12 +263,12 @@ export default function LandingPage() {
           {/* ── Traveling book + progress track ── */}
           <div className="relative flex-shrink-0 h-20 mx-8 lg:mx-16 z-10">
             {/* Track base */}
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-px bg-black/8 dark:bg-white/8" />
+            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-px bg-white/10" />
 
             {/* Progress fill */}
             <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 h-px overflow-hidden">
               <motion.div
-                className="h-full bg-black dark:bg-blue-500"
+                className="h-full bg-white"
                 style={{ width: progressWidth }}
               />
             </div>
@@ -280,7 +277,7 @@ export default function LandingPage() {
             {FEATURES.map((_, i) => (
               <div
                 key={i}
-                className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full border-2 border-black/18 dark:border-blue-400/30 bg-white dark:bg-sat-night"
+                className="absolute top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full border-2 border-white/20 bg-black"
                 style={{
                   left: `${(i / (FEATURES.length - 1)) * 100}%`,
                   marginLeft: i === 0 ? 0 : i === FEATURES.length - 1 ? -10 : -5,
@@ -299,22 +296,20 @@ export default function LandingPage() {
               }}
             >
               <motion.div
-                className="w-10 h-12 rounded-lg bg-black dark:bg-blue-600 flex items-center justify-center relative overflow-hidden"
+                className="w-10 h-12 rounded-lg bg-white flex items-center justify-center relative overflow-hidden"
                 animate={{
                   boxShadow: [
-                    "0 0 18px rgba(0,0,0,0.28), 0 6px 18px rgba(0,0,0,0.18)",
-                    "0 0 38px rgba(0,0,0,0.52), 0 6px 28px rgba(0,0,0,0.28)",
-                    "0 0 18px rgba(0,0,0,0.28), 0 6px 18px rgba(0,0,0,0.18)",
+                    "0 0 18px rgba(255,255,255,0.15), 0 6px 18px rgba(255,255,255,0.08)",
+                    "0 0 38px rgba(255,255,255,0.30), 0 6px 28px rgba(255,255,255,0.15)",
+                    "0 0 18px rgba(255,255,255,0.15), 0 6px 18px rgba(255,255,255,0.08)",
                   ],
                 }}
                 transition={{ duration: 2.4, repeat: Infinity }}
               >
-                <BookOpen className="w-4 h-4 text-white relative z-10" />
-                {/* Top shine */}
-                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/25 to-transparent rounded-t-lg" />
+                <BookOpen className="w-4 h-4 text-black relative z-10" />
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-black/10 to-transparent rounded-t-lg" />
               </motion.div>
-              {/* Glow halo beneath book */}
-              <div className="absolute -inset-3 rounded-full blur-lg bg-black/15 dark:bg-blue-500/25 -z-10" />
+              <div className="absolute -inset-3 rounded-full blur-lg bg-white/10 -z-10" />
             </motion.div>
           </div>
 
@@ -336,7 +331,7 @@ export default function LandingPage() {
                   <div className="max-w-2xl">
                     {/* Huge faded number */}
                     <div
-                      className="font-display font-bold leading-none text-black/[0.04] dark:text-white/[0.04] select-none -ml-2 mb-4"
+                      className="font-display font-bold leading-none text-white/[0.04] select-none -ml-2 mb-4"
                       style={{ fontSize: "clamp(6rem, 14vw, 11rem)" }}
                     >
                       {String(i + 1).padStart(2, "0")}
@@ -345,30 +340,30 @@ export default function LandingPage() {
                     <div className="flex items-start gap-5">
                       {/* Icon chip */}
                       <div
-                        className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
+                        className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center border border-white/10"
                         style={{
-                          background: "black",
-                          boxShadow: "0 0 22px rgba(0,0,0,0.22), 0 4px 12px rgba(0,0,0,0.15)",
+                          background: "rgba(255,255,255,0.08)",
+                          boxShadow: "0 0 22px rgba(255,255,255,0.06), 0 4px 12px rgba(0,0,0,0.3)",
                         }}
                       >
                         <Icon className="w-7 h-7 text-white" />
                       </div>
 
                       <div className="flex-1">
-                        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/35 dark:text-sat-mist mb-2">
+                        <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-white/35 mb-2">
                           {subtitle}
                         </p>
-                        <h3 className="text-3xl lg:text-5xl font-display font-bold text-black dark:text-sat-frost mb-5 leading-tight">
+                        <h3 className="text-3xl lg:text-5xl font-display font-bold text-white mb-5 leading-tight">
                           {title}
                         </h3>
-                        <p className="text-black/52 dark:text-sat-mist text-base lg:text-lg leading-relaxed max-w-md">
+                        <p className="text-white/52 text-base lg:text-lg leading-relaxed max-w-md">
                           {description}
                         </p>
-                        <div className="mt-7 inline-flex items-baseline gap-2.5 px-4 py-2.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/7 dark:border-white/8">
-                          <span className="text-2xl font-display font-bold text-black dark:text-sat-frost">
+                        <div className="mt-7 inline-flex items-baseline gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10">
+                          <span className="text-2xl font-display font-bold text-white">
                             {stat}
                           </span>
-                          <span className="text-xs text-black/42 dark:text-sat-mist uppercase tracking-wider">
+                          <span className="text-xs text-white/42 uppercase tracking-wider">
                             {statLabel}
                           </span>
                         </div>
