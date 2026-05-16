@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { KcainLogo } from "@/components/layout/KcainLogo";
+import { auth, googleProvider } from "@/lib/firebase-client";
+import { signInWithPopup } from "firebase/auth";
 
 function GoogleIcon() {
   return (
@@ -18,6 +21,7 @@ function GoogleIcon() {
 }
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -29,7 +33,28 @@ export default function SignUpPage() {
 
   async function handleGoogleSignIn() {
     setGoogleLoading(true);
-    await signIn("google", { callbackUrl: "/dashboard" });
+    setError("");
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const firebaseToken = await result.user.getIdToken();
+      const res = await signIn("firebase-google", {
+        firebaseToken,
+        redirect: false,
+      });
+      if (res?.error) {
+        setError("Google sign-in failed. Please try again.");
+        setGoogleLoading(false);
+        return;
+      }
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err: unknown) {
+      const code = (err as { code?: string })?.code;
+      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request") {
+        setError("Google sign-in failed. Please try again.");
+      }
+      setGoogleLoading(false);
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
