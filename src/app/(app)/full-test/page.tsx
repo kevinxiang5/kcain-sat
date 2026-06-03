@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { FileQuestion, Clock, Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { FileQuestion, Clock, Zap, AlertCircle, BookOpen, Calculator, ArrowRight, Loader2, ChevronRight, Check, X, Trophy, RefreshCw } from "lucide-react";
 import { estimateSectionScore } from "@/lib/scoring";
 
 // ─── Types 
@@ -363,6 +363,7 @@ export default function FullTestPage() {
             Start Test <ArrowRight className="w-5 h-5" />
           </motion.button>
         </div>
+
         <ul className="space-y-2 text-sat-gray-700 dark:text-sat-gray-300">
           <li className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-sky-500" />
@@ -373,7 +374,9 @@ export default function FullTestPage() {
             Get a score estimate and review answers
           </li>
         </ul>
-      </div>
+      </motion.div>
+    );
+  }
 
   // 2. Loading screens
   if (phase === "loading" || phase === "rw2_loading" || phase === "math2_loading") {
