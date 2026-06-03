@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FileQuestion, Clock, Zap } from "lucide-react";
-import Link from "next/link";
 import { estimateSectionScore } from "@/lib/scoring";
 
 type LastFullTest = {
@@ -95,20 +94,6 @@ export default function FullTestPage() {
             Get a score estimate and review answers
           </li>
         </ul>
-        <div className="pt-4">
-          <p className="text-sm text-sat-gray-600 dark:text-sat-gray-400 mb-4">
-            Full practice tests are available with Premium. Upgrade to unlock unlimited access and full-length tests.
-          </p>
-          <Link href="/plans" target="_blank" rel="noopener noreferrer">
-            <motion.span
-              className="btn-primary inline-flex items-center gap-2"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              View plans
-            </motion.span>
-          </Link>
-        </div>
       </div>
 
       <div className="card p-8 space-y-6">

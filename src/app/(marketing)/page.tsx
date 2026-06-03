@@ -11,7 +11,6 @@ import {
   Zap,
   ArrowRight,
   CheckCircle,
-  CreditCard,
 } from "lucide-react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { TryItSection } from "@/components/landing/TryItSection";
@@ -415,144 +414,6 @@ export default function LandingPage() {
       </section>
 
       {/* ═══════════════════════════════════════════
-          PRICING
-      ═══════════════════════════════════════════ */}
-      <section className="py-24 md:py-32 bg-sat-gray-50 dark:bg-sat-dusk">
-        <div className="container mx-auto px-6">
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-black dark:text-sat-frost mb-4">
-              Plans&nbsp;&amp;&nbsp;pricing
-            </h2>
-            <p className="text-black/52 dark:text-sat-mist max-w-sm mx-auto">
-              Start free. Upgrade when you&apos;re ready. No credit card required.
-            </p>
-          </motion.div>
-
-          <motion.div
-            className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={stagger}
-          >
-            {/* Free */}
-            <motion.div className="card card-glow p-7" variants={fadeUp}>
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/38 dark:text-sat-mist mb-5">
-                Starter
-              </p>
-              <div className="mb-5">
-                <span className="text-5xl font-display font-bold text-black dark:text-sat-frost">
-                  $0
-                </span>
-                <span className="text-black/38 dark:text-sat-mist text-sm ml-2">
-                  forever
-                </span>
-              </div>
-              <ul className="space-y-3 text-sm text-black/60 dark:text-sat-mist mb-8">
-                {["5 lessons per day", "Math & Reading paths", "Basic progress & streaks"].map(
-                  (f) => (
-                    <li key={f} className="flex items-center gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-black/28 dark:text-sat-mist/55 shrink-0" />
-                      {f}
-                    </li>
-                  )
-                )}
-              </ul>
-              <Link href="/auth/signup" className="btn-secondary block text-center">
-                Get started
-              </Link>
-            </motion.div>
-
-            {/* Premium — featured */}
-            <motion.div
-              className="relative card card-glow p-7 !border-black dark:!border-blue-500 !border-2 !overflow-visible"
-              variants={fadeUp}
-            >
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-black dark:bg-blue-600 text-white text-[10px] font-bold tracking-widest uppercase">
-                Most popular
-              </div>
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/38 dark:text-sat-mist mb-5">
-                Premium
-              </p>
-              <div className="mb-5">
-                <span className="text-5xl font-display font-bold text-black dark:text-sat-frost">
-                  $9.99
-                </span>
-                <span className="text-black/38 dark:text-sat-mist text-sm ml-2">
-                  /month
-                </span>
-              </div>
-              <ul className="space-y-3 text-sm text-black/60 dark:text-sat-mist mb-8">
-                {["Unlimited lessons", "Full practice test bank", "Detailed analytics", "Ad-free"].map(
-                  (f) => (
-                    <li key={f} className="flex items-center gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-black dark:text-blue-400 shrink-0" />
-                      {f}
-                    </li>
-                  )
-                )}
-              </ul>
-              <Link
-                href="/auth/signup?plan=premium"
-                className="btn-primary block text-center"
-              >
-                Start free trial
-              </Link>
-            </motion.div>
-
-            {/* Annual */}
-            <motion.div className="card card-glow p-7" variants={fadeUp}>
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-black/38 dark:text-sat-mist mb-5">
-                Annual
-              </p>
-              <div className="mb-1">
-                <span className="text-5xl font-display font-bold text-black dark:text-sat-frost">
-                  $79
-                </span>
-                <span className="text-black/38 dark:text-sat-mist text-sm ml-2">
-                  /year
-                </span>
-              </div>
-              <p className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-5">
-                Save 34%
-              </p>
-              <ul className="space-y-3 text-sm text-black/60 dark:text-sat-mist mb-8">
-                {["Everything in Premium", "2 months free", "Full practice tests"].map(
-                  (f) => (
-                    <li key={f} className="flex items-center gap-2.5">
-                      <CheckCircle className="w-4 h-4 text-black/28 dark:text-sat-mist/55 shrink-0" />
-                      {f}
-                    </li>
-                  )
-                )}
-              </ul>
-              <Link
-                href="/auth/signup?plan=annual"
-                className="btn-secondary block text-center"
-              >
-                Get best value
-              </Link>
-            </motion.div>
-          </motion.div>
-
-          <p className="text-center mt-8">
-            <Link
-              href="/plans"
-              className="inline-flex items-center gap-1.5 text-black/42 dark:text-sat-mist hover:text-black dark:hover:text-sat-frost text-sm transition-colors"
-            >
-              <CreditCard className="w-3.5 h-3.5" />
-              View full plan details
-            </Link>
-          </p>
-        </div>
-      </section>
-
-      {/* ═══════════════════════════════════════════
           HOW IT WORKS
       ═══════════════════════════════════════════ */}
       <section className="py-24 md:py-32 bg-white dark:bg-sat-night">
@@ -591,7 +452,7 @@ export default function LandingPage() {
               {
                 step: "04",
                 title: "Track & improve",
-                desc: "Build streaks, earn XP, and unlock premium for unlimited access.",
+                desc: "Build streaks, earn XP, and keep climbing toward your target score.",
               },
             ].map(({ step, title, desc }, i) => (
               <motion.div
@@ -675,12 +536,6 @@ export default function LandingPage() {
               </motion.span>
             </Link>
           </motion.div>
-          <p className="mt-10 text-xs text-white/25 tracking-wide">
-            Free: 5 lessons/day &nbsp;·&nbsp; Premium: Unlimited &nbsp;·&nbsp;{" "}
-            <Link href="/plans" className="text-white/40 hover:text-white/60 underline transition-colors">
-              View plans
-            </Link>
-          </p>
         </div>
       </section>
 

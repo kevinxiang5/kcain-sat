@@ -198,11 +198,6 @@ export default function DashboardPage() {
             Practice Questions
           </motion.span>
         </Link>
-        <Link href="/plans" target="_blank" rel="noopener noreferrer">
-          <motion.span className="btn-secondary inline-flex items-center gap-2 justify-center" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-            View Plans
-          </motion.span>
-        </Link>
       </motion.div>
     </motion.div>
   );
