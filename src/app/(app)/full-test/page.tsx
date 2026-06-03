@@ -112,7 +112,6 @@ export default function FullTestPage() {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState<(string | null)[]>([]);
   const [pendingAns, setPendingAns] = useState<string | null>(null);
-  const [showFeedback, setShowFeedback] = useState(false);
 
   // Completed modules
   const [rw1Done, setRw1Done] = useState<CompletedModule | null>(null);
@@ -130,7 +129,6 @@ export default function FullTestPage() {
     setCurrentIdx(0);
     setAnswers(new Array(qs.length).fill(null));
     setPendingAns(null);
-    setShowFeedback(false);
   }
 
   // ── Phase transitions
@@ -158,12 +156,24 @@ export default function FullTestPage() {
     const updated = [...answers];
     updated[currentIdx] = pendingAns;
     setAnswers(updated);
-    setShowFeedback(true);
+    
+    // Check if this is the last question
+    if (currentIdx === activeQs.length - 1) {
+      // Finish the module after saving the last answer
+      setTimeout(() => {
+        if (phase === "rw1") finishRw1();
+        else if (phase === "rw2") finishRw2();
+        else if (phase === "math1") finishMath1();
+        else if (phase === "math2") finishMath2();
+      }, 0);
+    } else {
+      // Move to next question
+      handleNextQuestion();
+    }
   }
 
   function handleNextQuestion() {
     setPendingAns(null);
-    setShowFeedback(false);
     setCurrentIdx((i) => i + 1);
   }
 
@@ -259,6 +269,7 @@ export default function FullTestPage() {
   }
 
   function handleFinishModule() {
+    // This is now redundant since handleConfirmAnswer handles finishing
     if (phase === "rw1") finishRw1();
     else if (phase === "rw2") finishRw2();
     else if (phase === "math1") finishMath1();
@@ -273,7 +284,6 @@ export default function FullTestPage() {
     setActiveQs([]);
     setAnswers([]);
     setPendingAns(null);
-    setShowFeedback(false);
     setRw1Done(null);
     setRw2Done(null);
     setMath1Done(null);
@@ -463,40 +473,22 @@ export default function FullTestPage() {
               {isMCQ && currentQ.answerOptions && (
                 <div className="space-y-2.5 mb-6">
                   {currentQ.answerOptions.map((opt) => {
-                    const correctKey = currentQ.correctAnswer[0]?.toUpperCase();
                     const isSelected = pendingAns === opt.key;
-                    const isCorrectOpt =
-                      showFeedback && opt.key.toUpperCase() === correctKey;
-                    const isWrongSelected =
-                      showFeedback && isSelected && !isCorrectOpt;
-                    const isDimmed =
-                      showFeedback && !isSelected && !isCorrectOpt;
 
                     return (
                       <button
                         key={opt.key}
                         type="button"
-                        disabled={showFeedback}
-                        onClick={() => !showFeedback && setPendingAns(opt.key)}
+                        onClick={() => setPendingAns(opt.key)}
                         className={`w-full text-left px-4 py-3 rounded-xl border-2 flex items-center gap-3 transition-all ${
-                          isCorrectOpt
-                            ? "border-green-500 bg-green-50 dark:bg-green-900/20"
-                            : isWrongSelected
-                            ? "border-red-500 bg-red-50 dark:bg-red-900/20"
-                            : isDimmed
-                            ? "border-sat-gray-200 dark:border-sat-gray-600 opacity-40"
-                            : isSelected
+                          isSelected
                             ? "border-sat-primary bg-sat-primary/10"
                             : "border-sat-gray-200 dark:border-sat-gray-600 hover:border-sat-primary/50 dark:hover:border-sat-primary/50"
                         }`}
                       >
                         <span
                           className={`w-7 h-7 rounded-full border-2 flex-shrink-0 flex items-center justify-center text-xs font-bold transition-colors ${
-                            isCorrectOpt
-                              ? "border-green-500 text-green-600 dark:text-green-400"
-                              : isWrongSelected
-                              ? "border-red-500 text-red-600 dark:text-red-400"
-                              : isSelected
+                            isSelected
                               ? "border-sat-primary text-sat-primary"
                               : "border-sat-gray-400 text-sat-gray-400"
                           }`}
@@ -507,12 +499,6 @@ export default function FullTestPage() {
                           className="flex-1 text-sm text-sat-gray-800 dark:text-sat-gray-200 [&_p]:m-0 [&_img]:inline-block [&_img]:max-h-6"
                           dangerouslySetInnerHTML={{ __html: opt.text }}
                         />
-                        {isCorrectOpt && (
-                          <Check className="w-4 h-4 text-green-600 dark:text-green-400 flex-shrink-0" />
-                        )}
-                        {isWrongSelected && (
-                          <X className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0" />
-                        )}
                       </button>
                     );
                   })}
@@ -528,73 +514,35 @@ export default function FullTestPage() {
                   <input
                     type="text"
                     value={pendingAns ?? ""}
-                    onChange={(e) =>
-                      !showFeedback && setPendingAns(e.target.value)
-                    }
-                    disabled={showFeedback}
+                    onChange={(e) => setPendingAns(e.target.value)}
                     placeholder="Enter your answer…"
                     className="w-full max-w-xs px-4 py-2.5 rounded-xl border-2 border-sat-gray-200 dark:border-sat-gray-600 dark:bg-sat-gray-800 dark:text-white focus:ring-2 focus:ring-sat-primary outline-none text-sm"
                   />
-                  {showFeedback && (
-                    <p
-                      className={`mt-2 text-sm font-medium ${
-                        currentIsCorrect
-                          ? "text-green-600 dark:text-green-400"
-                          : "text-red-600 dark:text-red-400"
-                      }`}
-                    >
-                      {currentIsCorrect
-                        ? "Correct!"
-                        : `Incorrect — answer: ${currentQ.correctAnswer.join(" or ")}`}
-                    </p>
-                  )}
                 </div>
-              )}
-
-              {/* MCQ feedback label */}
-              {isMCQ && showFeedback && (
-                <p
-                  className={`mb-5 text-sm font-medium ${
-                    currentIsCorrect
-                      ? "text-green-600 dark:text-green-400"
-                      : "text-red-600 dark:text-red-400"
-                  }`}
-                >
-                  {currentIsCorrect
-                    ? "Correct!"
-                    : `Incorrect — correct answer: ${currentQ.correctAnswer[0]}`}
-                </p>
               )}
 
               {/* Action buttons */}
               <div className="flex gap-3 flex-wrap">
-                {!showFeedback ? (
+                {currentIdx < activeQs.length - 1 ? (
                   <button
                     type="button"
                     onClick={handleConfirmAnswer}
+                    className="btn-primary flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                     disabled={!pendingAns?.trim()}
-                    className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    Confirm Answer
-                  </button>
-                ) : isLastQ ? (
-                  <motion.button
-                    type="button"
-                    onClick={handleFinishModule}
-                    className="btn-primary flex items-center gap-2"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    Finish Module <ChevronRight className="w-4 h-4" />
-                  </motion.button>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={handleNextQuestion}
-                    className="btn-primary flex items-center gap-2"
                   >
                     Next <ChevronRight className="w-4 h-4" />
                   </button>
+                ) : (
+                  <motion.button
+                    type="button"
+                    onClick={handleFinishModule}
+                    className="btn-primary flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    disabled={!pendingAns?.trim()}
+                  >
+                    Finish Module <ChevronRight className="w-4 h-4" />
+                  </motion.button>
                 )}
               </div>
             </div>

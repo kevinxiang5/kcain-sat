@@ -123,18 +123,29 @@ export async function GET(req: NextRequest) {
       const c = await fetchContent(extId);
       if (!c || !c.stem) return null;
 
-      const optRaw = c.answerOptions as Record<string, string> | null | undefined;
+      const optRaw = c.answerOptions as Record<string, unknown> | null | undefined;
       const answerOptions = optRaw
         ? Object.entries(optRaw)
             .sort(([a], [b]) => a.localeCompare(b))
-            .map(([key, text]) => ({ key, text }))
+            .map(([key, value]) => {
+              // Handle different option formats from Collegeboard
+              let text = "";
+              if (typeof value === "string") {
+                text = value;
+              } else if (typeof value === "object" && value !== null) {
+                // Try common field names for content
+                const obj = value as Record<string, unknown>;
+                text = (obj.content || obj.text || obj.value || JSON.stringify(obj)) as string;
+              }
+              return { key: key.toUpperCase(), text };
+            })
         : undefined;
 
       const rawAns = c.correct_answer;
       const correctAnswer: string[] = Array.isArray(rawAns)
-        ? (rawAns as string[])
+        ? (rawAns as string[]).map((a) => String(a).toUpperCase())
         : rawAns != null
-        ? [String(rawAns)]
+        ? [String(rawAns).toUpperCase()]
         : [];
 
       return {
