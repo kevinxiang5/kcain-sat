@@ -10,7 +10,6 @@ import {
   FileQuestion,
   Calendar,
   Target,
-  CreditCard,
   LogOut,
   User,
   Menu,
@@ -84,17 +83,6 @@ export function AppSidebar() {
             {label}
           </Link>
         ))}
-
-        <Link
-          href="/plans"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => setMobileOpen(false)}
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-black/62 hover:text-black hover:bg-black/5 dark:text-sat-mist dark:hover:text-sat-frost dark:hover:bg-white/5 transition-all duration-150"
-        >
-          <CreditCard className="w-4.5 h-4.5 shrink-0 opacity-65" />
-          Plans
-        </Link>
       </nav>
 
       {/* Bottom section */}

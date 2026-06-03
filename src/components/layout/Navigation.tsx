@@ -13,7 +13,6 @@ import { ThemeToggle } from "./ThemeToggle";
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", requireAuth: true },
   { href: "/practice", label: "Practice", requireAuth: true },
-  { href: "/plans", label: "Plans", requireAuth: false },
 ];
 
 export function Navigation() {
