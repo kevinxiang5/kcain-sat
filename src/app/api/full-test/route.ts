@@ -124,10 +124,20 @@ export async function GET(req: NextRequest) {
       if (!c || !c.stem) return null;
 
       const optRaw = c.answerOptions as Record<string, unknown> | null | undefined;
+      
+      // Build a map of original keys to display keys (A, B, C, D)
+      const keyMap: Record<string, string> = {};
+      
       const answerOptions = optRaw
         ? Object.entries(optRaw)
-            .sort(([a], [b]) => a.localeCompare(b))
-            .map(([key, value]) => {
+            .sort(([a], [b]) => {
+              // Handle numeric and letter keys
+              const aNum = parseInt(a, 10);
+              const bNum = parseInt(b, 10);
+              if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum;
+              return a.localeCompare(b);
+            })
+            .map(([key, value], index) => {
               // Handle different option formats from Collegeboard
               let text = "";
               if (typeof value === "string") {
@@ -137,16 +147,33 @@ export async function GET(req: NextRequest) {
                 const obj = value as Record<string, unknown>;
                 text = (obj.content || obj.text || obj.value || JSON.stringify(obj)) as string;
               }
-              return { key: key.toUpperCase(), text };
+              
+              // Map keys to A, B, C, D
+              // If key is already a letter (A-D), use it; otherwise map by index
+              let displayKey = key.toUpperCase();
+              if (!/^[A-D]$/.test(displayKey)) {
+                displayKey = String.fromCharCode(65 + index); // 65 is 'A'
+              }
+              
+              keyMap[key.toUpperCase()] = displayKey;
+              keyMap[key] = displayKey;
+              
+              return { key: displayKey, text };
             })
         : undefined;
 
       const rawAns = c.correct_answer;
-      const correctAnswer: string[] = Array.isArray(rawAns)
-        ? (rawAns as string[]).map((a) => String(a).toUpperCase())
-        : rawAns != null
-        ? [String(rawAns).toUpperCase()]
-        : [];
+      let correctAnswer: string[] = [];
+      
+      if (Array.isArray(rawAns)) {
+        correctAnswer = (rawAns as string[]).map((a) => {
+          const upper = String(a).toUpperCase();
+          return keyMap[upper] || upper;
+        });
+      } else if (rawAns != null) {
+        const upper = String(rawAns).toUpperCase();
+        correctAnswer = [keyMap[upper] || upper];
+      }
 
       return {
         id: String(meta.questionId || extId),
