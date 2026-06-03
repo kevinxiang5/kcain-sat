@@ -3,9 +3,6 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { ProgressTracker } from "@/components/dashboard/ProgressTracker";
-import { PomodoroTimer } from "@/components/dashboard/PomodoroTimer";
-import { TaskManager, useTasks } from "@/components/dashboard/TaskManager";
-import { CalendarWidget } from "@/components/dashboard/CalendarWidget";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { BookOpen, Target, ArrowRight, Trophy, Zap, Lightbulb, Clock, ChevronRight, Star } from "lucide-react";
@@ -34,8 +31,6 @@ export default function DashboardPage() {
     readingCompleted: 0,
     lastCompleted: [] as { lessonId: string | null; title: string; completedAt: string }[],
   });
-
-  const { tasks, addTask, toggleTask, deleteTask } = useTasks();
 
   useEffect(() => {
     fetch("/api/progress")
@@ -133,31 +128,6 @@ export default function DashboardPage() {
           <p className="text-xs text-sat-gray-600 dark:text-sat-gray-400 mt-1">{lessonsCompleted}/{TOTAL_LESSONS} · {totalPercent}%</p>
         </motion.div>
       </div>
-
-      {/* ── Productivity section: Tasks + Pomodoro ── */}
-      <motion.div
-        className="grid lg:grid-cols-3 gap-6 mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.27 }}
-      >
-        <div className="lg:col-span-2">
-          <TaskManager tasks={tasks} addTask={addTask} toggleTask={toggleTask} deleteTask={deleteTask} />
-        </div>
-        <div>
-          <PomodoroTimer />
-        </div>
-      </motion.div>
-
-      {/* ── Calendar ── */}
-      <motion.div
-        className="mb-8"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-      >
-        <CalendarWidget tasks={tasks} />
-      </motion.div>
 
       {/* ── Activity + Tip ── */}
       <div className="grid lg:grid-cols-3 gap-6 mb-8">
